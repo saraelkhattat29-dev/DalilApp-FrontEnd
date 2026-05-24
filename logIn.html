@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تسجيل الدخول</title>
+    <link rel="stylesheet" href="assets/style.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+
+            <div class="form-blob">
+                <img src="assets/images/blob.svg" alt="blob" class="blob-image blob-image--1" />
+                <img src="assets/images/blob.svg" alt="blob" class="blob-image blob-image--2" />
+                <img src="assets/images/blob.svg" alt="blob" class="blob-image blob-image--3" />
+            </div>
+
+            <div class="form-header">
+                <p>يرجي إدخال بياناتك</p>
+                <h1>مرحبًا بعودتك</h1>
+            </div>
+
+            <form class="form-box" id="loginForm" novalidate>
+                <div class="input-group">
+                    <input type="email" id="email" class="input-field" placeholder=" " required />
+                    <label for="email" class="floating-label">البريد الإلكتروني</label>
+                    <!-- إصلاح: إضافة span للـ error كان ناقص -->
+                    <span id="emailError" class="error"></span>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="password" class="input-field" placeholder=" " required />
+                    <label for="password" class="floating-label">كلمة المرور</label>
+                    <!-- إصلاح: إضافة span للـ error كان ناقص -->
+                    <span id="passwordError" class="error"></span>
+                    <!-- إصلاح: تمرير fieldId وthis -->
+                    <div class="eye-icon" onclick="togglePassword('password', this)">
+                        <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                            <path
+                                d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
+                            <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+                            <path
+                                d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
+                            <path d="m2 2 20 20" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="input-group checkbox-group">
+                    <div class="form-col remember-me">
+                        <input type="checkbox" id="remember-me-checkbox" class="checkbox-field" />
+                        <label for="remember-me-checkbox">تذكرني</label>
+                    </div>
+                    <div class="form-col">
+                        <a href="#" class="form-link">هل نسيت كلمة المرور؟</a>
+                    </div>
+                </div>
+
+                <!-- إصلاح: type="button" بدل submit عشان نتحكم في الـ request يدوياً -->
+                <button type="button" class="form-btn form-btn--submit" id="loginBtn">
+                    تسجيل الدخول
+                </button>
+            </form>
+
+            <div class="form-divider">
+                <p>أو</p>
+            </div>
+
+            <div class="form-bottom">
+                <p>ليس لديك حساب؟ <a href="signUp.html" class="form-link">إنشاء حساب</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/login.js"></script>
+</body>
+
+</html>

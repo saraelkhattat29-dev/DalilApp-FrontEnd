@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>إنشاء حساب</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+
+            <div class="form-blob">
+                <img src="assets/images/blob.svg" alt="blob" class="blob-image blob-image--1" />
+                <img src="assets/images/blob.svg" alt="blob" class="blob-image blob-image--2" />
+                <img src="assets/images/blob.svg" alt="blob" class="blob-image blob-image--3" />
+            </div>
+
+            <div class="form-header">
+                <p>يرجي إدخال بياناتك</p>
+                <h1>إنشاء حساب جديد</h1>
+            </div>
+
+            <form class="form-box" novalidate>
+                <div class="input-group">
+                    <input type="text" id="fullname" class="input-field" placeholder=" " required />
+                    <label for="fullname" class="floating-label">الاسم بالكامل</label>
+                    <span id="nameError" class="error"></span>
+                </div>
+
+                <div class="input-group">
+                    <input type="email" id="email" class="input-field" placeholder=" " required />
+                    <label for="email" class="floating-label">البريد الإلكتروني</label>
+                    <span id="emailError" class="error"></span>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="password" class="input-field" placeholder=" " required />
+                    <label for="password" class="floating-label">كلمة المرور</label>
+                    <span id="passwordError" class="error"></span>
+                    <!-- تمرير fieldId وthis بشكل صحيح -->
+                    <div class="eye-icon" onclick="togglePassword('password', this)">
+                        <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                            <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
+                            <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+                            <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
+                            <path d="m2 2 20 20" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="confirmPassword" class="input-field" placeholder=" " required />
+                    <label for="confirmPassword" class="floating-label">تأكيد كلمة المرور</label>
+                    <span id="confirmPasswordError" class="error"></span>
+                    <div class="eye-icon" onclick="togglePassword('confirmPassword', this)">
+                        <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                            <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
+                            <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+                            <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
+                            <path d="m2 2 20 20" />
+                        </svg>
+                    </div>
+                </div>
+
+                <button type="button" id="signupBtn" class="form-btn form-btn--submit">
+                    إنشاء حساب
+                </button>
+            </form>
+
+            <div class="form-divider">
+                <p>أو</p>
+            </div>
+
+            <div class="form-bottom">
+                <p>لديك حساب بالفعل؟ <a href="login.html" class="form-link">تسجيل الدخول</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/signUp.js"></script>
+</body>
+
+</html>

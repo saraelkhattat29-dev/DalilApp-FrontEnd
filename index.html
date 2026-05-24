@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <title>دليلك الحكومي</title>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/Home.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo"><i class="fa-solid fa-landmark"></i> دليل</div>
+
+        <nav>
+            <a href="#">الرئيسية</a>
+            <a href="#">الخدمات</a>
+            <a href="#">المجتمع</a>
+            <a href="#">تواصل معنا</a>
+            <a href="#">عن الموقع</a>
+        </nav>
+
+        <button onclick="window.location.href='login.html'">
+            تسجيل الدخول
+        </button>
+
+    </header>
+
+    <section class="hero">
+        <div class="overlay">
+            <h1>كل خدماتك الحكومية في مكان واحد</h1>
+            <p>اعرف الأوراق المطلوبة، الخطوات، الرسوم، وأماكن التنفيذ قبل ما تنزل</p>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fa-solid fa-search search-icon"></i>
+                    <input type="text" placeholder="ابحث عن خدمة حكومية...">
+                </div>
+                <button class="suggest-btn">اقترح خدمة</button>
+            </div>
+
+            <button class="main-btn">ابدأ الآن</button>
+        </div>
+    </section>
+
+
+    <section class="categories">
+        <h1>التصنيفات</h1>
+
+        <div class="cards">
+
+            <div class="card">
+                <i class="fa-regular fa-id-card icon"></i>
+                <h3>الاحوال المدنية</h3>
+                <button>عرض التفاصيل</button>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-passport icon"></i>
+                <h3>الجوازات</h3>
+                <button>عرض التفاصيل</button>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-car icon"></i>
+                <h3>المرور</h3>
+                <button>عرض التفاصيل</button>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-graduation-cap icon"></i>
+                <h3>التعليم</h3>
+                <button>عرض التفاصيل</button>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-shield icon"></i>
+                <h3>خدمات امنية</h3>
+                <button>عرض التفاصيل</button>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-building icon"></i>
+                <h3>العقارات</h3>
+                <button>عرض التفاصيل</button>
+            </div>
+    </section>
+
+    <section class="services">
+        <h1>الخدمات الأكثر استخدامًا</h1>
+
+        <div class="cards static-services">
+
+            <div class="card">
+                <i class="fa-regular fa-id-card icon"></i>
+                <h3>بطاقة رقم قومي</h3>
+                <button>عرض التفاصيل</button>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-passport icon"></i>
+                <h3>جواز سفر</h3>
+                <button>عرض التفاصيل</button>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-car icon"></i>
+                <h3>رخصة قيادة</h3>
+                <button>عرض التفاصيل</button>
+            </div>
+
+            <div class="card">
+                <i class="fa-regular fa-file-lines icon"></i>
+                <h3>شهادة ميلاد</h3>
+                <button>عرض التفاصيل</button>
+            </div>
+
+        </div>
+        <div class="cards" id="apiServices"></div>
+
+    </section>
+
+    <section class="steps">
+        <h1>إزاي دليل بيساعدك؟</h1>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <span class="step-number">1</span>
+                <div class="step-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <h3>اختار الخدمة</h3>
+                <p>ابحث عن الخدمة اللي محتاجها بسهولة</p>
+            </div>
+
+            <div class="step-arrow"><i class="fa-solid fa-arrow-left"></i></div>
+
+            <div class="step-card">
+                <span class="step-number">2</span>
+                <div class="step-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                <h3>اعرف كل التفاصيل</h3>
+                <p>اعرف الأوراق، الخطوات، الرسوم، وأماكن التنفيذ</p>
+            </div>
+
+            <div class="step-arrow"><i class="fa-solid fa-arrow-left"></i></div>
+
+            <div class="step-card">
+                <span class="step-number">3</span>
+                <div class="step-icon"><i class="fa-solid fa-location-dot"></i></div>
+                <h3>روح وانت جاهز</h3>
+                <p>وفر وقتك وجهدك وروح على طول الجهة المناسبة</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <h1>مميزات دليل</h1>
+        <div class="features-box">
+            <div class="card">
+                <i class="fa-solid fa-check-circle icon"></i>
+                <h2>معلومات دقيقة</h2>
+                <h6>معلومات موثوقة من مصادر رسمية</h6>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-clock icon"></i>
+                <h2>توفير الوقت</h2>
+                <h6>وفر وقتك وجهدك فى البحث والانتظار</h6>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-sync icon"></i>
+                <h2>تحديث مستمر</h2>
+                <h6>نحرص على تحديث المعلومات اولا باول</h6>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-map-marker-alt icon"></i>
+                <h2>اماكن التنفيذ</h2>
+                <h6>اعرف اقرب مكان ومواعيد العمل بسهولة</h6>
+            </div>
+        </div>
+    </section>
+
+    <section class="tips">
+        <div class="tips-content">
+            <h2>نصائح للاستفادة من الموقع <i class="fa-solid fa-lightbulb"></i></h2>
+            <ul class="tips-list">
+                <li>تأكد من تجهيز جميع الأوراق المطلوبة قبل التوجه للجهة الحكومية</li>
+                <li>الخدمات المتاحة أونلاين توفر عليك الوقت والجهد</li>
+                <li>احفظ نسخ احتياطية من المستندات المهمة</li>
+                <li>تحقق من ساعات العمل الرسمية قبل زيارة أي مصلحة</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>عن الموقع</h3>
+                <p>دليل موقع يهدف إلى تسهيل الوصول إلى الخدمات الحكومية بكل سهولة وشفافية.</p>
+            </div>
+
+            <div class="footer-column">
+                <h3>روابط سريعة</h3>
+                <a href="#">الرئيسية</a>
+                <a href="#">الخدمات</a>
+                <a href="#">الاستعلامات</a>
+                <a href="#">عن الموقع</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>تواصل معنا</h3>
+                <p>0123 456 7890</p>
+                <p>info@dalil.gov.eg</p>
+                <div class="footer-socials">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <script src="assets/Home.js"></script>
+
+</body>
+
+</html>
