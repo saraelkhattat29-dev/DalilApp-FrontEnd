@@ -92,6 +92,7 @@ ul { list-style: none; }
 .nav-links a.active {
     color: #DA523B;
     font-weight: 700;
+    position: relative;
 }
 
 /* ===== NAVBAR SEARCH BAR ===== */
