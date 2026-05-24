@@ -1,235 +1,446 @@
 <!DOCTYPE html>
-<html lang="ar">
-
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>دليلك الحكومي</title>
-
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic&display=swap" rel="stylesheet">
-    <!-- Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="assets/Home.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>دليل– بوابة الخدمات الحكومية المصرية</title>
+  <link rel="stylesheet" href="assets/home.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet" />
 </head>
-
 <body>
 
-    <header class="navbar">
-        <div class="logo"><i class="fa-solid fa-landmark"></i> دليل</div>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="#" class="logo">دليل</a>
 
-        <nav>
-            <a href="#">الرئيسية</a>
-            <a href="#">الخدمات</a>
-            <a href="#">المجتمع</a>
-            <a href="#">تواصل معنا</a>
-            <a href="#">عن الموقع</a>
-        </nav>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#">الرئيسية</a></li>
+          <li><a href="#">الخدمات</a></li>
+          <li><a href="#">المجتمع</a></li>
+          <li><a href="#">تواصل معنا</a></li>
+          <li><a href="aboutUs.html">عن دليل</a></li>
+        </ul>
+      </nav>
 
-        <button onclick="window.location.href='login.html'">
-            تسجيل الدخول
+      
+
+      <a href="login.html" class="login-btn">تسجيل الدخول</a>
+
+      <div class="menu-toggle" id="menu-toggle">☰</div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-image">
+      <img src="assets/images/cairo.jpg.jpeg" alt="Cairo">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-particles" id="particles"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        البوابة الرسمية للمواطن المصري
+      </div>
+      <h1 class="hero-title">
+        خلّص مصلحتك
+        <span class="hero-title-accent"><h5>من غير ما تضرب مشاوير</h5></span>
+      </h1>
+      <p class="hero-subtitle">
+        كل المعلومات اللي محتاجها قبل ما تنزل تعمل أي معاملة حكومية — متضيعش وقتك، واعرف هتعمل إيه بالظبط
+      </p>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num">+١٢٠</span>
+          <span class="stat-label">خدمة موثقة</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">+٣٠</span>
+          <span class="stat-label">جهة حكومية</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">+٥٠٠٠</span>
+          <span class="stat-label">مستخدم نشط</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span>اكتشف الخدمات</span>
+      <div class="scroll-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS STRIP -->
+  <section class="how-strip">
+    <div class="strip-inner">
+      <div class="strip-item">
+        <div class="strip-num">١</div>
+        <div class="strip-text">
+          <strong>ابحث عن خدمتك</strong>
+          <span>من قائمة الخدمات المصنفة</span>
+        </div>
+      </div>
+      <div class="strip-arrow">←</div>
+      <div class="strip-item">
+        <div class="strip-num">٢</div>
+        <div class="strip-text">
+          <strong>اعرف الأوراق المطلوبة</strong>
+          <span>قبل ما تنزل بيوم</span>
+        </div>
+      </div>
+      <div class="strip-arrow">←</div>
+      <div class="strip-item">
+        <div class="strip-num">٣</div>
+        <div class="strip-text">
+          <strong>اتفرّج على تجارب ناس</strong>
+          <span>من المجتمع اللي مروا بنفس الموقف</span>
+        </div>
+      </div>
+      <div class="strip-arrow">←</div>
+      <div class="strip-item">
+        <div class="strip-num">٤</div>
+        <div class="strip-text">
+          <strong>خلص معاملتك بسهولة</strong>
+          <span>بدون مفاجآت أو مشاوير زيادة</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEARCH SECTION -->
+  <section class="search-section">
+    <div class="search-section-inner">
+      <h2 class="search-section-title">ابحث عن الخدمة اللي محتاجها</h2>
+      <p class="search-section-sub">اكتب اسم الخدمة أو الجهة وهنوريلك كل التفاصيل</p>
+      <div class="search-section-bar">
+        <input type="text" id="mainSearch" placeholder="مثال: استخراج بطاقة رقم قومي، تجديد جواز السفر..." />
+        <button type="button" id="mainSearchBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          بحث
         </button>
+      </div>
+    </div>
+  </section>
 
-    </header>
+  <!-- DEPARTMENTS SECTION -->
+  <section class="departments" id="departments">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">الجهات الحكومية</div>
+        <h2 class="section-title">استعرض الخدمات حسب الجهة</h2>
+        <p class="section-subtitle">كل معلومات الخدمات في مكان واحد بدل ما تدور على كذا موقع</p>
+      </div>
 
-    <section class="hero">
-        <div class="overlay">
-            <h1>كل خدماتك الحكومية في مكان واحد</h1>
-            <p>اعرف الأوراق المطلوبة، الخطوات، الرسوم، وأماكن التنفيذ قبل ما تنزل</p>
+      <div class="dept-grid">
+        <a href="#" class="dept-card dept-card--featured">
+          <div class="dept-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>السجل المدني</h3>
+          <p>بطاقة رقم قومي، شهادات الميلاد والوفاة، قيد عائلي</p>
+          <span class="dept-count">١٨ خدمة</span>
+          <div class="dept-arrow">←</div>
+        </a>
 
-            <div class="search-container">
-                <div class="search-box">
-                    <i class="fa-solid fa-search search-icon"></i>
-                    <input type="text" placeholder="ابحث عن خدمة حكومية...">
-                </div>
-                <button class="suggest-btn">اقترح خدمة</button>
-            </div>
+        <a href="#" class="dept-card">
+          <div class="dept-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <h3>الجوازات والهجرة</h3>
+          <p>استخراج وتجديد جواز السفر، تأشيرات، إقامة</p>
+          <span class="dept-count">١٢ خدمة</span>
+          <div class="dept-arrow">←</div>
+        </a>
 
-            <button class="main-btn">ابدأ الآن</button>
+        <a href="#" class="dept-card">
+          <div class="dept-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <h3>المرور</h3>
+          <p>رخصة القيادة، ترخيص السيارة، المخالفات</p>
+          <span class="dept-count">١٥ خدمة</span>
+          <div class="dept-arrow">←</div>
+        </a>
+
+        <a href="#" class="dept-card">
+          <div class="dept-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h3>الشهر العقاري</h3>
+          <p>توثيق العقود، نقل ملكية، رهن عقاري</p>
+          <span class="dept-count">١٠ خدمات</span>
+          <div class="dept-arrow">←</div>
+        </a>
+
+        <a href="#" class="dept-card">
+          <div class="dept-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h3>الضرائب والجمارك</h3>
+          <p>الإقرار الضريبي، بطاقة ضريبية، استعلامات</p>
+          <span class="dept-count">٩ خدمات</span>
+          <div class="dept-arrow">←</div>
+        </a>
+
+        <a href="#" class="dept-card">
+          <div class="dept-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <h3>الصحة والتأمين</h3>
+          <p>التأمين الصحي، شهادات صحية، طب شرعي</p>
+          <span class="dept-count">١١ خدمة</span>
+          <div class="dept-arrow">←</div>
+        </a>
+
+        <a href="#" class="dept-card">
+          <div class="dept-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3>السجل التجاري</h3>
+          <p>تأسيس شركات، تغيير بيانات، تصفية</p>
+          <span class="dept-count">١٣ خدمة</span>
+          <div class="dept-arrow">←</div>
+        </a>
+
+        <a href="#" class="dept-card">
+          <div class="dept-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16v2H4zM4 8h16v2H4zM4 12h16v2H4zM4 16h16v2H4z"/>
+            </svg>
+          </div>
+          <h3>التموين</h3>
+          <p>البطاقات التموينية وإضافة أفراد</p>
+          <span class="dept-count">٨ خدمات</span>
+          <div class="dept-arrow">←</div>
+        </a>
+
+        <a href="#" class="dept-card">
+          <div class="dept-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <h3>الكهرباء</h3>
+          <p>تركيب عدادات ودفع الفواتير</p>
+          <span class="dept-count">٧ خدمات</span>
+          <div class="dept-arrow">←</div>
+        </a>
+
+        <a href="#" class="dept-card">
+          <div class="dept-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C12 2 5 10 5 14a7 7 0 0 0 14 0c0-4-7-12-7-12z"/>
+            </svg>
+          </div>
+          <h3>المياه</h3>
+          <p>التوصيل والشكاوى والفواتير</p>
+          <span class="dept-count">٦ خدمات</span>
+          <div class="dept-arrow">←</div>
+        </a>
+
+        <a href="#" class="dept-card">
+          <div class="dept-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3v18"/><path d="M7 7h10"/><path d="M5 11h14"/><path d="M8 21h8"/>
+            </svg>
+          </div>
+          <h3>النيابة العامة</h3>
+          <p>الاستعلام عن القضايا والخدمات</p>
+          <span class="dept-count">٥ خدمات</span>
+          <div class="dept-arrow">←</div>
+        </a>
+
+        <a href="#" class="dept-card">
+          <div class="dept-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 7l10-5 10 5-10 5-10-5z"/>
+              <path d="M6 10v5c0 2 3 4 6 4s6-2 6-4v-5"/>
+            </svg>
+          </div>
+          <h3>التعليم</h3>
+          <p>الشهادات والتحويلات الدراسية</p>
+          <span class="dept-count">١٤ خدمة</span>
+          <div class="dept-arrow">←</div>
+        </a>
+
+        <a href="#" class="dept-card dept-card--suggest">
+          <div class="dept-icon dept-icon--plus">+</div>
+          <h3>اقترح جهة أو خدمة</h3>
+          <p>مش لاقي الخدمة اللي محتاجها؟ اقترحها والأدمن يراجعها</p>
+          <span class="dept-badge">مقترح من المجتمع</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY SECTION -->
+  <section class="community" id="community">
+    <div class="section-inner">
+      <div class="community-grid">
+        <div class="community-text">
+          <div class="section-tag section-tag--gold">مجتمع المواطنين</div>
+          <h2 class="section-title">واجهت مشكلة؟<br/>فيه ناس اتعاملت قبلك</h2>
+          <p class="community-desc">
+            مجتمع المنصة بيضم مواطنين مروا بنفس موقفك. اسأل، شارك تجربتك، وساعد غيرك يوفر وقته.
+          </p>
+          <ul class="community-features">
+            <li>
+              <div class="feature-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+              اسأل عن مشكلتك وناس خبراء يردوا عليك
+            </li>
+            <li>
+              <div class="feature-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></div>
+              قيّم التجارب وساعد غيرك ياخد قرار أحسن
+            </li>
+            <li>
+              <div class="feature-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+              بلغ لو فيه معلومة غلط وساهم في تحسين المنصة
+            </li>
+          </ul>
+          <a href="#" class="btn-primary">انضم للمجتمع</a>
         </div>
-    </section>
 
-
-    <section class="categories">
-        <h1>التصنيفات</h1>
-
-        <div class="cards">
-
-            <div class="card">
-                <i class="fa-regular fa-id-card icon"></i>
-                <h3>الاحوال المدنية</h3>
-                <button>عرض التفاصيل</button>
+        <div class="community-preview">
+          <div class="community-card">
+            <div class="card-header">
+              <div class="card-avatar">أ.م</div>
+              <div class="card-meta">
+                <strong>أحمد</strong>
+                <span>المرور – رخصة القيادة</span>
+              </div>
+              <div class="card-tag solved">تم الحل ✓</div>
             </div>
-
-            <div class="card">
-                <i class="fa-solid fa-passport icon"></i>
-                <h3>الجوازات</h3>
-                <button>عرض التفاصيل</button>
+            <p class="card-question">محتاج أعرف الخطوات لاستخراج رخصة قيادة للمرة الأولى، هو هيبقى فيه امتحان ولا لا؟</p>
+            <div class="card-replies">
+              <span>٧ ردود</span><span>•</span><span>منذ ٣ أيام</span>
             </div>
-
-            <div class="card">
-                <i class="fa-solid fa-car icon"></i>
-                <h3>المرور</h3>
-                <button>عرض التفاصيل</button>
+          </div>
+          <div class="community-card community-card--offset">
+            <div class="card-header">
+              <div class="card-avatar" style="background:#e8c46a;color:#333">س.ع</div>
+              <div class="card-meta">
+                <strong>سارة</strong>
+                <span>الجوازات – تجديد جواز</span>
+              </div>
+              <div class="card-tag pending">جديد</div>
             </div>
-
-            <div class="card">
-                <i class="fa-solid fa-graduation-cap icon"></i>
-                <h3>التعليم</h3>
-                <button>عرض التفاصيل</button>
+            <p class="card-question">هل تجديد جواز السفر بيتم نفس اليوم؟ ولا محتاج أيجي يوم تاني؟</p>
+            <div class="card-replies">
+              <span>٣ ردود</span><span>•</span><span>منذ ساعتين</span>
             </div>
-
-            <div class="card">
-                <i class="fa-solid fa-shield icon"></i>
-                <h3>خدمات امنية</h3>
-                <button>عرض التفاصيل</button>
-            </div>
-
-            <div class="card">
-                <i class="fa-solid fa-building icon"></i>
-                <h3>العقارات</h3>
-                <button>عرض التفاصيل</button>
-            </div>
-    </section>
-
-    <section class="services">
-        <h1>الخدمات الأكثر استخدامًا</h1>
-
-        <div class="cards static-services">
-
-            <div class="card">
-                <i class="fa-regular fa-id-card icon"></i>
-                <h3>بطاقة رقم قومي</h3>
-                <button>عرض التفاصيل</button>
-            </div>
-
-            <div class="card">
-                <i class="fa-solid fa-passport icon"></i>
-                <h3>جواز سفر</h3>
-                <button>عرض التفاصيل</button>
-            </div>
-
-            <div class="card">
-                <i class="fa-solid fa-car icon"></i>
-                <h3>رخصة قيادة</h3>
-                <button>عرض التفاصيل</button>
-            </div>
-
-            <div class="card">
-                <i class="fa-regular fa-file-lines icon"></i>
-                <h3>شهادة ميلاد</h3>
-                <button>عرض التفاصيل</button>
-            </div>
-
+          </div>
         </div>
-        <div class="cards" id="apiServices"></div>
+      </div>
+    </div>
+  </section>
 
-    </section>
-
-    <section class="steps">
-        <h1>إزاي دليل بيساعدك؟</h1>
-
-        <div class="steps-grid">
-            <div class="step-card">
-                <span class="step-number">1</span>
-                <div class="step-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-                <h3>اختار الخدمة</h3>
-                <p>ابحث عن الخدمة اللي محتاجها بسهولة</p>
-            </div>
-
-            <div class="step-arrow"><i class="fa-solid fa-arrow-left"></i></div>
-
-            <div class="step-card">
-                <span class="step-number">2</span>
-                <div class="step-icon"><i class="fa-solid fa-clipboard-list"></i></div>
-                <h3>اعرف كل التفاصيل</h3>
-                <p>اعرف الأوراق، الخطوات، الرسوم، وأماكن التنفيذ</p>
-            </div>
-
-            <div class="step-arrow"><i class="fa-solid fa-arrow-left"></i></div>
-
-            <div class="step-card">
-                <span class="step-number">3</span>
-                <div class="step-icon"><i class="fa-solid fa-location-dot"></i></div>
-                <h3>روح وانت جاهز</h3>
-                <p>وفر وقتك وجهدك وروح على طول الجهة المناسبة</p>
-            </div>
+  <!-- SUGGEST SERVICE SECTION -->
+  <section class="suggest" id="suggest">
+    <div class="section-inner">
+      <div class="suggest-inner">
+        <div class="suggest-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
         </div>
-    </section>
-
-    <section class="features">
-        <h1>مميزات دليل</h1>
-        <div class="features-box">
-            <div class="card">
-                <i class="fa-solid fa-check-circle icon"></i>
-                <h2>معلومات دقيقة</h2>
-                <h6>معلومات موثوقة من مصادر رسمية</h6>
-            </div>
-            <div class="card">
-                <i class="fa-solid fa-clock icon"></i>
-                <h2>توفير الوقت</h2>
-                <h6>وفر وقتك وجهدك فى البحث والانتظار</h6>
-            </div>
-            <div class="card">
-                <i class="fa-solid fa-sync icon"></i>
-                <h2>تحديث مستمر</h2>
-                <h6>نحرص على تحديث المعلومات اولا باول</h6>
-            </div>
-            <div class="card">
-                <i class="fa-solid fa-map-marker-alt icon"></i>
-                <h2>اماكن التنفيذ</h2>
-                <h6>اعرف اقرب مكان ومواعيد العمل بسهولة</h6>
-            </div>
+        <div class="suggest-text">
+          <h3>مش لاقي الخدمة اللي بتدور عليها؟</h3>
+          <p>اقترح خدمة جديدة والأدمن يراجعها — لو مناسبة يضيفها للموقع وتبقى متاحة لكل المواطنين</p>
         </div>
-    </section>
+        <a href="#" class="btn-suggest">اقترح خدمة</a>
+      </div>
+    </div>
+  </section>
 
-    <section class="tips">
-        <div class="tips-content">
-            <h2>نصائح للاستفادة من الموقع <i class="fa-solid fa-lightbulb"></i></h2>
-            <ul class="tips-list">
-                <li>تأكد من تجهيز جميع الأوراق المطلوبة قبل التوجه للجهة الحكومية</li>
-                <li>الخدمات المتاحة أونلاين توفر عليك الوقت والجهد</li>
-                <li>احفظ نسخ احتياطية من المستندات المهمة</li>
-                <li>تحقق من ساعات العمل الرسمية قبل زيارة أي مصلحة</li>
-            </ul>
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="16" cy="16" r="14" stroke="#DA523B" stroke-width="2" />
+              <path d="M16 8 L22 14 L16 20 L10 14 Z" stroke="#FFFFFF" stroke-width="1.5" fill="none" />
+              <circle cx="16" cy="16" r="3" fill="#DA523B" />
+            </svg>
+          </div>
+          <div class="logo-text">دليل <span></span></div>
         </div>
-    </section>
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-column">
-                <h3>عن الموقع</h3>
-                <p>دليل موقع يهدف إلى تسهيل الوصول إلى الخدمات الحكومية بكل سهولة وشفافية.</p>
-            </div>
-
-            <div class="footer-column">
-                <h3>روابط سريعة</h3>
-                <a href="#">الرئيسية</a>
-                <a href="#">الخدمات</a>
-                <a href="#">الاستعلامات</a>
-                <a href="#">عن الموقع</a>
-            </div>
-
-            <div class="footer-column">
-                <h3>تواصل معنا</h3>
-                <p>0123 456 7890</p>
-                <p>info@dalil.gov.eg</p>
-                <div class="footer-socials">
-                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                </div>
-            </div>
+        <div class="footer-address">
+          <p class="address-name">بوابة الخدمات الحكومية</p>
+          <p>كل المعلومات اللي محتاجها<br>قبل ما تنزل تخلص مصلحتك</p>
         </div>
-        <div class="footer-bottom">
-            <p>© 2026 جميع الحقوق محفوظة</p>
+        <div class="footer-contact-item">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+          </div>
+          <div class="info">
+            <strong>ساعات العمل</strong>
+            <span>السبت – الخميس: 8:00 ص – 3:00 م</span>
+          </div>
         </div>
-    </footer>
+        <div class="footer-contact-item">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.59 3.47 2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.27 6.27l.82-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+          </div>
+          <div class="info">
+            <strong>الخط الساخن</strong>
+            <span>16000</span>
+          </div>
+        </div>
+        <div class="footer-contact-item">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
+          </div>
+          <div class="info">
+            <strong>البريد الإلكتروني</strong>
+            <span>info@daleel-maslaha.gov.eg</span>
+          </div>
+        </div>
+      </div>
 
-    <script src="assets/Home.js"></script>
+      <div class="footer-col">
+        <h4>طلبات الخدمة</h4>
+        <ul>
+          <li><a href="#">استخراج بطاقة رقم قومي</a></li>
+          <li><a href="#">تجديد جواز السفر</a></li>
+          <li><a href="#">شهادة ميلاد</a></li>
+          <li><a href="#">توثيق عقود الإيجار</a></li>
+          <li><a href="#">تراخيص البناء</a></li>
+          <li><a href="#">خدمات السجل التجاري</a></li>
+        </ul>
+      </div>
 
+      <div class="footer-col">
+        <h4>روابط مفيدة</h4>
+        <ul>
+          <li><a href="#">المجتمع والأسئلة</a></li>
+          <li><a href="#">تاريخنا</a></li>
+          <li><a href="#">التوثيق</a></li>
+          <li><a href="#">اقتراح خدمة جديدة</a></li>
+          <li><a href="#">معرض الصور</a></li>
+          <li><a href="#">أقسام الموقع</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 <span>دليل </span> — جميع الحقوق محفوظة</p>
+      <ul class="footer-bottom-links">
+        <li><a href="#">سياسة الخصوصية</a></li>
+        <li><a href="#">الشروط والأحكام</a></li>
+        <li><a href="#">تواصل معنا</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="assets/home.js"></script>
 </body>
-
 </html>

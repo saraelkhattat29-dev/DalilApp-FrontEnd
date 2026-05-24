@@ -1,188 +1,133 @@
-const API_BASE = "https://localhost:7162/api/Services";
+/* ===================================================
+   مصلحتك – JavaScript
+   الصورة مضمَّنة كـ base64 مباشرةً في الكود
+=================================================== */
 
 
-// =======================
-// تحميل الخدمات من الباك (في مكان منفصل)
-// =======================
-function loadServices() {
-    const container = document.getElementById("apiServices");
 
-    if (!container) return;
+document.addEventListener('DOMContentLoaded', () => {
 
-    fetch(API_BASE)
-        .then(res => res.json())
-        .then(result => {
+  /* ----- Inject hero background image (FIXED - no animation) ----- */
+  const heroBg = document.getElementById('heroBg');
+  if (heroBg) {
+    heroBg.style.backgroundImage = "url('" + CAIRO_IMAGE + "')";
+  }
 
-            console.log("API RESULT:", result);
+  /* ----- Navbar scroll effect ----- */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 30);
+  });
 
-            if (!result || !result.data) return;
-
-            container.innerHTML = "";
-
-            result.data.forEach(service => {
-                container.innerHTML += `
-          <div class="card">
-            <i class="fa-solid fa-file-lines icon"></i>
-            <h3>${service.title}</h3>
-            <p>${service.description ?? ""}</p>
-            <button onclick="showDetails(${service.id})">
-              عرض التفاصيل
-            </button>
-          </div>
-        `;
-            });
-        })
-        .catch(err => console.log("Load Error:", err));
-}
-
-
-// =======================
-// السيرش (في نفس مكان API فقط)
-// =======================
-function searchService() {
-    let input = document.querySelector(".search-box input").value;
-
-    if (!input.trim()) {
-        alert("اكتب اسم الخدمة");
-        return;
-    }
-
-    const container = document.getElementById("apiServices");
-
-    fetch(`${API_BASE}?search=${encodeURIComponent(input)}`)
-        .then(res => res.json())
-        .then(result => {
-
-            console.log("SEARCH RESULT:", result);
-
-            if (!result || !result.data) return;
-
-            container.innerHTML = "";
-
-            if (result.data.length === 0) {
-                container.innerHTML = "<p>لا توجد نتائج</p>";
-                return;
-            }
-
-            result.data.forEach(service => {
-                container.innerHTML += `
-          <div class="card">
-            <h3>${service.title}</h3>
-            <p>${service.description ?? ""}</p>
-            <button onclick="showDetails(${service.id})">
-              عرض التفاصيل
-            </button>
-          </div>
-        `;
-            });
-        })
-        .catch(err => console.log("Search Error:", err));
-}
-
-
-// =======================
-// تفاصيل خدمة
-// =======================
-function showDetails(id) {
-    fetch(`${API_BASE}/${id}`)
-        .then(res => res.json())
-        .then(data => {
-            alert(
-                `📌 ${data.title}\n` +
-                `📝 ${data.description}\n` +
-                `💰 ${data.fees}`
-            );
-        })
-        .catch(err => console.log(err));
-}
-
-
-// =======================
-// اقتراح خدمة (POST)
-// =======================
-function suggestService() {
-    const suggestion = prompt("اكتب الخدمة اللي تحب نضيفها:");
-    if (!suggestion || !suggestion.trim()) return;
-
-    fetch(API_BASE, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            title: suggestion,
-            description: suggestion,
-            categoryId: 1,
-            duration: 1,
-            fees: 0,
-            isOnline: false,
-            executionPlaces: "غير محدد",
-            steps: [],
-            requiredDocumentIds: []
-        })
-    })
-        .then(res => res.text())
-        .then(() => {
-            alert("تم إرسال الاقتراح 👍");
-        })
-        .catch(err => console.log(err));
-}
-
-
-// =======================
-// أزرار الكروت الثابتة (بدون API)
-// =======================
-function attachCardButtons() {
-    document.querySelectorAll(".card button").forEach((button) => {
-        button.addEventListener("click", () => {
-            const card = button.closest(".card");
-            const title = card?.querySelector("h3")?.textContent;
-            if (title) alert(`عرض تفاصيل: ${title}`);
-        });
+  /* ----- Mobile nav toggle ----- */
+  const navToggle = document.getElementById('navToggle');
+  const navLinks  = document.getElementById('navLinks');
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      const bars   = navToggle.querySelectorAll('span');
+      const isOpen = navLinks.classList.contains('open');
+      bars[0].style.transform = isOpen ? 'translateY(7px) rotate(45deg)' : '';
+      bars[1].style.opacity   = isOpen ? '0' : '1';
+      bars[2].style.transform = isOpen ? 'translateY(-7px) rotate(-45deg)' : '';
     });
-}
+  }
+  /* ----- Active nav link ----- */
+  const allNavLinks = document.querySelectorAll('.nav-links a');
+  allNavLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      allNavLinks.forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
 
 
-// =======================
-// تشغيل الصفحة
-// =======================
-function initPageActions() {
+  /* ----- Search functionality ----- */
+  const mainSearch = document.getElementById('mainSearch');
+  const mainSearchBtn = document.getElementById('mainSearchBtn');
+  const deptCards = document.querySelectorAll('.dept-card:not(.dept-card--suggest)');
 
-    // زر البحث
-    const searchButton = document.querySelector(".search-box button");
-    if (searchButton) {
-        searchButton.addEventListener("click", searchService);
+  function doSearch() {
+    const val = mainSearch.value.trim().toLowerCase();
+    deptCards.forEach(card => {
+      const text = card.innerText.toLowerCase();
+      card.style.display = val === '' || text.includes(val) ? 'block' : 'none';
+    });
+  }
+
+  if (mainSearchBtn) mainSearchBtn.addEventListener('click', doSearch);
+  if (mainSearch) mainSearch.addEventListener('keyup', function(e) {
+    if (e.key === 'Enter') doSearch();
+  });
+  
+
+  /* REMOVED: floating particles - لا particles */
+
+  /* ----- Scroll reveal ----- */
+  const revealTargets = document.querySelectorAll(
+    '.dept-card, .community-card, .strip-item, .suggest-inner, .footer-col'
+  );
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity   = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  revealTargets.forEach((el, i) => {
+    el.style.opacity    = '0';
+    el.style.transform  = 'translateY(24px)';
+    el.style.transition = 'opacity 0.5s ease ' + (i * 0.07) + 's, transform 0.5s ease ' + (i * 0.07) + 's';
+    observer.observe(el);
+  });
+
+  /* ----- Counter animation ----- */
+  const stats = document.querySelectorAll('.stat-num');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  stats.forEach(el => counterObserver.observe(el));
+
+  function animateCounter(el) {
+    var raw  = el.textContent.trim();
+    var latin = raw.replace(/[٠-٩]/g, function(d) { return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); });
+    var num  = parseInt(latin.replace(/\D/g, ''));
+    var plus = raw.indexOf('+') !== -1;
+    var duration = 1500;
+    var start    = performance.now();
+    function tick(now) {
+      var progress = Math.min((now - start) / duration, 1);
+      var eased    = 1 - Math.pow(1 - progress, 3);
+      el.textContent = (plus ? '+' : '') + toArabicNumerals(Math.round(num * eased));
+      if (progress < 1) requestAnimationFrame(tick);
     }
+    requestAnimationFrame(tick);
+  }
 
-    // اقتراح خدمة
-    const suggestButton = document.querySelector(".suggest-btn");
-    if (suggestButton) {
-        suggestButton.addEventListener("click", suggestService);
-    }
+  function toArabicNumerals(n) {
+    return n.toString().replace(/\d/g, function(d) {
+      return '٠١٢٣٤٥٦٧٨٩'[+d];
+    });
+  }
 
-    // زر البداية
-    const mainButton = document.querySelector(".main-btn");
-    if (mainButton) {
-        mainButton.addEventListener("click", () => {
-            document.querySelector(".services")?.scrollIntoView({
-                behavior: "smooth"
-            });
-        });
-    }
+  /* ----- Smooth scroll ----- */
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      var target = document.querySelector(anchor.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (navLinks) navLinks.classList.remove('open');
+      }
+    });
+  });
 
-    // تسجيل دخول
-    const loginButton = document.querySelector("header button");
-    if (loginButton) {
-        loginButton.addEventListener("click", () => {
-            window.location.href = "login.html";
-        });
-    }
-
-    attachCardButtons();
-
-    loadServices(); // 🔥 تحميل الداتا من الباك
-}
-
-
-// تشغيل بعد تحميل الصفحة
-document.addEventListener("DOMContentLoaded", initPageActions);
+});
