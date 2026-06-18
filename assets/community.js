@@ -273,8 +273,11 @@ async function addComment(postId) {
     }
 
     const input = document.getElementById(`comment-input-${postId}`);
+    const btn = input.nextElementSibling;
     const content = input.value.trim();
     if (!content) return;
+
+    btn.disabled = true;
 
     const token = localStorage.getItem("token");
 
@@ -295,6 +298,8 @@ async function addComment(postId) {
     } catch (error) {
         console.error(error);
         alert("فشل إضافة التعليق");
+    } finally {
+        btn.disabled = false; // ✅ رجّع الزرار بعد ما خلص
     }
 }
 
