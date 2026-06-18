@@ -294,12 +294,17 @@ async function addComment(postId) {
         if (!response.ok) throw new Error(await response.text());
 
         input.value = "";
+
+        // ✅ بدل loadComments، امسح الـ container وعمل load من جديد
+        const container = document.getElementById(`comments-list-${postId}`);
+        container.innerHTML = '<p class="loading-text">جاري التحميل...</p>';
         await loadComments(postId);
+
     } catch (error) {
         console.error(error);
         alert("فشل إضافة التعليق");
     } finally {
-        btn.disabled = false; // ✅ رجّع الزرار بعد ما خلص
+        btn.disabled = false;
     }
 }
 
