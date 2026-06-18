@@ -440,13 +440,13 @@ body {
     background: #fff5f5;
 }
 
-.btn.like.active {
+.btn.like.liked {
     border-color: #ff6b6b;
     background: #fff0f0;
     color: #ff6b6b;
 }
 
-.btn.like.active i {
+.btn.like.liked i {
     color: #ff6b6b;
 }
 
