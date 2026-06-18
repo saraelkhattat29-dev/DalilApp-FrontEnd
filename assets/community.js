@@ -133,7 +133,7 @@ async function toggleLike(postId, btn) {
     const countSpan = btn.querySelector("span");
 
     try {
-        const response = await fetch(`https://localhost:7162/api/posts/${postId}/like`, {
+        const response = await fetch(`https://localhost:7162/api/posts/${postId}`, {
             method: "POST",
             headers: { "Authorization": `Bearer ${token}` }
         });
