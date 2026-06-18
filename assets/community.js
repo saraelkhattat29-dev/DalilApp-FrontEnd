@@ -440,7 +440,7 @@ async function addPost() {
 ========================= */
 
 function timeAgo(timestamp) {
-    const diff = Math.floor((Date.now() - new Date(timestamp)) / 1000);
+    const diff = Math.floor((Date.now() - new Date(timestamp + 'Z')) / 1000);
     if (diff < 60) return "الآن";
     if (diff < 3600) return `منذ ${Math.floor(diff / 60)} دقيقة`;
     if (diff < 86400) return `منذ ${Math.floor(diff / 3600)} ساعة`;
