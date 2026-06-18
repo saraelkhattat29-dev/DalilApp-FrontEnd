@@ -19,9 +19,7 @@ function isLoggedIn() {
 
 
 /* =========================
-
         GET CURRENT USER ID
-
 ========================= */
 
 function getCurrentUserId() {
@@ -66,9 +64,13 @@ async function loadPosts() {
 function renderPosts() {
     postsContainer.innerHTML = "";
 
+    const currentUserId = getCurrentUserId();
+
     const html = posts.map((post, index) => {
         const first = post.userName?.charAt(0) || "?";
         const color = colors[index % colors.length];
+        const isLiked = post.likedByCurrentUser;
+
         return `
         <div class="post" data-post-id="${post.id}">
             <div class="post-header">
@@ -84,8 +86,8 @@ function renderPosts() {
                 ${post.content}
             </div>
             <div class="buttons">
-                <button class="btn like">
-                    <i class="fa-regular fa-heart"></i>
+                <button class="btn like ${isLiked ? 'liked' : ''}" onclick="toggleLike(${post.id}, this)">
+                    <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i>
                     <span>${post.likes}</span>
                 </button>
                 <button class="btn comment-btn" onclick="toggleComments(${post.id})">
@@ -109,6 +111,53 @@ function renderPosts() {
     }).join("");
 
     postsContainer.innerHTML = html;
+}
+
+
+
+/* =========================
+
+        TOGGLE LIKE
+
+========================= */
+
+async function toggleLike(postId, btn) {
+    if (!isLoggedIn()) {
+        alert("يجب تسجيل الدخول أولاً");
+        window.location.href = "login.html";
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+    const icon = btn.querySelector("i");
+    const countSpan = btn.querySelector("span");
+
+    try {
+        const response = await fetch(`https://localhost:7162/api/posts/${postId}/like`, {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (!response.ok) throw new Error("فشل");
+
+        const text = await response.text();
+        const liked = text.includes("Liked");
+
+        // تحديث الـ UI فوراً بدون reload
+        if (liked) {
+            btn.classList.add("liked");
+            icon.classList.replace("fa-regular", "fa-solid");
+            countSpan.textContent = parseInt(countSpan.textContent) + 1;
+        } else {
+            btn.classList.remove("liked");
+            icon.classList.replace("fa-solid", "fa-regular");
+            countSpan.textContent = parseInt(countSpan.textContent) - 1;
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("فشل تنفيذ اللايك");
+    }
 }
 
 
@@ -295,7 +344,7 @@ async function addComment(postId) {
 
         input.value = "";
 
-        // ✅ بدل loadComments، امسح الـ container وعمل load من جديد
+
         const container = document.getElementById(`comments-list-${postId}`);
         container.innerHTML = '<p class="loading-text">جاري التحميل...</p>';
         await loadComments(postId);
