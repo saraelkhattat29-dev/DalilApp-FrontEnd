@@ -69,7 +69,6 @@ body {
     position: relative;
 }
 
-
 .login-btn {
     background: #DA523B;
     color: white;
@@ -97,7 +96,6 @@ body {
     padding: 3rem 2.5rem 3.5rem;
     margin: 0 auto 2rem;
     max-width: 900px;
-    /* نفس الـ container */
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow-lg);
@@ -170,97 +168,13 @@ body {
 }
 
 @keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 @keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: 0.5;
-        transform: scale(0.7);
-    }
-}
-
-/* Navbar */
-.navbar {
-    width: 100%;
-    background: #fff;
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 999;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.nav-content {
-    height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.logo {
-    text-decoration: none;
-    color: #132244;
-    font-size: 2rem;
-    font-weight: 900;
-}
-
-.nav-links {
-    display: flex;
-    gap: 35px;
-    list-style: none;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: #666;
-    font-size: 1rem;
-    transition: .3s;
-}
-
-.nav-links a:hover {
-    color: #DA523B;
-}
-
-.nav-links a.active {
-    color: #DA523B;
-    font-weight: 700;
-    position: relative;
-}
-
-
-.login-btn {
-    background: #DA523B;
-    color: white;
-    text-decoration: none;
-    padding: 14px 28px;
-    border-radius: 12px;
-    font-weight: 700;
-    transition: .3s;
-}
-
-.login-btn:hover {
-    background: #c54833;
-}
-
-.menu-toggle {
-    display: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: #132244;
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
 }
 
 .container {
@@ -316,9 +230,7 @@ body {
 .post-actions input {
     flex: 1;
     padding: 10px 14px;
-    /* كان 18px */
     font-size: 15px;
-    /* كان 24px */
     border: 0.5px solid #ddd;
     border-radius: 18px;
     font-family: Cairo, sans-serif;
@@ -327,18 +239,14 @@ body {
 .post-actions button {
     width: 140px;
     height: 44px;
-    /* أضف ده */
     border: none;
     border-radius: 18px;
     background: #DA523B;
     color: white;
     font-size: 16px;
-    /* كان 26px */
     font-weight: 700;
-    /* كان bold */
     cursor: pointer;
     font-family: Cairo, sans-serif;
-    /* أضف ده */
 }
 
 .post {
@@ -351,15 +259,8 @@ body {
 }
 
 @keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(16px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .post-tag {
@@ -500,7 +401,6 @@ input:focus {
 }
 
 /* Footer */
-/* ===== FOOTER ===== */
 footer {
     background: #132244;
     padding: 60px 60px 0;
@@ -772,43 +672,64 @@ footer::before {
     line-height: 1.8;
 }
 
-.comment-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
+/* ===== 3 DOTS MENU ===== */
+.comment-menu-wrapper {
+    position: relative;
+    margin-top: 8px;
+    display: inline-block;
 }
 
-.btn-edit,
-.btn-delete {
+.comment-menu-btn {
+    background: none;
     border: none;
-    padding: 6px 14px;
-    border-radius: 10px;
-    font-size: 13px;
     cursor: pointer;
-    font-family: Cairo, sans-serif;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    color: #aaa;
+    font-size: 16px;
+    padding: 4px 8px;
+    border-radius: 8px;
     transition: 0.2s;
 }
 
-.btn-edit {
-    background: #f0f4ff;
-    color: #132244;
+.comment-menu-btn:hover {
+    background: #e8e8e8;
+    color: #555;
 }
 
-.btn-edit:hover {
-    background: #dce6ff;
+.comment-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    min-width: 130px;
+    overflow: hidden;
 }
 
-.btn-delete {
-    background: #fff0ee;
+.comment-dropdown button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: Cairo, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    transition: 0.2s;
+}
+
+.comment-dropdown button:hover {
+    background: #f7f7f7;
+}
+
+.comment-dropdown button:last-child {
     color: #DA523B;
-}
-
-.btn-delete:hover {
-    background: #ffe0db;
 }
 
 .edit-area {
