@@ -450,6 +450,13 @@ body {
     color: #ff6b6b;
 }
 
+textarea:focus,
+input:focus {
+    outline: none;
+    border-color: #DA523B;
+    box-shadow: 0 0 0 3px rgba(218, 82, 59, 0.12);
+}
+
 .btn.comment-btn:hover {
     border-color: #ff6b6b;
     color: #ff6b6b;
