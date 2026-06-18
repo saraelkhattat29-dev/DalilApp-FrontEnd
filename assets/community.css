@@ -315,8 +315,10 @@ body {
 
 .post-actions input {
     flex: 1;
-    padding: 10px 14px;    /* كان 18px */
-    font-size: 15px;       /* كان 24px */
+    padding: 10px 14px;
+    /* كان 18px */
+    font-size: 15px;
+    /* كان 24px */
     border: 0.5px solid #ddd;
     border-radius: 18px;
     font-family: Cairo, sans-serif;
@@ -324,15 +326,19 @@ body {
 
 .post-actions button {
     width: 140px;
-    height: 44px;          /* أضف ده */
+    height: 44px;
+    /* أضف ده */
     border: none;
     border-radius: 18px;
     background: #DA523B;
     color: white;
-    font-size: 16px;       /* كان 26px */
-    font-weight: 700;      /* كان bold */
+    font-size: 16px;
+    /* كان 26px */
+    font-weight: 700;
+    /* كان bold */
     cursor: pointer;
-    font-family: Cairo, sans-serif;  /* أضف ده */
+    font-family: Cairo, sans-serif;
+    /* أضف ده */
 }
 
 .post {
@@ -349,6 +355,7 @@ body {
         opacity: 0;
         transform: translateY(16px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -713,4 +720,164 @@ footer::before {
     width: 18px;
     height: 18px;
     stroke: #fff;
+}
+
+/* ===== COMMENTS SECTION ===== */
+.comments-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.comment {
+    background: #f7f7f7;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.comment-header strong {
+    color: #132244;
+    font-size: 14px;
+}
+
+.comment-header span {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.comment-text {
+    color: #333;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.btn-edit,
+.btn-delete {
+    border: none;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: Cairo, sans-serif;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: 0.2s;
+}
+
+.btn-edit {
+    background: #f0f4ff;
+    color: #132244;
+}
+
+.btn-edit:hover {
+    background: #dce6ff;
+}
+
+.btn-delete {
+    background: #fff0ee;
+    color: #DA523B;
+}
+
+.btn-delete:hover {
+    background: #ffe0db;
+}
+
+.edit-area {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.edit-area input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-family: Cairo, sans-serif;
+    font-size: 14px;
+}
+
+.edit-area button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: Cairo, sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.edit-area button:first-of-type {
+    background: #DA523B;
+    color: white;
+}
+
+.edit-area button:last-of-type {
+    background: #eee;
+    color: #333;
+}
+
+.add-comment {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.add-comment input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    font-family: Cairo, sans-serif;
+    font-size: 14px;
+}
+
+.add-comment button {
+    background: #DA523B;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: Cairo, sans-serif;
+    font-weight: 700;
+}
+
+.add-comment button:hover {
+    background: #c54833;
+}
+
+.no-comments,
+.loading-text,
+.error-text {
+    text-align: center;
+    color: #aaa;
+    font-size: 14px;
+    padding: 10px 0;
+}
+
+.error-text {
+    color: #DA523B;
 }
