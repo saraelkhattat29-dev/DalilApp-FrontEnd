@@ -143,6 +143,7 @@ async function toggleLike(postId, btn) {
         const text = await response.text();
         const liked = text.includes("Liked");
 
+        // تحديث الـ UI فوراً بدون reload
         if (liked) {
             btn.classList.add("liked");
             icon.classList.replace("fa-regular", "fa-solid");
@@ -217,11 +218,27 @@ function renderComments(postId, comments) {
         return;
     }
 
-    container.innerHTML = comments.map(c => `
+container.innerHTML = comments.map(c => `
         <div class="comment" id="comment-${c.commentID}">
             <div class="comment-header">
                 <strong>${c.userName}</strong>
-                <span>${timeAgo(c.createdAt)}</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span>${timeAgo(c.createdAt)}</span>
+                    ${currentUserId === c.userId ? `
+                    <div class="comment-menu-wrapper">
+                        <button class="comment-menu-btn" onclick="toggleMenu(${c.commentID})">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                        <div class="comment-dropdown" id="menu-${c.commentID}" style="display:none;">
+                            <button onclick="startEdit(${c.commentID}); toggleMenu(${c.commentID})">
+                                <i class="fa-regular fa-pen-to-square"></i> تعديل
+                            </button>
+                            <button onclick="deleteComment(${c.commentID}, ${postId}); toggleMenu(${c.commentID})">
+                                <i class="fa-regular fa-trash-can"></i> حذف
+                            </button>
+                        </div>
+                    </div>` : ''}
+                </div>
             </div>
             <p class="comment-text" id="comment-text-${c.commentID}">${c.content}</p>
 
@@ -231,47 +248,9 @@ function renderComments(postId, comments) {
                 <button onclick="saveEdit(${c.commentID}, ${postId})">حفظ</button>
                 <button onclick="cancelEdit(${c.commentID})">إلغاء</button>
             </div>
-
-            <!-- 3 نقاط تظهر بس لصاحب الكومنت -->
-            ${currentUserId === c.userId ? `
-            <div class="comment-menu-wrapper">
-                <button class="comment-menu-btn" onclick="toggleMenu(${c.commentID})">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </button>
-                <div class="comment-dropdown" id="menu-${c.commentID}" style="display:none;">
-                    <button onclick="startEdit(${c.commentID}); toggleMenu(${c.commentID})">
-                        <i class="fa-regular fa-pen-to-square"></i> تعديل
-                    </button>
-                    <button onclick="deleteComment(${c.commentID}, ${postId}); toggleMenu(${c.commentID})">
-                        <i class="fa-regular fa-trash-can"></i> حذف
-                    </button>
-                </div>
-            </div>` : ''}
         </div>
     `).join("");
 }
-
-
-
-/* =========================
-
-        TOGGLE MENU
-
-========================= */
-
-function toggleMenu(commentId) {
-    const menu = document.getElementById(`menu-${commentId}`);
-    document.querySelectorAll('.comment-dropdown').forEach(m => {
-        if (m.id !== `menu-${commentId}`) m.style.display = 'none';
-    });
-    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-}
-
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('.comment-menu-wrapper')) {
-        document.querySelectorAll('.comment-dropdown').forEach(m => m.style.display = 'none');
-    }
-});
 
 
 
@@ -369,6 +348,7 @@ async function addComment(postId) {
         if (!response.ok) throw new Error(await response.text());
 
         input.value = "";
+
 
         const container = document.getElementById(`comments-list-${postId}`);
         container.innerHTML = '<p class="loading-text">جاري التحميل...</p>';
@@ -472,8 +452,6 @@ function timeAgo(timestamp) {
     if (diff < 172800) return "أمس";
     return `منذ ${Math.floor(diff / 86400)} يوم`;
 }
-
-
 
 /* =========================
         INIT

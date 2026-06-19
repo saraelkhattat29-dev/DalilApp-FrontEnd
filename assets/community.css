@@ -754,6 +754,7 @@ footer::before {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
+    position: relative;
 }
 
 .comment-header strong {
@@ -776,6 +777,11 @@ footer::before {
     display: flex;
     gap: 8px;
     margin-top: 10px;
+}
+
+.comment-menu-wrapper {
+    position: relative;
+    display: inline-block;
 }
 
 .btn-edit,
