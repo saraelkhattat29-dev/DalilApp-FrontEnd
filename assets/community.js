@@ -158,7 +158,7 @@ function renderPosts() {
 ========================= */
 async function toggleLike(postId, btn) {
     if (!isLoggedIn()) {
-        showLoginToast("عشان تعمل لايك");
+        showLoginToast("عشان تعمل بوست");
         return;
     }
 
@@ -189,7 +189,7 @@ async function toggleLike(postId, btn) {
 
     } catch (error) {
         console.error(error);
-        alert("فشل تنفيذ اللايك");
+        alert("فشل تسجيل اللايك");
     }
 }
 
@@ -376,7 +376,7 @@ async function deleteComment(commentId, postId) {
 ========================= */
 async function addPost() {
     if (!isLoggedIn()) {
-        showLoginToast("عشان تنشر بوست");
+        showLoginToast("عشان تعمل بوست");
         return;
     }
 
