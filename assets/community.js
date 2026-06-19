@@ -4,23 +4,9 @@ const colors = ['#DA523B', '#132244', '#5647e6', '#1a9e75', '#e67e22'];
 
 let posts = [];
 
-
-
-/* =========================
-
-        CHECK LOGIN
-
-========================= */
-
 function isLoggedIn() {
     return !!localStorage.getItem("token");
 }
-
-
-
-/* =========================
-        GET CURRENT USER ID
-========================= */
 
 function getCurrentUserId() {
     const token = localStorage.getItem("token");
@@ -45,14 +31,14 @@ function updateAuthBtn() {
 
     try {
         btn.outerHTML = `
-            <div class="auth-actions" id="auth-btn">
-                <a href="profile.html" class="user-icon-btn" title="الملف الشخصي">
-                    <i class="fa-regular fa-user"></i>
-                </a>
-                <button class="logout-btn" onclick="logout()" title="تسجيل الخروج">
-                    <i class="fa-regular fa-arrow-right-from-bracket"></i>
-                </button>
-            </div>`;
+    <div class="auth-actions" id="auth-btn">
+        <a href="profile.html" class="user-icon-btn" title="الملف الشخصي">
+            <i class="fa-regular fa-user"></i>
+        </a>
+        <button class="logout-btn" onclick="logout()" title="تسجيل الخروج">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+    </div>`;
     } catch {
         btn.outerHTML = `<a href="logIn.html" class="login-btn" id="auth-btn">تسجيل الدخول</a>`;
     }
@@ -77,14 +63,29 @@ function updatePostAvatar() {
     }
 }
 
+/* =========================
+        SHOW TOAST
+========================= */
+function showLoginToast() {
+    const old = document.getElementById("login-toast");
+    if (old) old.remove();
 
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.id = "login-toast";
+    toast.innerHTML = `<i class="fa-regular fa-circle-user"></i> يجب <a href="logIn.html">تسجيل الدخول</a> أولاً للتفاعل`;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add("show"), 10);
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
 
 /* =========================
-
         LOAD POSTS
-
 ========================= */
-
 async function loadPosts() {
     try {
         const response = await fetch("https://localhost:7162/api/posts");
@@ -98,14 +99,9 @@ async function loadPosts() {
     }
 }
 
-
-
 /* =========================
-
         RENDER POSTS
-
 ========================= */
-
 function renderPosts() {
     postsContainer.innerHTML = "";
 
@@ -141,7 +137,6 @@ function renderPosts() {
                 </button>
             </div>
 
-            <!-- قسم التعليقات -->
             <div class="comments-section" id="comments-${post.id}" style="display:none;">
                 <div class="comments-list" id="comments-list-${post.id}">
                     <p class="loading-text">جاري التحميل...</p>
@@ -158,18 +153,12 @@ function renderPosts() {
     postsContainer.innerHTML = html;
 }
 
-
-
 /* =========================
-
         TOGGLE LIKE
-
 ========================= */
-
 async function toggleLike(postId, btn) {
     if (!isLoggedIn()) {
-        alert("يجب تسجيل الدخول أولاً");
-        window.location.href = "login.html";
+        showLoginToast();
         return;
     }
 
@@ -188,7 +177,6 @@ async function toggleLike(postId, btn) {
         const text = await response.text();
         const liked = text.includes("Liked");
 
-        // تحديث الـ UI فوراً بدون reload
         if (liked) {
             btn.classList.add("liked");
             icon.classList.replace("fa-regular", "fa-solid");
@@ -205,14 +193,9 @@ async function toggleLike(postId, btn) {
     }
 }
 
-
-
 /* =========================
-
         TOGGLE COMMENTS
-
 ========================= */
-
 async function toggleComments(postId) {
     const section = document.getElementById(`comments-${postId}`);
     const isHidden = section.style.display === "none";
@@ -224,14 +207,9 @@ async function toggleComments(postId) {
     }
 }
 
-
-
 /* =========================
-
         LOAD COMMENTS
-
 ========================= */
-
 async function loadComments(postId) {
     try {
         const response = await fetch(`https://localhost:7162/api/comments/posts/${postId}/comments`);
@@ -246,14 +224,9 @@ async function loadComments(postId) {
     }
 }
 
-
-
 /* =========================
-
         RENDER COMMENTS
-
 ========================= */
-
 function renderComments(postId, comments) {
     const container = document.getElementById(`comments-list-${postId}`);
     const currentUserId = getCurrentUserId();
@@ -287,7 +260,6 @@ function renderComments(postId, comments) {
             </div>
             <p class="comment-text" id="comment-text-${c.commentID}">${c.content}</p>
 
-            <!-- حقل التعديل مخفي -->
             <div class="edit-area" id="edit-area-${c.commentID}" style="display:none;">
                 <input type="text" id="edit-input-${c.commentID}" value="${c.content}" />
                 <button onclick="saveEdit(${c.commentID}, ${postId})">حفظ</button>
@@ -297,39 +269,15 @@ function renderComments(postId, comments) {
     `).join("");
 }
 
-
-
-/* =========================
-
-        START EDIT
-
-========================= */
-
 function startEdit(commentId) {
     document.getElementById(`comment-text-${commentId}`).style.display = "none";
     document.getElementById(`edit-area-${commentId}`).style.display = "flex";
 }
 
-
-
-/* =========================
-
-        CANCEL EDIT
-
-========================= */
-
 function cancelEdit(commentId) {
     document.getElementById(`comment-text-${commentId}`).style.display = "block";
     document.getElementById(`edit-area-${commentId}`).style.display = "none";
 }
-
-
-
-/* =========================
-
-        SAVE EDIT
-
-========================= */
 
 async function saveEdit(commentId, postId) {
     const newContent = document.getElementById(`edit-input-${commentId}`).value.trim();
@@ -356,18 +304,12 @@ async function saveEdit(commentId, postId) {
     }
 }
 
-
-
 /* =========================
-
         ADD COMMENT
-
 ========================= */
-
 async function addComment(postId) {
     if (!isLoggedIn()) {
-        alert("يجب تسجيل الدخول أولاً");
-        window.location.href = "login.html";
+        showLoginToast();
         return;
     }
 
@@ -394,7 +336,6 @@ async function addComment(postId) {
 
         input.value = "";
 
-
         const container = document.getElementById(`comments-list-${postId}`);
         container.innerHTML = '<p class="loading-text">جاري التحميل...</p>';
         await loadComments(postId);
@@ -407,14 +348,9 @@ async function addComment(postId) {
     }
 }
 
-
-
 /* =========================
-
         DELETE COMMENT
-
 ========================= */
-
 async function deleteComment(commentId, postId) {
     if (!confirm("هتحذف التعليق ده؟")) return;
 
@@ -435,18 +371,12 @@ async function deleteComment(commentId, postId) {
     }
 }
 
-
-
 /* =========================
-
         CREATE POST
-
 ========================= */
-
 async function addPost() {
     if (!isLoggedIn()) {
-        alert("يجب تسجيل الدخول أولاً");
-        window.location.href = "login.html";
+        showLoginToast();
         return;
     }
 
@@ -481,14 +411,9 @@ async function addPost() {
     }
 }
 
-
-
 /* =========================
-
         TIME AGO
-
 ========================= */
-
 function timeAgo(timestamp) {
     const diff = Math.floor((Date.now() - new Date(timestamp + 'Z')) / 1000);
     if (diff < 60) return "الآن";
