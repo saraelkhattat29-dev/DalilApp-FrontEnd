@@ -46,6 +46,7 @@ async function loadPosts() {
         const response = await fetch("https://localhost:7162/api/posts");
         if (!response.ok) throw new Error("Failed to load posts");
         posts = await response.json();
+        posts.reverse();
         renderPosts();
     } catch (error) {
         console.error(error);
