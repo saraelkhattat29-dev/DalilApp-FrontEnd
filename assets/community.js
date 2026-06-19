@@ -44,13 +44,23 @@ function updateAuthBtn() {
     }
 
     try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        const name = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] || "?";
-        const first = name.charAt(0).toUpperCase();
-        btn.outerHTML = `<a href="profile.html" class="user-icon-btn" id="auth-btn">${first}</a>`;
+        btn.outerHTML = `
+            <div class="auth-actions" id="auth-btn">
+                <a href="profile.html" class="user-icon-btn" title="الملف الشخصي">
+                    <i class="fa-regular fa-user"></i>
+                </a>
+                <button class="logout-btn" onclick="logout()" title="تسجيل الخروج">
+                    <i class="fa-regular fa-arrow-right-from-bracket"></i>
+                </button>
+            </div>`;
     } catch {
         btn.outerHTML = `<a href="logIn.html" class="login-btn" id="auth-btn">تسجيل الدخول</a>`;
     }
+}
+
+function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "logIn.html";
 }
 
 function updatePostAvatar() {
