@@ -32,6 +32,19 @@ function getCurrentUserId() {
         return null;
     }
 }
+function updatePostAvatar() {
+    const avatar = document.getElementById("post-avatar");
+    if (!avatar) return;
+    const token = localStorage.getItem("token");
+    if (!token) { avatar.textContent = "?"; return; }
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const name = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] || "?";
+        avatar.textContent = name.charAt(0).toUpperCase();
+    } catch {
+        avatar.textContent = "?";
+    }
+}
 
 
 
@@ -475,4 +488,5 @@ document.addEventListener("click", function(e) {
 /* =========================
         INIT
 ========================= */
+updatePostAvatar();
 loadPosts();
