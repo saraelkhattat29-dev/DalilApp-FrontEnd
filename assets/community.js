@@ -66,14 +66,14 @@ function updatePostAvatar() {
 /* =========================
         SHOW TOAST
 ========================= */
-function showLoginToast() {
+function showLoginToast(message) {
     const old = document.getElementById("login-toast");
     if (old) old.remove();
 
     const toast = document.createElement("div");
     toast.className = "toast";
     toast.id = "login-toast";
-    toast.innerHTML = `<i class="fa-regular fa-circle-user"></i> يجب <a href="logIn.html">تسجيل الدخول</a> أولاً للتفاعل`;
+    toast.innerHTML = `<i class="fa-regular fa-circle-user"></i> ${message} <a href="logIn.html">سجل دخول</a>`;
     document.body.appendChild(toast);
 
     setTimeout(() => toast.classList.add("show"), 10);
@@ -158,7 +158,7 @@ function renderPosts() {
 ========================= */
 async function toggleLike(postId, btn) {
     if (!isLoggedIn()) {
-        showLoginToast();
+        showLoginToast("عشان تعمل لايك");
         return;
     }
 
@@ -309,7 +309,7 @@ async function saveEdit(commentId, postId) {
 ========================= */
 async function addComment(postId) {
     if (!isLoggedIn()) {
-        showLoginToast();
+        showLoginToast("عشان تكتب تعليق");
         return;
     }
 
@@ -376,7 +376,7 @@ async function deleteComment(commentId, postId) {
 ========================= */
 async function addPost() {
     if (!isLoggedIn()) {
-        showLoginToast();
+        showLoginToast("عشان تنشر بوست");
         return;
     }
 
