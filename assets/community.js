@@ -32,6 +32,27 @@ function getCurrentUserId() {
         return null;
     }
 }
+
+function updateAuthBtn() {
+    const btn = document.getElementById("auth-btn");
+    if (!btn) return;
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+        btn.outerHTML = `<a href="logIn.html" class="login-btn" id="auth-btn">تسجيل الدخول</a>`;
+        return;
+    }
+
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const name = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] || "?";
+        const first = name.charAt(0).toUpperCase();
+        btn.outerHTML = `<a href="profile.html" class="user-icon-btn" id="auth-btn">${first}</a>`;
+    } catch {
+        btn.outerHTML = `<a href="logIn.html" class="login-btn" id="auth-btn">تسجيل الدخول</a>`;
+    }
+}
+
 function updatePostAvatar() {
     const avatar = document.getElementById("post-avatar");
     if (!avatar) return;
@@ -232,7 +253,7 @@ function renderComments(postId, comments) {
         return;
     }
 
-container.innerHTML = comments.map(c => `
+    container.innerHTML = comments.map(c => `
         <div class="comment" id="comment-${c.commentID}">
             <div class="comment-header">
                 <strong>${c.userName}</strong>
@@ -473,13 +494,13 @@ function timeAgo(timestamp) {
 function toggleMenu(commentId) {
     const menu = document.getElementById(`menu-${commentId}`);
     const isOpen = menu.style.display === "block";
-    
+
     document.querySelectorAll('.comment-dropdown').forEach(d => d.style.display = "none");
-    
+
     if (!isOpen) menu.style.display = "block";
 }
 
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
     if (!e.target.closest('.comment-menu-wrapper')) {
         document.querySelectorAll('.comment-dropdown').forEach(d => d.style.display = "none");
     }
@@ -488,5 +509,6 @@ document.addEventListener("click", function(e) {
 /* =========================
         INIT
 ========================= */
+updateAuthBtn();
 updatePostAvatar();
 loadPosts();
