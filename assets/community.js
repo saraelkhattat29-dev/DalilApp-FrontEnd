@@ -454,6 +454,24 @@ function timeAgo(timestamp) {
 }
 
 /* =========================
+        TOGGLE MENU
+========================= */
+function toggleMenu(commentId) {
+    const menu = document.getElementById(`menu-${commentId}`);
+    const isOpen = menu.style.display === "block";
+    
+    document.querySelectorAll('.comment-dropdown').forEach(d => d.style.display = "none");
+    
+    if (!isOpen) menu.style.display = "block";
+}
+
+document.addEventListener("click", function(e) {
+    if (!e.target.closest('.comment-menu-wrapper')) {
+        document.querySelectorAll('.comment-dropdown').forEach(d => d.style.display = "none");
+    }
+});
+
+/* =========================
         INIT
 ========================= */
 loadPosts();
