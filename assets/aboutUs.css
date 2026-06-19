@@ -1,3 +1,12 @@
+:root {
+    --navy: #1a2e4a;
+    --navy-light: #243d60;
+    --navy-dark: #111e30;
+    --accent-light: #f07a55;
+    --radius-xl: 24px;
+    --shadow-lg: 0 12px 48px rgba(26, 46, 74, 0.13);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -17,7 +26,7 @@ body {
     margin: auto;
 }
 
-/* Navbar */
+/* ===== NAVBAR ===== */
 .navbar {
     width: 100%;
     background: #fff;
@@ -65,7 +74,6 @@ body {
     position: relative;
 }
 
-
 .login-btn {
     background: #DA523B;
     color: white;
@@ -87,55 +95,101 @@ body {
     color: #132244;
 }
 
-/* Hero */
+/* ===== HERO (community-style) ===== */
 .about-hero {
-    height: 100vh;
-    background:
-        linear-gradient(rgba(19, 34, 68, 0.84), rgba(19, 34, 68, 0.90)),
-        url('https://images.unsplash.com/photo-1572252009286-268acec5ca0a?q=80&w=1920&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 60%, var(--navy-light) 100%);
+    border-radius: var(--radius-xl);
+    padding: 3rem 2.5rem 3.5rem;
+    margin: 110px auto 2rem;
+    max-width: 1200px;
     position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
 
-    display: flex;
+.about-hero::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(229, 99, 60, 0.18) 0%, transparent 70%);
+}
+
+.header-inner {
+    position: relative;
+    z-index: 1;
+}
+
+.header-badge {
+    display: inline-flex;
     align-items: center;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    color: white;
-}
-
-.badge {
-    display: inline-block;
-    background: rgba(218, 82, 59, 0.15);
-    color: #ff8d79;
+    gap: 7px;
+    background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 12px 22px;
-    border-radius: 40px;
-    margin-bottom: 25px;
-    font-size: .95rem;
-}
-
-.hero-content h1 {
-    font-size: 5rem;
-    margin-bottom: 20px;
-    line-height: 1.2;
-}
-
-.hero-content h1 span {
-    color: #DA523B;
-}
-
-.hero-content p {
-    width: 60%;
-    font-size: 1.2rem;
-    line-height: 2;
     color: rgba(255, 255, 255, 0.85);
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 1rem;
 }
 
-/* About */
+.badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 0.6rem;
+}
+
+.page-title span {
+    color: var(--accent-light);
+}
+
+.page-subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.65);
+    max-width: 600px;
+    line-height: 1.8;
+}
+
+.header-deco {
+    position: absolute;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 160px;
+    height: 160px;
+    opacity: 0.6;
+}
+
+.header-deco svg {
+    width: 100%;
+    height: 100%;
+    animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.7); }
+}
+
+/* ===== ABOUT ===== */
 .about-section {
     padding: 120px 0;
     background: #fff;
@@ -200,7 +254,7 @@ body {
     display: block;
 }
 
-/* Services */
+/* ===== SERVICES ===== */
 .services-section {
     padding: 120px 0;
     background: #f6f7fb;
@@ -259,7 +313,7 @@ body {
     line-height: 1.8;
 }
 
-/* Timeline */
+/* ===== TIMELINE ===== */
 .timeline-section {
     padding: 120px 0;
     background: white;
@@ -304,7 +358,7 @@ body {
     line-height: 1.8;
 }
 
-/* Stats */
+/* ===== STATS ===== */
 .stats-section {
     padding: 100px 0;
     background: #132244;
@@ -335,8 +389,7 @@ body {
     font-size: 1.1rem;
 }
 
-/* Vision */
-
+/* ===== VISION ===== */
 .vision-section {
     padding: 120px 0;
     background: #f6f7fb;
@@ -373,40 +426,7 @@ body {
     font-size: 1.05rem;
 }
 
-/* Responsive */
-
-@media(max-width: 768px) {
-
-    .vision-card {
-        padding: 45px 25px;
-    }
-
-    .vision-card h2 {
-        font-size: 2rem;
-    }
-
-    .vision-card p {
-        width: 100%;
-    }
-
-}
-
-/* Responsive */
-
-@media(max-width: 992px) {
-
-    .vision-wrapper {
-        grid-template-columns: 1fr;
-    }
-
-    .vision-text h2 {
-        font-size: 2.5rem;
-    }
-
-}
-
-/* Footer */
-
+/* ===== FOOTER ===== */
 footer {
     background: #132244;
     padding: 60px 60px 0;
@@ -434,7 +454,6 @@ footer::before {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Brand column */
 .footer-brand .logo {
     display: flex;
     align-items: center;
@@ -521,7 +540,6 @@ footer::before {
     font-size: 13px;
 }
 
-/* Footer columns */
 .footer-col h4 {
     color: #FFFFFF;
     font-size: 16px;
@@ -573,7 +591,6 @@ footer::before {
     gap: 12px;
 }
 
-/* Newsletter */
 .footer-newsletter h4 {
     color: #FFFFFF;
     font-size: 16px;
@@ -642,7 +659,6 @@ footer::before {
     background: #c44430;
 }
 
-/* Bottom bar */
 .footer-bottom {
     display: flex;
     align-items: center;
@@ -678,7 +694,7 @@ footer::before {
     color: #FFFFFF;
 }
 
-/* Scroll to top */
+/* ===== SCROLL TO TOP ===== */
 .scroll-top {
     position: fixed;
     bottom: 28px;
@@ -707,9 +723,8 @@ footer::before {
     stroke: #fff;
 }
 
-/* Responsive */
-@media(max-width: 992px) {
-
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
     .about-grid,
     .stats-grid,
     .features,
@@ -717,23 +732,16 @@ footer::before {
         grid-template-columns: 1fr;
     }
 
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .vision-card p {
+        width: 100%;
+    }
 }
 
-.hero-content h1 {
-    font-size: 3.5rem;
-}
-
-.hero-content p {
-    width: 100%;
-}
-
-.vision-card p {
-    width: 100%;
-}
-
-
-@media(max-width: 768px) {
-
+@media (max-width: 768px) {
     .nav-links {
         position: absolute;
         top: 90px;
@@ -758,16 +766,32 @@ footer::before {
         display: none;
     }
 
-    .hero-content h1 {
-        font-size: 2.7rem;
+    .about-hero {
+        margin: 100px 16px 2rem;
+        padding: 2rem 1.5rem 2.5rem;
     }
 
-    .about-text h2,
-    .vision-card h2 {
+    .header-deco {
+        display: none;
+    }
+
+    .about-text h2 {
         font-size: 2.2rem;
     }
 
     .vision-card {
         padding: 40px 25px;
+    }
+
+    .vision-card h2 {
+        font-size: 2rem;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    footer {
+        padding: 40px 24px 0;
     }
 }
