@@ -304,6 +304,7 @@ body {
 
 .post-actions {
     display: flex;
+    justify-content: flex-end;
     gap: 15px;
     margin-top: 20px;
     flex: 1;
