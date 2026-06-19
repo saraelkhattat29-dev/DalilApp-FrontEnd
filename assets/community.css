@@ -719,7 +719,6 @@ footer::before {
 .toast.show {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
-    color: #000;
 }
 
 .toast a {
