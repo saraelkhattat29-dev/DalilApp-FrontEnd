@@ -76,9 +76,78 @@ function handleOverlayClick(e) {
     if (e.target === document.getElementById('editModal')) closeModal();
 }
 
-function saveProfile() {
-    closeModal();
-    showToast('<i class="fa-solid fa-circle-check"></i> تم حفظ التغييرات بنجاح!');
+async function saveProfile() {
+    const fullName = document.getElementById('editFullName').value.trim();
+    const email = document.getElementById('editEmail').value.trim();
+
+    // ===== Validation =====
+    if (!fullName) {
+        showToast('⚠️ يرجى إدخال الاسم الكامل');
+        return;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailPattern.test(email)) {
+        showToast('⚠️ يرجى إدخال بريد إلكتروني صحيح');
+        return;
+    }
+
+    const token = getToken();
+    if (!token) {
+        window.location.href = 'logIn.html';
+        return;
+    }
+
+    // ===== Loading State =====
+    const saveBtn = document.getElementById('saveProfileBtn');
+    const originalHTML = saveBtn.innerHTML;
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'جاري الحفظ...';
+
+    try {
+        const res = await fetch(`${API_BASE_URL}/profile/edit`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ FullName: fullName, Email: email })
+        });
+
+        if (res.status === 401) {
+            localStorage.removeItem(TOKEN_KEY);
+            window.location.href = 'logIn.html';
+            return;
+        }
+
+        if (!res.ok) {
+            let msg = 'حصل خطأ أثناء حفظ البيانات';
+            try {
+                const errData = await res.json();
+                msg = errData?.message || errData?.title || msg;
+            } catch { }
+            showToast('⚠️ ' + msg);
+            return;
+        }
+
+        // ===== تحديث الواجهة محلياً بدون إعادة تحميل =====
+        currentProfile.fullName = fullName;
+        currentProfile.email = email;
+        document.getElementById('heroName').textContent = fullName;
+        document.getElementById('profileEmail').textContent = email;
+        document.getElementById('avatarRing').textContent = fullName.charAt(0).toUpperCase();
+
+        closeModal();
+        showToast('<i class="fa-solid fa-circle-check"></i> تم حفظ التغييرات بنجاح!');
+
+    } catch (err) {
+        console.error(err);
+        showToast('⚠️ تعذر الاتصال بالسيرفر');
+
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = originalHTML;
+    }
 }
 
 /* ===== PASSWORD MODAL ===== */
