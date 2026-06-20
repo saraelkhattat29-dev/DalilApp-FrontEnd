@@ -384,10 +384,90 @@ function timeAgo(dateString) {
     return date.toLocaleDateString('ar-EG');
 }
 
-/* ===== INIT ===== */
-window.addEventListener('DOMContentLoaded', () => {
-    loadProfile();
-    loadMyPosts();
-    setTimeout(animateCounters, 400);
-    setTimeout(animateProgress, 400);
-});
+/* ===== LOAD MY SUGGESTIONS ===== */
+async function loadMySuggestions() {
+    const token = getToken();
+    if (!token) return;
+
+    try {
+        const res = await fetch(`${API_BASE_URL}/profile/my-suggestions`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (res.status === 401) {
+            localStorage.removeItem(TOKEN_KEY);
+            window.location.href = 'logIn.html';
+            return;
+        }
+
+        if (!res.ok) {
+            showToast('⚠️ تعذر تحميل اقتراحاتك');
+            return;
+        }
+
+        const suggestions = await res.json();
+        renderSuggestions(suggestions);
+
+    } catch (err) {
+        console.error(err);
+        showToast('⚠️ تعذر الاتصال بالسيرفر');
+    }
+}
+
+function renderSuggestions(suggestions) {
+    const container = document.getElementById('suggestionsList');
+
+    // ===== لو مفيش اقتراحات خالص =====
+    if (!suggestions || suggestions.length === 0) {
+        container.innerHTML = `
+            <div style="text-align:center; padding:40px 20px;">
+                <div style="font-size:2.5rem; margin-bottom:12px;">💡</div>
+                <p style="color:var(--text); font-weight:700; margin-bottom:6px;">لسه ما اقترحتيش أي خدمة</p>
+                <p style="color:var(--muted); font-size:.85rem;">شاركينا اقتراحك الأول وساعدينا نطوّر بوابة الخدمات</p>
+            </div>
+        `;
+        return;
+    }
+
+    // ===== عرض الاقتراحات =====
+    container.innerHTML = suggestions.map(sug => {
+        const badge = getSuggestionBadge(sug.status);
+        return `
+        <div class="suggestion-item">
+            <div class="sug-ico"><svg class="ico" viewBox="0 0 24 24" fill="none">
+                    <path d="M9 18h6" />
+                    <path d="M10 22h4" />
+                    <path d="M12 2a6 6 0 0 0-4 10.5c.6.5 1 1.3 1 2.1V16h6v-1.4c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 2Z" />
+                </svg></div>
+            <div class="sug-info">
+                <div class="sug-name">${escapeHtml(sug.title)}</div>
+                <div class="sug-desc">${escapeHtml(sug.description)}</div>
+            </div>
+            <span class="sug-badge ${badge.class}">${badge.text}</span>
+        </div>
+        `;
+    }).join('');
+}
+
+function getSuggestionBadge(status) {
+    switch (status) {
+        case 'Approved':
+            return { class: 'badge-approved', text: '✓ مقبولة' };
+        case 'Rejected':
+            return { class: 'badge-rejected', text: '✕ مرفوضة' };
+        default:
+            return { class: 'badge-pending', text: 'قيد المراجعة' };
+    }
+
+    /* ===== INIT ===== */
+    window.addEventListener('DOMContentLoaded', () => {
+        loadProfile();
+        loadMyPosts();
+        loadMySuggestions();
+        setTimeout(animateCounters, 400);
+        setTimeout(animateProgress, 400);
+    });
