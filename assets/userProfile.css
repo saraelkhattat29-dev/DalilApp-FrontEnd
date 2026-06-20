@@ -999,6 +999,36 @@ body::before {
     margin-top: 22px;
 }
 
+/* PASSWORD FIELD - EYE ICON */
+.password-field {
+    position: relative;
+}
+
+.password-field .form-input {
+    padding-left: 44px;
+}
+
+.password-field .eye-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    transition: color .2s;
+}
+
+.password-field .eye-icon:hover {
+    color: var(--text);
+}
+
+.password-field .eye-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
 /* TOAST */
 .toast {
     position: fixed;

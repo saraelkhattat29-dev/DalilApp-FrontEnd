@@ -155,6 +155,22 @@ function openPasswordModal() {
     document.getElementById('passwordModal').classList.add('open');
 }
 
+/* ===== TOGGLE PASSWORD VISIBILITY ===== */
+function togglePassword(fieldId, btn) {
+    const input = document.getElementById(fieldId);
+    const isPassword = input.type === "password";
+
+    input.type = isPassword ? "text" : "password";
+
+    const eyeOpen = btn.querySelector(".eye-open");
+    const eyeClosed = btn.querySelector(".eye-closed");
+
+    if (eyeOpen && eyeClosed) {
+        eyeOpen.style.display = isPassword ? "none" : "block";
+        eyeClosed.style.display = isPassword ? "block" : "none";
+    }
+}
+
 function closePasswordModal() {
     document.getElementById('passwordModal').classList.remove('open');
     document.getElementById('currentPass').value = '';
