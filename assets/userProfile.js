@@ -461,7 +461,7 @@ function getSuggestionBadge(status) {
             return { class: 'badge-rejected', text: '✕ مرفوضة' };
         default:
             return { class: 'badge-pending', text: 'قيد المراجعة' };
-    }
+    }}
 
     /* ===== INIT ===== */
     window.addEventListener('DOMContentLoaded', () => {
