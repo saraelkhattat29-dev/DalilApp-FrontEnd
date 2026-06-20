@@ -51,16 +51,10 @@ body {
     overflow-x: hidden;
 }
 
-/* ============================================
-   BACKGROUND GRID
-   ============================================ */
 .bg-grid {
     display: none;
 }
 
-/* ============================================
-   PAGE LAYOUT
-   ============================================ */
 .page-wrapper {
     position: relative;
     z-index: 1;
@@ -69,9 +63,6 @@ body {
     padding: 2rem 1.25rem 4rem;
 }
 
-/* ============================================
-   HEADER
-   ============================================ */
 .page-header {
     background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 60%, var(--navy-light) 100%);
     border-radius: var(--radius-xl);
@@ -177,9 +168,6 @@ body {
     }
 }
 
-/* ============================================
-   FORM CONTAINER
-   ============================================ */
 .form-container {
     background: var(--surface);
     border-radius: var(--radius-xl);
@@ -188,9 +176,6 @@ body {
     overflow: hidden;
 }
 
-/* ============================================
-   SECTIONS
-   ============================================ */
 .form-section {
     padding: 2rem 2.5rem;
 }
@@ -229,9 +214,6 @@ body {
     font-weight: 400;
 }
 
-/* ============================================
-   SECTION DIVIDER
-   ============================================ */
 .section-divider {
     display: flex;
     align-items: center;
@@ -253,9 +235,6 @@ body {
     flex-shrink: 0;
 }
 
-/* ============================================
-   GRID LAYOUTS
-   ============================================ */
 .fields-grid {
     display: grid;
     gap: 1.25rem;
@@ -274,9 +253,6 @@ body {
     margin-bottom: 1.25rem;
 }
 
-/* ============================================
-   FIELD COMPONENTS
-   ============================================ */
 .field-wrap {
     display: flex;
     flex-direction: column;
@@ -333,7 +309,6 @@ body {
     font-weight: 300;
 }
 
-/* SELECT */
 .select-wrap {
     position: relative;
 }
@@ -352,14 +327,12 @@ body {
     pointer-events: none;
 }
 
-/* TEXTAREA */
 .field-textarea {
     resize: vertical;
     min-height: 120px;
     line-height: 1.8;
 }
 
-/* TRANSPARENT TEXTAREA */
 .transparent-area {
     background: rgba(240, 242, 246, 0.4) !important;
     border-style: dashed !important;
@@ -370,13 +343,11 @@ body {
     border-style: solid !important;
 }
 
-/* LTR inputs */
 .ltr {
     direction: ltr;
     text-align: left;
 }
 
-/* FIELD ERROR */
 .field-error {
     font-size: 11.5px;
     color: var(--error);
@@ -399,7 +370,6 @@ body {
     box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
 }
 
-/* HINT */
 .field-hint {
     font-size: 11.5px;
     color: var(--text-muted);
@@ -409,9 +379,6 @@ body {
     margin-top: -2px;
 }
 
-/* ============================================
-   CHECKBOX
-   ============================================ */
 .agree-check {
     display: flex;
     align-items: center;
@@ -464,9 +431,6 @@ body {
     line-height: 1.5;
 }
 
-/* ============================================
-   FORM FOOTER
-   ============================================ */
 .form-footer {
     background: rgba(240, 242, 246, 0.5);
     border-top: 1px solid var(--border);
@@ -479,7 +443,6 @@ body {
     align-items: center;
 }
 
-/* RESET BUTTON */
 .btn-reset {
     display: flex;
     align-items: center;
@@ -502,7 +465,6 @@ body {
     background: var(--bg);
 }
 
-/* SUBMIT BUTTON */
 .btn-submit {
     display: flex;
     align-items: center;
@@ -537,7 +499,6 @@ body {
     transform: none;
 }
 
-/* btn states */
 .btn-text {
     display: flex;
     align-items: center;
@@ -568,9 +529,6 @@ body {
     }
 }
 
-/* ============================================
-   SUCCESS OVERLAY
-   ============================================ */
 .success-overlay {
     display: none;
     position: fixed;
@@ -686,9 +644,6 @@ body {
     box-shadow: 0 6px 18px rgba(26, 46, 74, 0.3);
 }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
 @media (max-width: 680px) {
     .page-wrapper {
         padding: 0 0.75rem 3rem;
