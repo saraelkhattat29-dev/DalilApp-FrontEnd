@@ -517,32 +517,26 @@ const ACTIVITY_CONFIG = {
     Comment: {
         dot: 'dot-blue',
         svg: '<path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.4 8.5 8.5 0 0 1-4-1L3 20l1.1-5.5A8.4 8.4 0 0 1 21 11.5Z" />',
-        label: (act) => `علّقتِ على منشور${act.description ? `: «${act.description}»` : ''}`
+        label: (act) => 'علقت على بوست'
     },
     // إعجاب بمنشور
     Like: {
         dot: 'dot-red',
         svg: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />',
-        label: (act) => `أعجبكِ منشور${act.description ? `: «${act.description}»` : ''}`
+        label: (act) => 'أعجبك بوست'
     },
     // اقتراح خدمة جديدة
     Suggestion: {
         dot: 'dot-gold',
         svg: '<path d="M9 18h6" /><path d="M10 22h4" /><path d="M12 2a6 6 0 0 0-4 10.5c.6.5 1 1.3 1 2.1V16h6v-1.4c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 2Z" />',
-        label: (act) => `اقترحتِ خدمة جديدة${act.description ? `: «${act.description}»` : ''}`
+        label: (act) => 'أقترحت خدمه جديده'
     },
     // الموافقة على اقتراح
     SuggestionApproved: {
         dot: 'dot-green',
         svg: '<circle cx="12" cy="12" r="10" /><path d="m8.5 12.5 2.5 2.5 4.5-5" />',
-        label: (act) => `تمّت الموافقة على اقتراحكِ${act.description ? `: «${act.description}»` : ''}`
+        label: (act) => 'تمت الموافقه على أقتراحك'
     },
-    // رد على تعليق
-    Reply: {
-        dot: 'dot-red',
-        svg: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />',
-        label: (act) => `ردّ أحد الأعضاء على تعليقكِ${act.description ? `: «${act.description}»` : ''}`
-    }
 };
 
 // شكل ونص افتراضي لأي نوع نشاط مش معروف
