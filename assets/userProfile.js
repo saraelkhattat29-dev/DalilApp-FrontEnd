@@ -292,9 +292,99 @@ function animateProgress() {
     });
 }
 
+/* ===== LOAD MY POSTS ===== */
+async function loadMyPosts() {
+    const token = getToken();
+    if (!token) return;
+
+    try {
+        const res = await fetch(`${API_BASE_URL}/profile/my-posts`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (res.status === 401) {
+            localStorage.removeItem(TOKEN_KEY);
+            window.location.href = 'logIn.html';
+            return;
+        }
+
+        if (!res.ok) {
+            showToast('⚠️ تعذر تحميل منشوراتك');
+            return;
+        }
+
+        const posts = await res.json();
+        renderPosts(posts);
+
+    } catch (err) {
+        console.error(err);
+        showToast('⚠️ تعذر الاتصال بالسيرفر');
+    }
+}
+
+function renderPosts(posts) {
+    const container = document.getElementById('postsList');
+
+    if (!posts || posts.length === 0) {
+        container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px;">لا توجد منشورات حتى الآن</p>';
+        return;
+    }
+
+    container.innerHTML = posts.map(post => `
+        <div class="post-card">
+            <div class="post-head">
+                <div class="post-title">${escapeHtml(truncateText(post.content, 60))}</div>
+                <div class="post-date">${timeAgo(post.createdAt)}</div>
+            </div>
+            <div class="post-body">${escapeHtml(post.content)}</div>
+            <div class="post-meta">
+                <span><svg class="ico" viewBox="0 0 24 24" fill="none">
+                        <path d="M7 11v10H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1h3Zm0 0 4-8a2 2 0 0 1 2 2v5h6a2 2 0 0 1 2 2.2l-1.2 7A2 2 0 0 1 18 21H9a2 2 0 0 1-2-2v-8Z" />
+                    </svg> ${post.likes} إعجاب</span>
+                <span><svg class="ico" viewBox="0 0 24 24" fill="none">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.4 8.5 8.5 0 0 1-4-1L3 20l1.1-5.5A8.4 8.4 0 0 1 21 11.5Z" />
+                    </svg> ${post.commentsCount} تعليق</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+/* ===== HELPERS ===== */
+function truncateText(text, maxLength) {
+    if (!text) return '';
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text || '';
+    return div.innerHTML;
+}
+
+function timeAgo(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMin = Math.floor((now - date) / 60000);
+    const diffHr = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHr / 24);
+
+    if (diffMin < 1) return 'الآن';
+    if (diffMin < 60) return `منذ ${diffMin} دقيقة`;
+    if (diffHr < 24) return `منذ ${diffHr} ساعة`;
+    if (diffDay === 1) return 'البارحة';
+    if (diffDay < 7) return `منذ ${diffDay} أيام`;
+    if (diffDay < 30) return `منذ ${Math.floor(diffDay / 7)} أسبوع`;
+    return date.toLocaleDateString('ar-EG');
+}
+
 /* ===== INIT ===== */
 window.addEventListener('DOMContentLoaded', () => {
     loadProfile();
+    loadMyPosts();
     setTimeout(animateCounters, 400);
     setTimeout(animateProgress, 400);
 });
