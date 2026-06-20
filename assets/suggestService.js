@@ -7,7 +7,7 @@
     var API_BASE_URL = "https://localhost:7162/api"; // 👈 غيّر ده للـ base URL بتاع الباك إند عندك
     var ENDPOINTS = {
         categories: API_BASE_URL + "/Categories",     // مطابق لـ [Route("api/[controller]")] في CategoriesController
-        suggest: API_BASE_URL + "/Service/suggest"    // مطابق للـ [HttpPost("suggest")] في الكونترولر
+        suggest: API_BASE_URL + "/Services/suggest"   // مطابق للـ [HttpPost("suggest")] في الكونترولر
     };
     var TOKEN_KEY = "token"; // 👈 غيّر ده لو اسم الـ key في localStorage مختلف (مثلاً "authToken")
 
