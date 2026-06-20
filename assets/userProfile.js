@@ -464,6 +464,103 @@ function getSuggestionBadge(status) {
     }
 }
 
+/* ===== LOAD ACTIVITIES ===== */
+async function loadActivities() {
+    const token = getToken();
+    if (!token) return;
+
+    try {
+        const res = await fetch(`${API_BASE_URL}/profile/activities`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (res.status === 401) {
+            localStorage.removeItem(TOKEN_KEY);
+            window.location.href = 'logIn.html';
+            return;
+        }
+
+        if (!res.ok) {
+            showToast('⚠️ تعذر تحميل النشاطات');
+            return;
+        }
+
+        const activities = await res.json();
+        renderActivities(activities);
+
+    } catch (err) {
+        console.error('loadActivities error:', err);
+        showToast('⚠️ تعذر الاتصال بالسيرفر');
+    }
+}
+
+/* خريطة نوع النشاط -> أيقونة SVG + كلاس اللون
+   لو ظهر نوع نشاط جديد مش موجود هنا، هيتاخد ليه شكل افتراضي تلقائيًا */
+const ACTIVITY_ICONS = {
+    Comment: {
+        dot: 'dot-blue',
+        svg: '<path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.4 8.5 8.5 0 0 1-4-1L3 20l1.1-5.5A8.4 8.4 0 0 1 21 11.5Z" />'
+    },
+    Like: {
+        dot: 'dot-red',
+        svg: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />'
+    },
+    Post: {
+        dot: 'dot-green',
+        svg: '<path d="M19 21 12 17l-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16Z" />'
+    },
+    Suggestion: {
+        dot: 'dot-gold',
+        svg: '<path d="M9 18h6" /><path d="M10 22h4" /><path d="M12 2a6 6 0 0 0-4 10.5c.6.5 1 1.3 1 2.1V16h6v-1.4c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 2Z" />'
+    },
+    SuggestionApproved: {
+        dot: 'dot-green',
+        svg: '<circle cx="12" cy="12" r="10" /><path d="m8.5 12.5 2.5 2.5 4.5-5" />'
+    },
+    Reply: {
+        dot: 'dot-red',
+        svg: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />'
+    }
+};
+
+// شكل افتراضي لأي نوع نشاط مش معروف
+const DEFAULT_ACTIVITY_ICON = {
+    dot: 'dot-blue',
+    svg: '<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" />'
+};
+
+function getActivityIcon(activityType) {
+    return ACTIVITY_ICONS[activityType] || DEFAULT_ACTIVITY_ICON;
+}
+
+function renderActivities(activities) {
+    const container = document.getElementById('activityList');
+
+    if (!activities || activities.length === 0) {
+        container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px;">لا توجد نشاطات حتى الآن</p>';
+        return;
+    }
+
+    container.innerHTML = activities.map(act => {
+        const icon = getActivityIcon(act.activityType);
+        return `
+        <div class="activity-item">
+            <div class="act-dot ${icon.dot}"><svg class="ico" viewBox="0 0 24 24" fill="none">
+                    ${icon.svg}
+                </svg></div>
+            <div class="act-text">
+                <div class="act-main">${escapeHtml(act.description)}</div>
+                <div class="act-time">${timeAgo(act.createdAt)}</div>
+            </div>
+        </div>
+        `;
+    }).join('');
+}
+
 /* ===== BUTTON EVENT BINDING (احتياطي بجانب onclick في الـ HTML) =====
    بيتأكد إن الأزرار شغالة حتى لو حصلت أي مشكلة في الـ inline onclick،
    وبيطبع تحذير واضح في الـ Console لو عنصر أساسي ناقص من الصفحة. */
@@ -493,6 +590,7 @@ window.addEventListener('DOMContentLoaded', () => {
     loadProfile();
     loadMyPosts();
     loadMySuggestions();
+    loadActivities();
     bindCoreButtons();
     setTimeout(animateCounters, 400);
     setTimeout(animateProgress, 400);
