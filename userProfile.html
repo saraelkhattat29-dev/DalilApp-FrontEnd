@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>دليل – الملف الشخصي</title>
+    <title>الملف الشخصي</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap"
         rel="stylesheet" />
@@ -24,13 +24,12 @@
                 <ul class="nav-links">
                     <li><a href="Index.html">الرئيسية</a></li>
                     <li><a href="#">الخدمات</a></li>
-                    <li><a href="#">الجهات</a></li>
-                    <li><a href="#">المجتمع</a></li>
+                    <li><a href="community.html">المجتمع</a></li>
                     <li><a href="#">تواصل معنا</a></li>
-                    <li><a href="#" class="active">عن دليل</a></li>
+                    <li><a href="aboutUs.html">عن دليل</a></li>
                 </ul>
             </nav>
-            <a href="#" class="login-btn">تسجيل الدخول</a>
+            <a href="logIn.html" class="login-btn">تسجيل الدخول</a>
             <div class="menu-toggle" id="menu-toggle">☰</div>
         </div>
     </header>
@@ -278,7 +277,7 @@
                         </div>
                     </div>
 
-                    
+
 
                 </div>
             </div>
@@ -384,7 +383,7 @@
                             <div class="sug-name">نقل ملكية سيارة</div>
                             <div class="sug-desc">إضافة خطوات ووثائق نقل الملكية في المرور</div>
                         </div>
-                        
+
                     </div>
 
                     <div class="suggestion-item">
@@ -497,7 +496,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-ghost" onclick="closePasswordModal()">إلغاء</button>
-                <button class="btn btn-primary" onclick="savePassword()"><svg class="ico" viewBox="0 0 24 24"
+                <button class="btn btn-primary" id="savePassBtn" onclick="savePassword()"><svg class="ico" viewBox="0 0 24 24"
                         fill="none">
                         <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z" />
                         <path d="M17 21v-8H7v8M7 3v5h8" />
