@@ -21,7 +21,7 @@ function handleOverlayClick(e) {
 
 function saveProfile() {
     closeModal();
-    showToast('<i class="fa-solid fa-circle-check"></i> تم حفظ التغييرات بنجاح!');
+    showToast('<svg class="ico" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg> تم حفظ التغييرات بنجاح!');
 }
 
 /* ===== PASSWORD MODAL ===== */

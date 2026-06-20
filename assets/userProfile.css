@@ -1,8 +1,8 @@
 :root {
-    --bg: #f5f5f7;
-    --surface: #FFFFFF;
-    --surface2: #f7f7f7;
-    --border: #eee;
+    --bg: #FFFFFF;
+    --surface: #F5F7FA;
+    --surface2: #EEF1F6;
+    --border: #D0D7E3;
     --accent: #DA523B;
     --accent2: #c54833;
     --accent3: #f07a55;
@@ -24,10 +24,21 @@
 
 body {
     font-family: 'Cairo', 'Tajawal', sans-serif;
-    background: var(#f5f5f7);
+    background: var(--bg);
     color: var(--text);
     min-height: 100vh;
     overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 40% at 80% 10%, rgba(218, 82, 59, .06) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 10% 80%, rgba(26, 46, 74, .04) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 /* NAVBAR */
@@ -333,6 +344,9 @@ body {
     cursor: pointer;
     border: none;
     transition: all .2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .btn-primary {
@@ -414,7 +428,6 @@ body {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 22px;
-    box-shadow: 0 2px 12px rgba(0,0,0,.06);
 }
 
 .card-title {
@@ -455,7 +468,6 @@ body {
     width: 34px;
     height: 34px;
     border-radius: 8px;
-    background: var(--surface2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -724,6 +736,9 @@ body {
     border-radius: 20px;
     font-size: .72rem;
     font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .badge-pending {
@@ -764,6 +779,10 @@ body {
     cursor: pointer;
     transition: all .2s;
     text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
 
 .tab.active {
@@ -921,6 +940,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 8px;
 }
 
 .modal-close {
@@ -995,6 +1015,9 @@ body {
     pointer-events: none;
     transition: opacity .3s, bottom .3s;
     z-index: 300;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .toast.show {
@@ -1128,15 +1151,65 @@ body {
     transition: width .3s, background .3s;
 }
 
+/* ============================================
+   ICONS — SVG color fix
+   كل الأيقونات في المشروع عبارة عن <svg class="ico">
+   مش <i>، فبنستهدف svg.ico مباشرة ونلوّن stroke
+   بدل color (لأن color مالوش تأثير على SVG paths)
+   ============================================ */
+svg.ico {
+    width: 18px;
+    height: 18px;
+    stroke: var(--navy);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    flex-shrink: 0;
+}
+
+/* أحجام مخصّصة حسب مكان الأيقونة */
+.stat-icon svg.ico {
+    width: 24px;
+    height: 24px;
+}
+
+.svc-ico svg.ico,
+.sug-ico svg.ico {
+    width: 20px;
+    height: 20px;
+}
+
+.info-ico svg.ico,
+.act-dot svg.ico,
+.notif-dot svg.ico {
+    width: 16px;
+    height: 16px;
+}
+
+.card-title span.icon svg.ico {
+    width: 16px;
+    height: 16px;
+}
+
+/* لون أبيض جوه الأزرار الملونة بالكامل (primary / login) */
+.btn-primary svg.ico,
+.login-btn svg.ico,
+.toast svg.ico {
+    stroke: #fff;
+}
+
+/* الأيقونة جوه التاب النشط بلون الـ accent */
+.tab.active svg.ico {
+    stroke: var(--accent);
+}
+
 /* ICONS COLOR */
 .icon,
 .info-ico,
 .svc-ico,
-.stat-icon,
-.post-meta i,
-.tab i,
-.btn i {
-    color: var(--navy) !important;
+.stat-icon {
+    color: var(--navy);
 }
 
 /* ANIMATIONS */
