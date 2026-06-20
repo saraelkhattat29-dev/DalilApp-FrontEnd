@@ -498,43 +498,62 @@ async function loadActivities() {
     }
 }
 
-/* خريطة نوع النشاط -> أيقونة SVG + كلاس اللون
-   لو ظهر نوع نشاط جديد مش موجود هنا، هيتاخد ليه شكل افتراضي تلقائيًا */
-const ACTIVITY_ICONS = {
-    Comment: {
-        dot: 'dot-blue',
-        svg: '<path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.4 8.5 8.5 0 0 1-4-1L3 20l1.1-5.5A8.4 8.4 0 0 1 21 11.5Z" />'
-    },
-    Like: {
-        dot: 'dot-red',
-        svg: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />'
+/* خريطة نوع النشاط -> أيقونة SVG + كلاس اللون + قالب النص بالعربي
+   act.description (الجاي من السيرفر) بيتحط مكان %s في القالب، لو مفيش قالب بيتعرض description زي ما هو.
+   لو ظهر نوع نشاط جديد مش موجود هنا، هيتاخد له شكل ونص افتراضي تلقائيًا. */
+const ACTIVITY_CONFIG = {
+    // إنشاء منشور جديد
+    CreatePost: {
+        dot: 'dot-green',
+        svg: '<path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />',
+        label: (act) => `نشرتِ منشورًا جديدًا${act.description ? `: «${act.description}»` : ''}`
     },
     Post: {
         dot: 'dot-green',
-        svg: '<path d="M19 21 12 17l-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16Z" />'
+        svg: '<path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />',
+        label: (act) => `نشرتِ منشورًا جديدًا${act.description ? `: «${act.description}»` : ''}`
     },
+    // تعليق على منشور
+    Comment: {
+        dot: 'dot-blue',
+        svg: '<path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.4 8.5 8.5 0 0 1-4-1L3 20l1.1-5.5A8.4 8.4 0 0 1 21 11.5Z" />',
+        label: (act) => `علّقتِ على منشور${act.description ? `: «${act.description}»` : ''}`
+    },
+    // إعجاب بمنشور
+    Like: {
+        dot: 'dot-red',
+        svg: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />',
+        label: (act) => `أعجبكِ منشور${act.description ? `: «${act.description}»` : ''}`
+    },
+    // اقتراح خدمة جديدة
     Suggestion: {
         dot: 'dot-gold',
-        svg: '<path d="M9 18h6" /><path d="M10 22h4" /><path d="M12 2a6 6 0 0 0-4 10.5c.6.5 1 1.3 1 2.1V16h6v-1.4c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 2Z" />'
+        svg: '<path d="M9 18h6" /><path d="M10 22h4" /><path d="M12 2a6 6 0 0 0-4 10.5c.6.5 1 1.3 1 2.1V16h6v-1.4c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 2Z" />',
+        label: (act) => `اقترحتِ خدمة جديدة${act.description ? `: «${act.description}»` : ''}`
     },
+    // الموافقة على اقتراح
     SuggestionApproved: {
         dot: 'dot-green',
-        svg: '<circle cx="12" cy="12" r="10" /><path d="m8.5 12.5 2.5 2.5 4.5-5" />'
+        svg: '<circle cx="12" cy="12" r="10" /><path d="m8.5 12.5 2.5 2.5 4.5-5" />',
+        label: (act) => `تمّت الموافقة على اقتراحكِ${act.description ? `: «${act.description}»` : ''}`
     },
+    // رد على تعليق
     Reply: {
         dot: 'dot-red',
-        svg: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />'
+        svg: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />',
+        label: (act) => `ردّ أحد الأعضاء على تعليقكِ${act.description ? `: «${act.description}»` : ''}`
     }
 };
 
-// شكل افتراضي لأي نوع نشاط مش معروف
-const DEFAULT_ACTIVITY_ICON = {
+// شكل ونص افتراضي لأي نوع نشاط مش معروف
+const DEFAULT_ACTIVITY_CONFIG = {
     dot: 'dot-blue',
-    svg: '<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" />'
+    svg: '<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" />',
+    label: (act) => act.description || 'نشاط جديد'
 };
 
-function getActivityIcon(activityType) {
-    return ACTIVITY_ICONS[activityType] || DEFAULT_ACTIVITY_ICON;
+function getActivityConfig(activityType) {
+    return ACTIVITY_CONFIG[activityType] || DEFAULT_ACTIVITY_CONFIG;
 }
 
 function renderActivities(activities) {
@@ -546,14 +565,15 @@ function renderActivities(activities) {
     }
 
     container.innerHTML = activities.map(act => {
-        const icon = getActivityIcon(act.activityType);
+        const config = getActivityConfig(act.activityType);
+        const labelText = config.label(act);
         return `
         <div class="activity-item">
-            <div class="act-dot ${icon.dot}"><svg class="ico" viewBox="0 0 24 24" fill="none">
-                    ${icon.svg}
+            <div class="act-dot ${config.dot}"><svg class="ico" viewBox="0 0 24 24" fill="none">
+                    ${config.svg}
                 </svg></div>
             <div class="act-text">
-                <div class="act-main">${escapeHtml(act.description)}</div>
+                <div class="act-main">${escapeHtml(labelText)}</div>
                 <div class="act-time">${timeAgo(act.createdAt)}</div>
             </div>
         </div>
