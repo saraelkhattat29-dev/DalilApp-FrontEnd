@@ -10,29 +10,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
-    <!-- Navbar -->
-    <header class="navbar">
-        <div class="container nav-content">
-            <a href="Index.html" class="logo">دليل</a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="Index.html">الرئيسية</a></li>
-                    <li><a href="#">الخدمات</a></li>
-                    <li><a href="community.html">المجتمع</a></li>
-                    <li><a href="#">تواصل معنا</a></li>
-                    <li><a href="aboutUs.html">عن دليل</a></li>
-                </ul>
-            </nav>
-            <a href="logIn.html" class="login-btn" id="auth-btn">تسجيل الدخول</a>
-            <div class="menu-toggle" id="menu-toggle">
-                ☰
-            </div>
-        </div>
-    </header>
+
     <div class="bg-grid"></div>
 
     <main class="page-wrapper">
@@ -105,7 +86,6 @@
                                 <polyline points="6 9 12 15 18 9" />
                             </svg>
                         </div>
-
                     </div>
 
                     <div class="field-wrap">
@@ -122,16 +102,14 @@
                                 <polyline points="6 9 12 15 18 9" />
                             </svg>
                         </div>
-
                     </div>
                 </div>
 
                 <div class="field-wrap full-width">
-                    <label class="field-label" for="description">وصف الخدمة <span class="required">*</span></label>
+                    <label class="field-label" for="description">وصف الخدمة</label>
                     <textarea class="field-input field-textarea transparent-area" id="description" name="description"
                         placeholder="اشرح بالتفصيل الخدمة المقترحة، ولماذا تعتقد أنها ضرورية، وكيف ستفيد المواطنين..."
-                        required rows="5"></textarea>
-
+                        rows="5"></textarea>
                 </div>
             </section>
 
@@ -145,51 +123,6 @@
                 <span class="divider-line"></span>
             </div>
 
-            <!-- Section 2: Submitter Info -->
-            <section class="form-section" data-section="2">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                            <circle cx="12" cy="7" r="4" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="section-title">بيانات مقدم الاقتراح</h2>
-                        <p class="section-desc">بياناتك الشخصية لمتابعة الاقتراح</p>
-                    </div>
-                </div>
-
-                <div class="fields-grid three-col">
-                    <div class="field-wrap">
-                        <label class="field-label" for="fullName">الاسم بالكامل <span class="required">*</span></label>
-                        <input class="field-input" type="text" id="fullName" name="fullName" placeholder="الاسم الرباعي"
-                            required />
-                        <span class="field-error">هذا الحقل مطلوب</span>
-                    </div>
-
-                    <div class="field-wrap">
-                        <label class="field-label" for="email">البريد الإلكتروني <span class="required">*</span></label>
-                        <input class="field-input ltr" type="email" id="email" name="email"
-                            placeholder="example@email.com" required />
-                        <span class="field-error">أدخل بريد إلكتروني صحيح</span>
-                    </div>
-
-
-
-                </div>
-            </section>
-
-            <div class="section-divider">
-                <span class="divider-line"></span>
-                <span class="divider-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="3" />
-                    </svg>
-                </span>
-                <span class="divider-line"></span>
-            </div>
 
             <!-- Section 3: Required Documents -->
             <section class="form-section" data-section="3">
@@ -226,20 +159,12 @@
                     </div>
                 </div>
 
-                <div class="field-wrap full-width">
-                    <label class="field-label" for="additionalNotes">ملاحظات إضافية</label>
-                    <textarea class="field-input field-textarea transparent-area" id="additionalNotes"
-                        name="additionalNotes" placeholder="أي معلومات إضافية أو ملاحظات تودّ إضافتها حول الاقتراح..."
-                        rows="3"></textarea>
-                </div>
+
             </section>
 
             <!-- Submit -->
             <div class="form-footer">
-
-
                 <div class="footer-actions">
-
                     <button type="submit" class="btn-submit" id="submitBtn">
                         <span class="btn-text">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -249,7 +174,6 @@
                             </svg>
                             إرسال الاقتراح
                         </span>
-
                     </button>
                 </div>
             </div>
@@ -266,108 +190,14 @@
                 </div>
                 <h3>تم إرسال اقتراحك بنجاح!</h3>
                 <p>شكراً لمساهمتك في تطوير الخدمات الحكومية. سيتم مراجعة اقتراحك والرد عليك قريباً.</p>
-                <div class="success-ref">رقم المرجع: <strong id="refNumber"></strong></div>
+
                 <button class="btn-new" onclick="newSuggestion()">تقديم اقتراح جديد</button>
             </div>
         </div>
-        <script src="assets/home.js"></script>
-</body>
 
-</html>
+    </main>
 
-</main>
-        <!-- FOOTER -->
-        <footer id="footer">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="logo">
-                        <div class="logo-icon">
-                            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="16" cy="16" r="14" stroke="#DA523B" stroke-width="2" />
-                                <path d="M16 8 L22 14 L16 20 L10 14 Z" stroke="#FFFFFF" stroke-width="1.5"
-                                    fill="none" />
-                                <circle cx="16" cy="16" r="3" fill="#DA523B" />
-                            </svg>
-                        </div>
-                        <div class="logo-text">دليل <span></span></div>
-                    </div>
-                    <div class="footer-address">
-                        <p class="address-name">بوابة الخدمات الحكومية</p>
-                        <p>كل المعلومات اللي محتاجها<br>قبل ما تنزل تخلص مصلحتك</p>
-                    </div>
-                    <div class="footer-contact-item">
-                        <div class="icon-wrap">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <circle cx="12" cy="12" r="10" />
-                                <polyline points="12 6 12 12 16 14" />
-                            </svg>
-                        </div>
-                        <div class="info">
-                            <strong>ساعات العمل</strong>
-                            <span>السبت – الخميس: 8:00 ص – 3:00 م</span>
-                        </div>
-                    </div>
-                    <div class="footer-contact-item">
-                        <div class="icon-wrap">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path
-                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.59 3.47 2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.27 6.27l.82-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-                            </svg>
-                        </div>
-                        <div class="info">
-                            <strong>الخط الساخن</strong>
-                            <span>16000</span>
-                        </div>
-                    </div>
-                    <div class="footer-contact-item">
-                        <div class="icon-wrap">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                                <polyline points="22,6 12,13 2,6" />
-                            </svg>
-                        </div>
-                        <div class="info">
-                            <strong>البريد الإلكتروني</strong>
-                            <span>info@daleel-maslaha.gov.eg</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>طلبات الخدمة</h4>
-                    <ul>
-                        <li><a href="#">استخراج بطاقة رقم قومي</a></li>
-                        <li><a href="#">تجديد جواز السفر</a></li>
-                        <li><a href="#">شهادة ميلاد</a></li>
-                        <li><a href="#">توثيق عقود الإيجار</a></li>
-                        <li><a href="#">تراخيص البناء</a></li>
-                        <li><a href="#">خدمات السجل التجاري</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>روابط مفيدة</h4>
-                    <ul>
-                        <li><a href="#">المجتمع والأسئلة</a></li>
-                        <li><a href="#">تاريخنا</a></li>
-                        <li><a href="#">التوثيق</a></li>
-                        <li><a href="#">اقتراح خدمة جديدة</a></li>
-                        <li><a href="#">معرض الصور</a></li>
-                        <li><a href="#">أقسام الموقع</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>© 2025 <span>دليل </span> — جميع الحقوق محفوظة</p>
-                <ul class="footer-bottom-links">
-                    <li><a href="#">سياسة الخصوصية</a></li>
-                    <li><a href="#">الشروط والأحكام</a></li>
-                    <li><a href="#">تواصل معنا</a></li>
-                </ul>
-            </div>
-        </footer>
-<script src="assets/suggestService.js"></script>
+    <script src="assets/suggestService.js"></script>
 </body>
 
 </html>
