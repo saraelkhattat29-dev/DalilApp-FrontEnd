@@ -1129,34 +1129,9 @@ body::before {
     margin-right: 6px;
 }
 
-/* PASSWORD */
-.pass-hint {
-    font-size: .75rem;
-    color: var(--muted);
-    margin-top: 4px;
-}
 
-.pass-strength {
-    height: 4px;
-    border-radius: 2px;
-    background: var(--surface2);
-    margin-top: 6px;
-    overflow: hidden;
-}
 
-.pass-strength-fill {
-    height: 100%;
-    border-radius: 2px;
-    background: var(--danger);
-    transition: width .3s, background .3s;
-}
 
-/* ============================================
-   ICONS — SVG color fix
-   كل الأيقونات في المشروع عبارة عن <svg class="ico">
-   مش <i>، فبنستهدف svg.ico مباشرة ونلوّن stroke
-   بدل color (لأن color مالوش تأثير على SVG paths)
-   ============================================ */
 svg.ico {
     width: 18px;
     height: 18px;
