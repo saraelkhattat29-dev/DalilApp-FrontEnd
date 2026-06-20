@@ -366,12 +366,15 @@ function escapeHtml(text) {
 }
 
 function timeAgo(dateString) {
-    const date = new Date(dateString);
+    let isoString = dateString;
+    if (typeof isoString === 'string' && !isoString.endsWith('Z') && !isoString.includes('+')) {
+        isoString += 'Z';
+    }
+    const date = new Date(isoString);
     const now = new Date();
     const diffMin = Math.floor((now - date) / 60000);
     const diffHr = Math.floor(diffMin / 60);
     const diffDay = Math.floor(diffHr / 24);
-
     if (diffMin < 1) return 'الآن';
     if (diffMin < 60) return `منذ ${diffMin} دقيقة`;
     if (diffHr < 24) return `منذ ${diffHr} ساعة`;
