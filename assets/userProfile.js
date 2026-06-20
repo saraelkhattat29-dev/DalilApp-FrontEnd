@@ -256,11 +256,39 @@ async function savePassword() {
     }
 }
 
-/* ===== NOTIFICATIONS ===== */
-function markAllRead() {
-    document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
-    document.getElementById('notifCount').style.display = 'none';
-    showToast('✓ تم تعليم كل الإشعارات كمقروءة');
+//* ===== NOTIFICATIONS ===== */
+async function markAllRead() {
+    const token = getToken();
+    if (!token) return;
+
+    try {
+        const res = await fetch(`${API_BASE_URL}/profile/notifications/mark-all-read`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (res.status === 401) {
+            localStorage.removeItem(TOKEN_KEY);
+            window.location.href = 'logIn.html';
+            return;
+        }
+
+        if (!res.ok) {
+            showToast('⚠️ تعذر تعليم الإشعارات كمقروءة');
+            return;
+        }
+
+        document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+        document.getElementById('notifCount').style.display = 'none';
+        showToast('✓ تم تعليم كل الإشعارات كمقروءة');
+
+    } catch (err) {
+        console.error('markAllRead error:', err);
+        showToast('⚠️ تعذر الاتصال بالسيرفر');
+    }
 }
 
 /* ===== TOAST ===== */
@@ -497,6 +525,103 @@ async function loadActivities() {
         showToast('⚠️ تعذر الاتصال بالسيرفر');
     }
 }
+/* ===== LOAD NOTIFICATIONS ===== */
+async function loadNotifications() {
+    const token = getToken();
+    if (!token) return;
+
+    try {
+        const res = await fetch(`${API_BASE_URL}/profile/notifications`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (res.status === 401) {
+            localStorage.removeItem(TOKEN_KEY);
+            window.location.href = 'logIn.html';
+            return;
+        }
+
+        if (!res.ok) {
+            showToast('⚠️ تعذر تحميل الإشعارات');
+            return;
+        }
+
+        const notifications = await res.json();
+        renderNotifications(notifications);
+
+    } catch (err) {
+        console.error('loadNotifications error:', err);
+        showToast('⚠️ تعذر الاتصال بالسيرفر');
+    }
+}
+
+/* خريطة نوع الإشعار -> أيقونة SVG + كلاس اللون + قالب النص بالعربي */
+const NOTIF_CONFIG = {
+    Comment: {
+        dot: 'dot-blue',
+        svg: '<path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.4 8.5 8.5 0 0 1-4-1L3 20l1.1-5.5A8.4 8.4 0 0 1 21 11.5Z" />',
+        label: (n) => `<strong>${escapeHtml(n.senderName)}</strong> علّق على منشورك`
+    },
+    Like: {
+        dot: 'dot-red',
+        svg: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />',
+        label: (n) => `<strong>${escapeHtml(n.senderName)}</strong> أعجبه منشورك`
+    },
+    Reply: {
+        dot: 'dot-gold',
+        svg: '<path d="m9 17-5-5 5-5" /><path d="M4 12h11a4 4 0 0 1 4 4v1" />',
+        label: (n) => `<strong>${escapeHtml(n.senderName)}</strong> ردّ على تعليقك`
+    }
+};
+
+const DEFAULT_NOTIF_CONFIG = {
+    dot: 'dot-blue',
+    svg: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />',
+    label: (n) => `<strong>${escapeHtml(n.senderName)}</strong> تفاعل مع نشاطك`
+};
+
+function getNotifConfig(type) {
+    return NOTIF_CONFIG[type] || DEFAULT_NOTIF_CONFIG;
+}
+
+function renderNotifications(notifications) {
+    const container = document.getElementById('notifList');
+    const countBadge = document.getElementById('notifCount');
+
+    if (!notifications || notifications.length === 0) {
+        container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px;">لا توجد إشعارات حتى الآن</p>';
+        countBadge.style.display = 'none';
+        return;
+    }
+
+    const unreadCount = notifications.filter(n => !n.isRead).length;
+    if (unreadCount > 0) {
+        countBadge.textContent = unreadCount;
+        countBadge.style.display = 'inline-flex';
+    } else {
+        countBadge.style.display = 'none';
+    }
+
+    container.innerHTML = notifications.map(n => {
+        const config = getNotifConfig(n.type);
+        const unreadClass = n.isRead ? '' : 'unread';
+        return `
+        <div class="notif-item ${unreadClass}" data-id="${n.id ?? ''}">
+            <div class="notif-dot ${config.dot}"><svg class="ico" viewBox="0 0 24 24" fill="none">
+                    ${config.svg}
+                </svg></div>
+            <div class="notif-text">
+                <div class="notif-main">${config.label(n)}</div>
+                <div class="notif-time">${timeAgo(n.createdAt)}</div>
+            </div>
+        </div>
+        `;
+    }).join('');
+}
 
 /* خريطة نوع النشاط -> أيقونة SVG + كلاس اللون + قالب النص بالعربي
    act.description (الجاي من السيرفر) بيتحط مكان %s في القالب، لو مفيش قالب بيتعرض description زي ما هو.
@@ -600,6 +725,7 @@ window.addEventListener('DOMContentLoaded', () => {
     loadMyPosts();
     loadMySuggestions();
     loadActivities();
+    loadNotifications();     
     bindCoreButtons();
     setTimeout(animateCounters, 400);
     setTimeout(animateProgress, 400);
