@@ -1,5 +1,5 @@
 /* ===== API CONFIG ===== */
-const API_BASE_URL = 'https://localhost:7080/api'; // 🔴 غيّري ده برابط الـ API بتاعك
+const API_BASE_URL = 'https://localhost:7162/api';
 const TOKEN_KEY = 'token'; // 🔴 المفتاح اللي متخزن بيه التوكن في localStorage
 
 function getToken() {
@@ -49,7 +49,7 @@ function renderProfile(data) {
     currentProfile = data;
     document.getElementById('heroName').textContent = data.fullName;
     document.getElementById('profileEmail').textContent = data.email;
-    document.getElementById('avatarRing').textContent = data.fullName ? data.fullName.charAt(0) : '?';
+    document.getElementById('avatarRing').textContent = data.fullName ? data.fullName.charAt(0).toUpperCase() : '?';
 }
 /* ===== TABS ===== */
 function switchTab(btn, id) {
