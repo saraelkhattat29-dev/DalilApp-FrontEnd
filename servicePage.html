@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تفاصيل الخدمة</title>
+    <link rel="stylesheet" href="servicePage.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+
+    <main class="page-wrapper">
+
+        <!-- Header -->
+        <header class="page-header">
+            <div class="header-inner">
+                <a href="#" class="back-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                    العودة إلى قائمة الخدمات
+                </a>
+                <h1 class="page-title" id="headerTitle">تجديد رخصة القيادة إلكترونياً</h1>
+            </div>
+            <div class="header-deco" aria-hidden="true">
+                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="80" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+                    <circle cx="100" cy="100" r="55" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+                    <circle cx="100" cy="100" r="30" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+                    <path d="M100 20 L180 100 L100 180 L20 100 Z" stroke="rgba(229,99,60,0.3)" stroke-width="1" />
+                </svg>
+            </div>
+        </header>
+
+        <!-- Summary Cards Grid -->
+        <div class="summary-grid">
+
+            <div class="sum-card">
+                <div class="sum-card-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 6h16M4 10h16M4 14h8" />
+                    </svg>
+                </div>
+                <div class="sum-card-body">
+                    <span class="sum-card-label">التصنيف</span>
+                    <span class="sum-card-val" id="sumCategory">المرور</span>
+                </div>
+            </div>
+
+            <div class="sum-card">
+                <div class="sum-card-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" />
+                        <line x1="8" y1="21" x2="16" y2="21" />
+                        <line x1="12" y1="17" x2="12" y2="21" />
+                    </svg>
+                </div>
+                <div class="sum-card-body">
+                    <span class="sum-card-label">نوع الخدمة</span>
+                    <span class="sum-card-val" id="sumType">أونلاين</span>
+                </div>
+            </div>
+
+            <div class="sum-card sum-card--accent">
+                <div class="sum-card-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 8v4l3 3" />
+                    </svg>
+                </div>
+                <div class="sum-card-body">
+                    <span class="sum-card-label">مدة التنفيذ</span>
+                    <span class="sum-card-val" id="sumDuration">٧ أيام عمل</span>
+                </div>
+            </div>
+
+            <div class="sum-card sum-card--fees">
+                <div class="sum-card-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23" />
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                </div>
+                <div class="sum-card-body">
+                    <span class="sum-card-label">الرسوم</span>
+                    <span class="sum-card-val fees-val" id="sumFees">١٥٠ جنيه</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Body Grid -->
+        <div class="content-grid">
+
+            <!-- Main column -->
+            <div class="main-col">
+
+                <!-- Description -->
+                <section class="card" id="descSection">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" />
+                                <line x1="8" y1="21" x2="16" y2="21" />
+                                <line x1="12" y1="17" x2="12" y2="21" />
+                            </svg>
+                        </div>
+                        <h2 class="card-title">وصف الخدمة</h2>
+                    </div>
+                    <p class="description-text" id="descText">
+                        تتيح هذه الخدمة للمواطنين تجديد رخصة القيادة الخاصة بهم عبر الإنترنت دون الحاجة للحضور الشخصي
+                        إلى مقار
+                        المرور، مما يوفر الوقت والجهد. يمكن تقديم الطلب في أي وقت ومن أي مكان، وسيتم توصيل الرخصة
+                        المجددة إلى
+                        العنوان المسجل خلال ٧ أيام عمل.
+                    </p>
+                </section>
+
+                <!-- Online URL -->
+                <section class="card card-url" id="urlSection">
+                    <div class="card-header">
+                        <div class="card-icon accent-green">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="2" y1="12" x2="22" y2="12" />
+                                <path
+                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                            </svg>
+                        </div>
+                        <h2 class="card-title">رابط الخدمة الإلكترونية</h2>
+                    </div>
+                    <div class="url-box">
+                        <a href="#" class="url-link" id="serviceUrl" target="_blank" rel="noopener">
+                            https://services.traffic.gov.eg/license/renew
+                        </a>
+                        <button class="copy-btn" id="copyBtn" title="نسخ الرابط">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" />
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                            </svg>
+                            <span class="copy-label">نسخ</span>
+                        </button>
+                    </div>
+                    <a href="#" class="btn-go" id="goBtn" target="_blank" rel="noopener">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13" />
+                            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                        </svg>
+                        الذهاب إلى الخدمة الآن
+                    </a>
+                </section>
+
+                <!-- Required Documents -->
+                <section class="card" id="docsSection">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                                <line x1="16" y1="13" x2="8" y2="13" />
+                                <line x1="16" y1="17" x2="8" y2="17" />
+                            </svg>
+                        </div>
+                        <h2 class="card-title">الأوراق والمستندات المطلوبة</h2>
+                    </div>
+                    <ul class="docs-list" id="docsList">
+                        <li class="doc-item">
+                            <svg class="doc-check" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            بطاقة الرقم القومي (سارية المفعول)
+                        </li>
+                        <li class="doc-item">
+                            <svg class="doc-check" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            رخصة القيادة الحالية
+                        </li>
+                        <li class="doc-item">
+                            <svg class="doc-check" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            شهادة اللياقة الطبية (لا تزيد عن ٣ أشهر)
+                        </li>
+                        <li class="doc-item">
+                            <svg class="doc-check" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            إيصال سداد رسوم التجديد
+                        </li>
+                        <li class="doc-item">
+                            <svg class="doc-check" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            صورة شخصية حديثة بخلفية بيضاء
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Steps -->
+                <section class="card" id="stepsSection">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="9 11 12 14 22 4" />
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                            </svg>
+                        </div>
+                        <h2 class="card-title">خطوات التنفيذ</h2>
+                    </div>
+                    <ol class="steps-list" id="stepsList">
+                        <li class="step-item">
+                            <div class="step-num">١</div>
+                            <div class="step-body">
+                                <strong>تسجيل الدخول</strong>
+                                <span>ادخل بالرقم القومي وكلمة المرور على بوابة المرور الإلكترونية.</span>
+                            </div>
+                        </li>
+                        <li class="step-item">
+                            <div class="step-num">٢</div>
+                            <div class="step-body">
+                                <strong>اختيار الخدمة</strong>
+                                <span>اختر «تجديد رخصة القيادة» من قائمة خدمات المرور.</span>
+                            </div>
+                        </li>
+                        <li class="step-item">
+                            <div class="step-num">٣</div>
+                            <div class="step-body">
+                                <strong>رفع المستندات</strong>
+                                <span>ارفع صورة من الرقم القومي وشهادة اللياقة الطبية الحديثة.</span>
+                            </div>
+                        </li>
+                        <li class="step-item">
+                            <div class="step-num">٤</div>
+                            <div class="step-body">
+                                <strong>سداد الرسوم</strong>
+                                <span>ادفع رسوم التجديد (١٥٠ جنيه) ببطاقة أو محفظة إلكترونية.</span>
+                            </div>
+                        </li>
+                        <li class="step-item">
+                            <div class="step-num">٥</div>
+                            <div class="step-body">
+                                <strong>استلام الرخصة</strong>
+                                <span>ستصلك الرخصة الجديدة خلال ٧ أيام عمل على عنوانك المسجل.</span>
+                            </div>
+                        </li>
+                    </ol>
+                </section>
+
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="side-col">
+                <div class="side-card" id="locationsCard">
+                    <h3 class="side-title">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        أماكن التنفيذ
+                    </h3>
+                    <ul class="locations-list" id="locationsList">
+                        <li class="location-item">
+                            <div class="loc-info">
+                                <strong>إدارة مرور القاهرة</strong>
+                                <span>شارع كورنيش النيل، ماسبيرو، القاهرة</span>
+                            </div>
+                            <a href="https://maps.google.com/?q=إدارة+مرور+القاهرة" target="_blank" rel="noopener"
+                                class="map-btn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z" />
+                                    <circle cx="12" cy="10" r="3" />
+                                </svg>
+                                خريطة
+                            </a>
+                        </li>
+                        <li class="location-item">
+                            <div class="loc-info">
+                                <strong>إدارة مرور الجيزة</strong>
+                                <span>شارع الهرم، الجيزة</span>
+                            </div>
+                            <a href="https://maps.google.com/?q=إدارة+مرور+الجيزة" target="_blank" rel="noopener"
+                                class="map-btn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z" />
+                                    <circle cx="12" cy="10" r="3" />
+                                </svg>
+                                خريطة
+                            </a>
+                        </li>
+                        <li class="location-item">
+                            <div class="loc-info">
+                                <strong>مركز خدمات الإسكندرية</strong>
+                                <span>شارع طريق الكورنيش، الإسكندرية</span>
+                            </div>
+                            <a href="https://maps.google.com/?q=مركز+خدمات+المرور+الإسكندرية" target="_blank"
+                                rel="noopener" class="map-btn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z" />
+                                    <circle cx="12" cy="10" r="3" />
+                                </svg>
+                                خريطة
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <script src="servicePage.js"></script>
+</body>
+
+</html>
