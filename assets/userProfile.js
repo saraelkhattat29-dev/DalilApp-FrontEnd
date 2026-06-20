@@ -503,15 +503,10 @@ async function loadActivities() {
    لو ظهر نوع نشاط جديد مش موجود هنا، هيتاخد له شكل ونص افتراضي تلقائيًا. */
 const ACTIVITY_CONFIG = {
     // إنشاء منشور جديد
-    CreatePost: {
-        dot: 'dot-green',
-        svg: '<path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />',
-        label: () => 'نزلت بوست جديد'
-    },
     Post: {
         dot: 'dot-green',
         svg: '<path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />',
-        label: () => 'شيرت بوست جديد'
+        label: () => 'نزلت بوست جديد'
     },
     // تعليق على منشور
     Comment: {
