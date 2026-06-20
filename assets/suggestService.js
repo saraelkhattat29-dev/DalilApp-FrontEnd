@@ -4,7 +4,7 @@
     /* ============================================
        ⚙️ إعدادات عامة - غيّر القيم دي حسب مشروعك
        ============================================ */
-    var API_BASE_URL = "https://localhost:7000/api"; // 👈 غيّر ده للـ base URL بتاع الباك إند عندك
+    var API_BASE_URL = "https://localhost:7162/api"; // 👈 غيّر ده للـ base URL بتاع الباك إند عندك
     var ENDPOINTS = {
         categories: API_BASE_URL + "/Categories",     // مطابق لـ [Route("api/[controller]")] في CategoriesController
         suggest: API_BASE_URL + "/Service/suggest"    // مطابق للـ [HttpPost("suggest")] في الكونترولر
