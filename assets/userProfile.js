@@ -40,7 +40,7 @@ async function loadProfile() {
         renderProfile(data);
 
     } catch (err) {
-        console.error(err);
+        console.error('loadProfile error:', err);
         showToast('⚠️ تعذر الاتصال بالسيرفر');
     }
 }
@@ -51,6 +51,7 @@ function renderProfile(data) {
     document.getElementById('profileEmail').textContent = data.email;
     document.getElementById('avatarRing').textContent = data.fullName ? data.fullName.charAt(0).toUpperCase() : '?';
 }
+
 /* ===== TABS ===== */
 function switchTab(btn, id) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -141,7 +142,7 @@ async function saveProfile() {
         showToast('<i class="fa-solid fa-circle-check"></i> تم حفظ التغييرات بنجاح!');
 
     } catch (err) {
-        console.error(err);
+        console.error('saveProfile error:', err);
         showToast('⚠️ تعذر الاتصال بالسيرفر');
 
     } finally {
@@ -181,7 +182,6 @@ function closePasswordModal() {
 function handlePasswordOverlayClick(e) {
     if (e.target === document.getElementById('passwordModal')) closePasswordModal();
 }
-
 
 async function savePassword() {
     const cur = document.getElementById('currentPass').value;
@@ -247,7 +247,7 @@ async function savePassword() {
         showToast('✓ تم تغيير كلمة المرور بنجاح!');
 
     } catch (err) {
-        console.error(err);
+        console.error('savePassword error:', err);
         showToast('⚠️ تعذر الاتصال بالسيرفر');
 
     } finally {
@@ -321,7 +321,7 @@ async function loadMyPosts() {
         renderPosts(posts);
 
     } catch (err) {
-        console.error(err);
+        console.error('loadMyPosts error:', err);
         showToast('⚠️ تعذر الاتصال بالسيرفر');
     }
 }
@@ -413,7 +413,7 @@ async function loadMySuggestions() {
         renderSuggestions(suggestions);
 
     } catch (err) {
-        console.error(err);
+        console.error('loadMySuggestions error:', err);
         showToast('⚠️ تعذر الاتصال بالسيرفر');
     }
 }
@@ -461,13 +461,39 @@ function getSuggestionBadge(status) {
             return { class: 'badge-rejected', text: '✕ مرفوضة' };
         default:
             return { class: 'badge-pending', text: 'قيد المراجعة' };
-    }}
+    }
+}
 
-    /* ===== INIT ===== */
-    window.addEventListener('DOMContentLoaded', () => {
-        loadProfile();
-        loadMyPosts();
-        loadMySuggestions();
-        setTimeout(animateCounters, 400);
-        setTimeout(animateProgress, 400);
+/* ===== BUTTON EVENT BINDING (احتياطي بجانب onclick في الـ HTML) =====
+   بيتأكد إن الأزرار شغالة حتى لو حصلت أي مشكلة في الـ inline onclick،
+   وبيطبع تحذير واضح في الـ Console لو عنصر أساسي ناقص من الصفحة. */
+function bindCoreButtons() {
+    const bindings = [
+        { id: 'editProfileBtn', handler: openModal },
+        { id: 'changePasswordBtn', handler: openPasswordModal },
+        { id: 'saveProfileBtn', handler: saveProfile },
+        { id: 'savePassBtn', handler: savePassword }
+    ];
+
+    bindings.forEach(({ id, handler }) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('click', handler);
+        } else {
+            // الزرار ده شغال أصلاً بالـ onclick في الـ HTML، فمفيش مشكلة لو معندوش id.
+            // التحذير ده بس لتسهيل التشخيص لو حابب تضيف id لاحقًا.
+            console.warn(`bindCoreButtons: لم يتم العثور على عنصر بالمعرف "${id}" (لا مشكلة إذا كان الزر يعتمد على onclick)`);
+        }
     });
+}
+
+/* ===== INIT ===== */
+window.addEventListener('DOMContentLoaded', () => {
+    console.log('userProfile.js: DOMContentLoaded - بدء التهيئة');
+    loadProfile();
+    loadMyPosts();
+    loadMySuggestions();
+    bindCoreButtons();
+    setTimeout(animateCounters, 400);
+    setTimeout(animateProgress, 400);
+});
