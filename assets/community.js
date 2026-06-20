@@ -32,7 +32,7 @@ function updateAuthBtn() {
     try {
         btn.outerHTML = `
     <div class="auth-actions" id="auth-btn">
-        <a href="profile.html" class="user-icon-btn" title="الملف الشخصي">
+        <a href="userProfile.html" class="user-icon-btn" title="الملف الشخصي">
             <i class="fa-regular fa-user"></i>
         </a>
         <button class="logout-btn" onclick="logout()" title="تسجيل الخروج">
