@@ -183,17 +183,77 @@ function handlePasswordOverlayClick(e) {
 }
 
 
-function savePassword() {
+async function savePassword() {
     const cur = document.getElementById('currentPass').value;
     const nw = document.getElementById('newPass').value;
     const con = document.getElementById('confirmPass').value;
 
+    // ===== Front-end Validation =====
     if (!cur || !nw || !con) { showToast('⚠️ يرجى ملء جميع الحقول'); return; }
-    if (nw !== con) { showToast('كلمة المرور الجديدة غير متطابقة'); return; }
+    if (nw !== con) { showToast('⚠️ كلمة المرور الجديدة غير متطابقة'); return; }
     if (nw.length < 8) { showToast('⚠️ كلمة المرور يجب أن تكون 8 أحرف على الأقل'); return; }
 
-    closePasswordModal();
-    showToast('✓ تم تغيير كلمة المرور بنجاح!');
+    const token = getToken();
+    if (!token) {
+        window.location.href = 'logIn.html';
+        return;
+    }
+
+    // ===== Loading State =====
+    const saveBtn = document.getElementById('savePassBtn');
+    const originalHTML = saveBtn.innerHTML;
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'جاري الحفظ...';
+
+    try {
+        const res = await fetch(`${API_BASE_URL}/profile/change-password`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                CurrentPassword: cur,
+                NewPassword: nw,
+                ConfirmPassword: con
+            })
+        });
+
+        if (res.status === 401) {
+            localStorage.removeItem(TOKEN_KEY);
+            window.location.href = 'logIn.html';
+            return;
+        }
+
+        if (!res.ok) {
+            let msg = 'حصل خطأ أثناء تغيير كلمة المرور';
+            try {
+                const errData = await res.json();
+                if (typeof errData === 'string') {
+                    msg = errData === 'Current password is wrong'
+                        ? 'كلمة المرور الحالية غير صحيحة'
+                        : errData;
+                } else if (errData?.message) {
+                    msg = errData.message;
+                } else if (errData?.title) {
+                    msg = errData.title;
+                }
+            } catch { }
+            showToast('⚠️ ' + msg);
+            return;
+        }
+
+        closePasswordModal();
+        showToast('✓ تم تغيير كلمة المرور بنجاح!');
+
+    } catch (err) {
+        console.error(err);
+        showToast('⚠️ تعذر الاتصال بالسيرفر');
+
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = originalHTML;
+    }
 }
 
 /* ===== NOTIFICATIONS ===== */
