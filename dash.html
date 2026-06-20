@@ -141,6 +141,8 @@
       </div>
       <div class="form-card">
         <div class="form-grid" style="margin-bottom:18px">
+
+          <!-- الحقول الأساسية -->
           <div class="form-group">
             <label><i class="fa-solid fa-file-signature"></i> اسم الخدمة *</label>
             <input type="text" placeholder="مثال: استخراج رخصة قيادة" id="svc-name">
@@ -169,6 +171,53 @@
             <label><i class="fa-solid fa-link"></i> رابط الخدمة الإلكترونية</label>
             <input type="url" placeholder="https://..." id="svc-url">
           </div>
+
+          <!-- مكان التنفيذ -->
+          <div class="form-group form-full">
+            <label><i class="fa-solid fa-location-dot"></i> مكان التنفيذ</label>
+            <div class="location-input-wrap">
+              <div class="form-grid" style="margin-bottom:8px">
+                <input
+                  type="text"
+                  id="svc-location-name"
+                  placeholder="مثال: مديرية الأحوال المدنية"
+                  oninput="updateLocationPreview()"
+                  style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%"
+                  onfocus="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 3px rgba(218,82,59,0.1)'"
+                  onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+                <input
+                  type="text"
+                  id="svc-location-address"
+                  placeholder="مثال: شارع الجمهورية، أسيوط"
+                  oninput="updateLocationPreview()"
+                  style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%"
+                  onfocus="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 3px rgba(218,82,59,0.1)'"
+                  onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+              </div>
+              <!-- معاينة زرار المابس -->
+              <div class="location-preview" id="location-preview">
+                <i class="fa-solid fa-location-dot"></i>
+                <span id="location-preview-text"></span>
+                <a href="#" id="location-preview-link" target="_blank" class="maps-btn-preview">
+                  <i class="fa-solid fa-map-location-dot"></i> معاينة على الخريطة
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- خطوات التنفيذ -->
+          <div class="form-group form-full">
+            <label><i class="fa-solid fa-list-ol"></i> خطوات التنفيذ</label>
+            <div class="steps-input-list" id="steps-input-list">
+              <div class="step-input-row">
+                <span class="step-num-badge">1</span>
+                <input type="text" placeholder="مثال: الدخول على الموقع الإلكتروني" class="step-input">
+                <button class="doc-add-btn" onclick="addStepField()"><i class="fa-solid fa-plus"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- الأوراق المطلوبة -->
           <div class="form-group form-full">
             <label><i class="fa-regular fa-file-lines"></i> الأوراق المطلوبة</label>
             <div class="docs-input-list" id="docs-input-list">
@@ -178,6 +227,7 @@
               </div>
             </div>
           </div>
+
         </div>
         <div class="form-actions">
           <button class="btn btn-primary" id="btn-add-service" onclick="addService()">
@@ -239,8 +289,8 @@
             <div class="suggestion-name">تجديد رخصة القيادة إلكترونياً</div>
             <div class="suggestion-meta">
               <span><i class="fa-solid fa-user"></i> أحمد محمود سعيد</span>
-              <span><i class="fa-regular fa-calendar"></i> 2 مايو 2026</span>
-              <span class="badge badge-gold">جديد</span>
+             
+              
             </div>
           </div>
           <div class="suggestion-actions">
@@ -254,8 +304,8 @@
             <div class="suggestion-name">حجز المواعيد الطبية بالمستشفيات الحكومية</div>
             <div class="suggestion-meta">
               <span><i class="fa-solid fa-user"></i> منى إبراهيم عبدالله</span>
-              <span><i class="fa-regular fa-calendar"></i> 1 مايو 2026</span>
-              <span class="badge badge-gold">جديد</span>
+           
+             
             </div>
           </div>
           <div class="suggestion-actions">
@@ -269,8 +319,8 @@
             <div class="suggestion-name">استخراج صحيفة الحالة الجنائية أونلاين</div>
             <div class="suggestion-meta">
               <span><i class="fa-solid fa-user"></i> محمد علي حسن</span>
-              <span><i class="fa-regular fa-calendar"></i> 29 أبريل 2026</span>
-              <span class="badge badge-navy">قيد المراجعة</span>
+            
+              
             </div>
           </div>
           <div class="suggestion-actions">
@@ -284,8 +334,8 @@
             <div class="suggestion-name">دفع الغرامات المرورية عبر التطبيق</div>
             <div class="suggestion-meta">
               <span><i class="fa-solid fa-user"></i> سارة خالد محمود</span>
-              <span><i class="fa-regular fa-calendar"></i> 27 أبريل 2026</span>
-              <span class="badge badge-gold">جديد</span>
+             
+              
             </div>
           </div>
           <div class="suggestion-actions">

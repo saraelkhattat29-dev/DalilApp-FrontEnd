@@ -9,11 +9,71 @@ let categoriesData = [
 ];
 
 let servicesData = [
-    { id: 1, name: 'استخراج بطاقة الرقم القومي', category: 'الأحوال المدنية', fees: '25 جنيه', type: 'اونلاين', duration: '3 أيام عمل', docs: ['بطاقة الرقم القومي القديمة', 'صورة شخصية'], url: '' },
-    { id: 2, name: 'تجديد جواز السفر', category: 'الجوازات', fees: '250 جنيه', type: 'اونلاين', duration: '7 أيام عمل', docs: ['جواز السفر القديم', 'بطاقة الرقم القومي', 'صور شخصية'], url: '' },
-    { id: 3, name: 'التسجيل في المدارس الحكومية', category: 'التعليم', fees: 'مجاناً', type: 'اونلاين', duration: 'فوري', docs: ['شهادة الميلاد', 'بطاقة ولي الأمر'], url: '' },
-    { id: 4, name: 'استخراج شهادة الميلاد', category: 'الأحوال المدنية', fees: '15 جنيه', type: 'اوفلاين', duration: 'فوري', docs: ['إشعار الولادة من المستشفى', 'بطاقة الأب'], url: '' },
-    { id: 5, name: 'سداد فواتير الكهرباء', category: 'المرافق', fees: 'مجاناً', type: 'اونلاين', duration: 'فوري', docs: ['رقم العداد', 'وسيلة دفع إلكترونية'], url: '' }
+    {
+        id: 1,
+        name: 'استخراج بطاقة الرقم القومي',
+        category: 'الأحوال المدنية',
+        fees: '25 جنيه',
+        type: 'اونلاين',
+        duration: '3 أيام عمل',
+        docs: ['بطاقة الرقم القومي القديمة', 'صورة شخصية'],
+        url: '',
+        steps: ['تسجيل الدخول على بوابة مصر الرقمية', 'اختيار خدمة استخراج البطاقة', 'رفع المستندات المطلوبة', 'سداد الرسوم إلكترونياً', 'استلام البطاقة بالبريد أو من مكتب السجل المدني'],
+        locationName: 'مديرية الأحوال المدنية',
+        locationAddress: 'شارع الجمهورية، أسيوط'
+    },
+    {
+        id: 2,
+        name: 'تجديد جواز السفر',
+        category: 'الجوازات',
+        fees: '250 جنيه',
+        type: 'اونلاين',
+        duration: '7 أيام عمل',
+        docs: ['جواز السفر القديم', 'بطاقة الرقم القومي', 'صور شخصية'],
+        url: '',
+        steps: ['تحديد موعد عبر موقع الجوازات', 'تجهيز المستندات المطلوبة', 'الحضور في الموعد المحدد', 'سداد الرسوم', 'استلام الجواز خلال المدة المحددة'],
+        locationName: 'مصلحة الجوازات والهجرة والجنسية',
+        locationAddress: 'شارع الستين، أسيوط'
+    },
+    {
+        id: 3,
+        name: 'التسجيل في المدارس الحكومية',
+        category: 'التعليم',
+        fees: 'مجاناً',
+        type: 'اونلاين',
+        duration: 'فوري',
+        docs: ['شهادة الميلاد', 'بطاقة ولي الأمر'],
+        url: '',
+        steps: ['الدخول على بوابة التعليم الإلكترونية', 'اختيار المرحلة الدراسية', 'تحديد المدرسة المناسبة', 'رفع المستندات', 'تأكيد التسجيل واستلام الرقم المرجعي'],
+        locationName: '',
+        locationAddress: ''
+    },
+    {
+        id: 4,
+        name: 'استخراج شهادة الميلاد',
+        category: 'الأحوال المدنية',
+        fees: '15 جنيه',
+        type: 'اوفلاين',
+        duration: 'فوري',
+        docs: ['إشعار الولادة من المستشفى', 'بطاقة الأب'],
+        url: '',
+        steps: ['التوجه لمكتب السجل المدني المختص', 'تقديم إشعار الولادة وبطاقة الأب', 'سداد الرسوم المقررة', 'استلام شهادة الميلاد فوراً'],
+        locationName: 'مكتب السجل المدني',
+        locationAddress: 'شارع طلعت حرب، أسيوط'
+    },
+    {
+        id: 5,
+        name: 'سداد فواتير الكهرباء',
+        category: 'المرافق',
+        fees: 'مجاناً',
+        type: 'اونلاين',
+        duration: 'فوري',
+        docs: ['رقم العداد', 'وسيلة دفع إلكترونية'],
+        url: '',
+        steps: ['الدخول على تطبيق أو موقع الشركة', 'إدخال رقم العداد', 'مراجعة الفاتورة', 'اختيار وسيلة الدفع', 'تأكيد العملية واستلام الإيصال'],
+        locationName: '',
+        locationAddress: ''
+    }
 ];
 
 const suggestions = [
@@ -27,6 +87,12 @@ let editingCatId = null;
 let editingServiceId = null;
 let pendingDeleteId = null;
 let pendingDeleteType = null;
+
+// ===== GOOGLE MAPS URL BUILDER =====
+function buildMapsUrl(name, address) {
+    const query = [name, address].filter(Boolean).join('، ');
+    return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
+}
 
 // ===== SIDEBAR =====
 function toggleSidebar() {
@@ -284,7 +350,11 @@ function editService(id) {
     document.getElementById('svc-fees').value = s.fees;
     document.getElementById('svc-duration').value = s.duration;
     document.getElementById('svc-url').value = s.url;
+    document.getElementById('svc-location-name').value = s.locationName || '';
+    document.getElementById('svc-location-address').value = s.locationAddress || '';
+    updateLocationPreview();
     setDocsInForm(s.docs || []);
+    setStepsInForm(s.steps || []);
     document.querySelector('#section-add-service .section-header h2').textContent = 'تعديل الخدمة';
     document.querySelector('#section-add-service .section-header p').textContent = 'قم بتعديل بيانات الخدمة ثم اضغط حفظ';
     document.getElementById('btn-add-service').style.display = 'none';
@@ -305,7 +375,10 @@ function addService() {
         fees: document.getElementById('svc-fees').value || 'مجاناً',
         duration: document.getElementById('svc-duration').value || '',
         url: document.getElementById('svc-url').value || '',
-        docs: getDocsFromForm()
+        docs: getDocsFromForm(),
+        steps: getStepsFromForm(),
+        locationName: document.getElementById('svc-location-name').value.trim(),
+        locationAddress: document.getElementById('svc-location-address').value.trim()
     });
     showToast('success', `<i class="fa-solid fa-circle-check"></i> تمت إضافة "${name}" بنجاح!`);
     clearForm();
@@ -325,6 +398,9 @@ function saveService() {
         s.duration = document.getElementById('svc-duration').value || s.duration;
         s.url = document.getElementById('svc-url').value;
         s.docs = getDocsFromForm();
+        s.steps = getStepsFromForm();
+        s.locationName = document.getElementById('svc-location-name').value.trim();
+        s.locationAddress = document.getElementById('svc-location-address').value.trim();
     }
     showToast('success', `<i class="fa-solid fa-circle-check"></i> تم حفظ تعديلات "${name}" بنجاح!`);
     clearForm();
@@ -333,12 +409,14 @@ function saveService() {
 }
 
 function clearForm() {
-    ['svc-name', 'svc-fees', 'svc-duration', 'svc-url'].forEach(id => {
+    ['svc-name', 'svc-fees', 'svc-duration', 'svc-url', 'svc-location-name', 'svc-location-address'].forEach(id => {
         const el = document.getElementById(id); if (el) el.value = '';
     });
     const t = document.getElementById('svc-type'); if (t) t.selectedIndex = 0;
     refreshCatSelect();
     setDocsInForm([]);
+    setStepsInForm([]);
+    updateLocationPreview();
     editingServiceId = null;
     document.querySelector('#section-add-service .section-header h2').textContent = 'إضافة خدمة جديدة';
     document.querySelector('#section-add-service .section-header p').textContent = 'أدخل بيانات الخدمة الحكومية الجديدة';
@@ -417,6 +495,79 @@ function setDocsInForm(arr) {
     });
 }
 
+// ===== STEPS HELPERS =====
+function addStepField(value = '') {
+    const list = document.getElementById('steps-input-list');
+    const rows = list.querySelectorAll('.step-input-row');
+    const num = rows.length + 1;
+    const row = document.createElement('div');
+    row.className = 'step-input-row';
+    row.innerHTML = `
+    <span class="step-num-badge">${num}</span>
+    <input type="text" placeholder="مثال: تسجيل الدخول على البوابة الإلكترونية" class="step-input" value="${value}">
+    <button class="doc-remove-btn" onclick="removeStepField(this)"><i class="fa-solid fa-minus"></i></button>`;
+    list.appendChild(row);
+    updateStepNumbers();
+}
+
+function removeStepField(btn) {
+    const list = document.getElementById('steps-input-list');
+    if (list.querySelectorAll('.step-input-row').length > 1) {
+        btn.closest('.step-input-row').remove();
+        updateStepNumbers();
+    }
+}
+
+function updateStepNumbers() {
+    document.querySelectorAll('#steps-input-list .step-num-badge').forEach((badge, i) => {
+        badge.textContent = i + 1;
+    });
+}
+
+function getStepsFromForm() {
+    return Array.from(document.querySelectorAll('.step-input'))
+        .map(i => i.value.trim()).filter(v => v !== '');
+}
+
+function setStepsInForm(arr) {
+    const list = document.getElementById('steps-input-list');
+    list.innerHTML = '';
+    (arr && arr.length ? arr : ['']).forEach((step, i) => {
+        const row = document.createElement('div');
+        row.className = 'step-input-row';
+        if (i === 0) {
+            row.innerHTML = `
+        <span class="step-num-badge">1</span>
+        <input type="text" placeholder="مثال: الدخول على الموقع الإلكتروني" class="step-input" value="${step}">
+        <button class="doc-add-btn" onclick="addStepField()"><i class="fa-solid fa-plus"></i></button>`;
+        } else {
+            row.innerHTML = `
+        <span class="step-num-badge">${i + 1}</span>
+        <input type="text" placeholder="مثال: رفع المستندات المطلوبة" class="step-input" value="${step}">
+        <button class="doc-remove-btn" onclick="removeStepField(this)"><i class="fa-solid fa-minus"></i></button>`;
+        }
+        list.appendChild(row);
+    });
+}
+
+// ===== LOCATION PREVIEW =====
+function updateLocationPreview() {
+    const name = document.getElementById('svc-location-name').value.trim();
+    const address = document.getElementById('svc-location-address').value.trim();
+    const preview = document.getElementById('location-preview');
+    const previewText = document.getElementById('location-preview-text');
+    const previewLink = document.getElementById('location-preview-link');
+
+    if (name || address) {
+        const label = [name, address].filter(Boolean).join(' — ');
+        previewText.textContent = label;
+        previewLink.href = buildMapsUrl(name, address);
+        preview.classList.add('show');
+    } else {
+        preview.classList.remove('show');
+    }
+}
+
 // ===== SUGGESTIONS MODAL =====
 function openModal(idx) {
     const s = suggestions[idx];
@@ -454,14 +605,7 @@ function openModal(idx) {
           <div class="detail-label">الاسم</div>
           <div class="detail-value">${s.submitter}</div>
         </div>
-        <div class="detail-item">
-          <div class="detail-label">تاريخ الاقتراح</div>
-          <div class="detail-value">${s.date}</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-label">الحالة</div>
-          <div class="detail-value"><span class="badge ${statusClass}">${s.status}</span></div>
-        </div>
+       
       </div>
     </div>
     <div class="modal-section">
@@ -472,7 +616,6 @@ function openModal(idx) {
   <button class="btn btn-danger" onclick="rejectSuggestion(${idx})">
     <i class="fa-solid fa-xmark"></i> رفض
   </button>
-
   <button class="btn btn-success" onclick="editSuggestion(${idx})">
     <i class="fa-solid fa-pen"></i> تعديل والموافقة
   </button>
@@ -507,6 +650,7 @@ function editSuggestion(idx) {
     document.getElementById('svc-cat').value = s.category;
     document.getElementById('svc-type').value = s.type;
     setDocsInForm(s.docs || []);
+    setStepsInForm([]);
     showSection('add-service', document.querySelectorAll('.nav-item')[2]);
     showToast('edit', '<i class="fa-solid fa-pen"></i> تم نقل بيانات الاقتراح لنموذج الإضافة');
 }
