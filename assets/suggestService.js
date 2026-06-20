@@ -6,7 +6,7 @@
        ============================================ */
     var API_BASE_URL = "https://localhost:7000/api"; // 👈 غيّر ده للـ base URL بتاع الباك إند عندك
     var ENDPOINTS = {
-        categories: API_BASE_URL + "/Category",      // 👈 غيّر المسار لو endpoint الكاتيجوريز عندك مختلف
+        categories: API_BASE_URL + "/Categories",     // مطابق لـ [Route("api/[controller]")] في CategoriesController
         suggest: API_BASE_URL + "/Service/suggest"    // مطابق للـ [HttpPost("suggest")] في الكونترولر
     };
     var TOKEN_KEY = "token"; // 👈 غيّر ده لو اسم الـ key في localStorage مختلف (مثلاً "authToken")
@@ -303,7 +303,7 @@
     };
 
     /* ============================================
-    🚀 تحميل أولي
+       🚀 تحميل أولي
        ============================================ */
     loadCategories();
     updateAuthBtn();
