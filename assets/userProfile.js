@@ -506,12 +506,12 @@ const ACTIVITY_CONFIG = {
     CreatePost: {
         dot: 'dot-green',
         svg: '<path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />',
-        label: (act) => `نشرتِ منشورًا جديدًا${act.description ? `: «${act.description}»` : ''}`
+        label: () => `نشرتِ منشورًا جديدًا`
     },
     Post: {
         dot: 'dot-green',
         svg: '<path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />',
-        label: (act) => `نشرتِ منشورًا جديدًا${act.description ? `: «${act.description}»` : ''}`
+        label: () => `نشرتِ منشورًا جديدًا`
     },
     // تعليق على منشور
     Comment: {
