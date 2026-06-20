@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>دليل – الملف الشخصي</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- ملف الستايل الخارجي -->
+    <link rel="stylesheet" href="assets/userProfile.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-content">
+            <a href="Index.html" class="nav-logo">دليل</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="Index.html">الرئيسية</a></li>
+                    <li><a href="#">الخدمات</a></li>
+                    <li><a href="#">الجهات</a></li>
+                    <li><a href="#">المجتمع</a></li>
+                    <li><a href="#">تواصل معنا</a></li>
+                    <li><a href="#" class="active">عن دليل</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="login-btn">تسجيل الدخول</a>
+            <div class="menu-toggle" id="menu-toggle">☰</div>
+        </div>
+    </header>
+
+    <!-- PAGE -->
+    <div class="page">
+
+        <!-- PAGE HEADER -->
+        <header class="page-header">
+            <div class="header-inner">
+                <div class="header-badge">
+                    <span class="badge-dot"></span>
+                    بوابة الخدمات الحكومية
+                </div>
+                <h1 class="page-title">الملف الشخصي</h1>
+                <p class="page-subtitle">بياناتك، نشاطك، ومساهماتك في مكان واحد</p>
+            </div>
+            <div class="header-deco">
+                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="80" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+                    <circle cx="100" cy="100" r="55" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+                    <circle cx="100" cy="100" r="30" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+                    <path d="M100 20 L180 100 L100 180 L20 100 Z" stroke="rgba(240,122,85,0.3)" stroke-width="1" />
+                </svg>
+            </div>
+        </header>
+
+        <!-- PROFILE ROW -->
+        <div class="profile-row">
+            <div class="avatar-wrap">
+                <div class="avatar-ring">أ</div>
+                <div class="online-dot"></div>
+            </div>
+            <div class="hero-info">
+                <div class="hero-name">أحمد محمد السيد</div>
+                <div class="hero-tags"></div>
+            </div>
+            <div class="hero-actions">
+                <button class="btn btn-ghost" onclick="openModal()"><i class="fa-solid fa-pen"></i> تعديل الملف</button>
+                <button class="btn btn-primary" onclick="openPasswordModal()"><i class="fa-solid fa-lock"></i> تغيير
+                    كلمة المرور</button>
+            </div>
+        </div>
+
+        <!-- MAIN GRID -->
+        <div class="grid-2">
+
+            <!-- LEFT COL -->
+            <div style="display:flex;flex-direction:column;gap:20px;">
+
+                <!-- PERSONAL INFO -->
+                <div class="card">
+                    <div class="card-title">
+                        <span class="icon"><i class="fa-solid fa-user"></i></span> البيانات الشخصية
+                    </div>
+                    <div class="info-list">
+                        <div class="info-row">
+                            <div class="info-ico"><i class="fa-solid fa-envelope"></i></div>
+                            <div>
+                                <div class="info-key">البريد الإلكتروني</div>
+                                <div class="info-val">ahmed@example.com</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NOTIFICATIONS -->
+                <div class="card">
+                    <div class="notif-header">
+                        <div class="card-title" style="margin-bottom:0;">
+                            <span class="icon"><i class="fa-solid fa-bell"></i></span> الإشعارات
+                            <span class="notif-badge" id="notifCount">3</span>
+                        </div>
+                        <button class="notif-mark-all" onclick="markAllRead()">تعليم الكل كمقروء</button>
+                    </div>
+                    <div class="notif-list" id="notifList">
+
+                        <div class="notif-item unread">
+                            <div class="notif-dot dot-blue"><i class="fa-solid fa-comment"></i></div>
+                            <div class="notif-text">
+                                <div class="notif-main"><strong>محمد علي</strong> علّق على منشورك «تجديد بطاقة الرقم
+                                    القومي»</div>
+                                <div class="notif-time">منذ 10 دقائق</div>
+                            </div>
+                        </div>
+
+                        <div class="notif-item unread">
+                            <div class="notif-dot dot-green"><i class="fa-solid fa-thumbs-up"></i></div>
+                            <div class="notif-text">
+                                <div class="notif-main"><strong>سارة أحمد</strong> أعجبها تعليقك في «رخصة القيادة»</div>
+                                <div class="notif-time">منذ ساعة</div>
+                            </div>
+                        </div>
+
+                        <div class="notif-item unread">
+                            <div class="notif-dot dot-gold"><i class="fa-solid fa-reply"></i></div>
+                            <div class="notif-text">
+                                <div class="notif-main"><strong>خالد رضا</strong> ردّ على تعليقك في
+                                    <strong>«المجتمع»</strong></div>
+                                <div class="notif-time">منذ 3 ساعات</div>
+                            </div>
+                        </div>
+
+                        <div class="notif-item">
+                            <div class="notif-dot dot-blue"><i class="fa-solid fa-comment"></i></div>
+                            <div class="notif-text">
+                                <div class="notif-main"><strong>نورا حسن</strong> علّقت على منشورك «نصيحة: وثّق عقد
+                                    إيجارك»</div>
+                                <div class="notif-time">منذ يوم</div>
+                            </div>
+                        </div>
+
+                        <div class="notif-item">
+                            <div class="notif-dot dot-red"><i class="fa-solid fa-heart"></i></div>
+                            <div class="notif-text">
+                                <div class="notif-main"><strong>5 أشخاص</strong> أعجبهم منشورك الأخير</div>
+                                <div class="notif-time">منذ يومين</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COL -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon"><i class="fa-solid fa-bolt"></i></span> آخر النشاطات
+                </div>
+                <div class="activity-list">
+
+                    <div class="activity-item">
+                        <div class="act-dot dot-blue"><i class="fa-solid fa-comment"></i></div>
+                        <div class="act-text">
+                            <div class="act-main">علّقت على منشور <strong>«تجديد بطاقة الرقم القومي»</strong></div>
+                            <div class="act-time">منذ ساعتين</div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="act-dot dot-green"><i class="fa-solid fa-bookmark"></i></div>
+                        <div class="act-text">
+                            <div class="act-main">حفظت خدمة <strong>«استخراج شهادة الميلاد»</strong></div>
+                            <div class="act-time">منذ 5 ساعات</div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="act-dot dot-gold"><i class="fa-solid fa-lightbulb"></i></div>
+                        <div class="act-text">
+                            <div class="act-main">اقترحت خدمة <strong>«تحديث السجل التجاري»</strong></div>
+                            <div class="act-time">البارحة</div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="act-dot dot-blue"><i class="fa-solid fa-thumbs-up"></i></div>
+                        <div class="act-text">
+                            <div class="act-main">أعجبك تعليق على <strong>«تجديد رخصة القيادة»</strong></div>
+                            <div class="act-time">منذ يومين</div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="act-dot dot-green"><i class="fa-solid fa-circle-check"></i></div>
+                        <div class="act-text">
+                            <div class="act-main">تمّت الموافقة على اقتراحك <strong>«نقل ملكية سيارة»</strong></div>
+                            <div class="act-time">منذ 3 أيام</div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="act-dot dot-blue"><i class="fa-solid fa-comment"></i></div>
+                        <div class="act-text">
+                            <div class="act-main">علّقت على <strong>«خطوات استخراج جواز السفر»</strong></div>
+                            <div class="act-time">منذ 4 أيام</div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="act-dot dot-red"><i class="fa-solid fa-bell"></i></div>
+                        <div class="act-text">
+                            <div class="act-main">ردّ أحد الأعضاء على تعليقك في <strong>المجتمع</strong></div>
+                            <div class="act-time">منذ أسبوع</div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="act-dot dot-gold"><i class="fa-solid fa-star"></i></div>
+                        <div class="act-text">
+                            <div class="act-main">وصلت لمستوى <strong>«مساهم نشيط»</strong></div>
+                            <div class="act-time">منذ أسبوع</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TABS SECTION -->
+        <div class="section-header">
+            <div class="section-title">المحتوى والخدمات</div>
+        </div>
+
+        <div class="card" style="animation: fadeUp .5s .25s ease both;">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab(this,'posts')"><i class="fa-solid fa-comment"></i>
+                    منشوراتي</button>
+                <button class="tab" onclick="switchTab(this,'suggestions')"><i class="fa-solid fa-lightbulb"></i>
+                    اقتراحاتي</button>
+            </div>
+
+            <!-- MY POSTS -->
+            <div id="tab-posts" class="tab-content active">
+                <div class="posts-list">
+
+                    <div class="post-card">
+                        <div class="post-head">
+                            <div class="post-title">تجديد بطاقة الرقم القومي – تجربتي كاملة</div>
+                            <div class="post-date">منذ 3 أيام</div>
+                        </div>
+                        <div class="post-body">خليت بالك إنك محتاج صورة حديثة بدون نظارة وشهادة الميلاد الأصل. الطابور
+                            بيبدأ الساعة 8 الصبح وبتخلص في ساعتين تقريباً...</div>
+                        <div class="post-meta">
+                            <span><i class="fa-solid fa-thumbs-up"></i> 45 إعجاب</span>
+                            <span><i class="fa-solid fa-comment"></i> 12 تعليق</span>
+                        </div>
+                    </div>
+
+                    <div class="post-card">
+                        <div class="post-head">
+                            <div class="post-title">هل ينفع أجدد رخصة القيادة أونلاين؟</div>
+                            <div class="post-date">منذ أسبوع</div>
+                        </div>
+                        <div class="post-body">جربت بوابة مصر الرقمية بس الموقع واجهني بأخطاء. حد عنده تجربة ناجحة؟ ولا
+                            لازم حضور شخصي...</div>
+                        <div class="post-meta">
+                            <span><i class="fa-solid fa-thumbs-up"></i> 28 إعجاب</span>
+                            <span><i class="fa-solid fa-comment"></i> 34 تعليق</span>
+                        </div>
+                    </div>
+
+                    <div class="post-card">
+                        <div class="post-head">
+                            <div class="post-title">نصيحة: وثّق عقد إيجارك قبل أي مشكلة</div>
+                            <div class="post-date">منذ أسبوعين</div>
+                        </div>
+                        <div class="post-body">حصلت معايا مشكلة مع المالك وكان عندي عقد موثق اتنجّيت بيه. الخطوات بسيطة
+                            والتكلفة في المتناول...</div>
+                        <div class="post-meta">
+                            <span><i class="fa-solid fa-thumbs-up"></i> 102 إعجاب</span>
+                            <span><i class="fa-solid fa-comment"></i> 56 تعليق</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- MY SUGGESTIONS -->
+            <div id="tab-suggestions" class="tab-content">
+                <div class="suggestion-list">
+
+                    <div class="suggestion-item">
+                        <div class="sug-ico"><i class="fa-solid fa-car"></i></div>
+                        <div class="sug-info">
+                            <div class="sug-name">نقل ملكية سيارة</div>
+                            <div class="sug-desc">إضافة خطوات ووثائق نقل الملكية في المرور</div>
+                        </div>
+                        <span class="sug-badge badge-approved"><i class="fa-solid fa-circle-check"></i> تمت
+                            الموافقة</span>
+                    </div>
+
+                    <div class="suggestion-item">
+                        <div class="sug-ico"><i class="fa-solid fa-building"></i></div>
+                        <div class="sug-info">
+                            <div class="sug-name">تجديد السجل التجاري</div>
+                            <div class="sug-desc">إجراءات تجديد السجل للمحلات التجارية والشركات</div>
+                        </div>
+                        <span class="sug-badge badge-pending"><i class="fa-solid fa-hourglass-half"></i> قيد
+                            المراجعة</span>
+                    </div>
+
+                    <div class="suggestion-item">
+                        <div class="sug-ico"><i class="fa-solid fa-bolt"></i></div>
+                        <div class="sug-info">
+                            <div class="sug-name">تركيب عداد الكهرباء</div>
+                            <div class="sug-desc">خطوات تركيب عداد كهرباء جديد للوحدات السكنية</div>
+                        </div>
+                        <span class="sug-badge badge-pending"><i class="fa-solid fa-hourglass-half"></i> قيد
+                            المراجعة</span>
+                    </div>
+
+                    <div class="suggestion-item">
+                        <div class="sug-ico"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <div class="sug-info">
+                            <div class="sug-name">التسجيل في منحة التعليم</div>
+                            <div class="sug-desc">إجراءات التقديم على منح الدراسات العليا</div>
+                        </div>
+                        <span class="sug-badge badge-approved"><i class="fa-solid fa-circle-check"></i> تمت
+                            الموافقة</span>
+                    </div>
+
+                    <div class="suggestion-item">
+                        <div class="sug-ico"><i class="fa-solid fa-house"></i></div>
+                        <div class="sug-info">
+                            <div class="sug-name">استخراج رخصة بناء</div>
+                            <div class="sug-desc">إجراءات الحصول على تصريح بناء من الحي</div>
+                        </div>
+                        <span class="sug-badge badge-rejected"><i class="fa-solid fa-circle-xmark"></i> مرفوض</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- EDIT MODAL -->
+    <div class="modal-overlay" id="editModal" onclick="handleOverlayClick(event)">
+        <div class="modal">
+            <div class="modal-title">
+                تعديل الملف الشخصي
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">الاسم الكامل</label>
+                <input class="form-input" type="text" value="أحمد محمد السيد" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">البريد الإلكتروني</label>
+                <input class="form-input" type="email" value="ahmed@example.com" />
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="saveProfile()"><i class="fa-solid fa-bookmark"></i> حفظ
+                    التغييرات</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASSWORD MODAL -->
+    <div class="modal-overlay" id="passwordModal" onclick="handlePasswordOverlayClick(event)">
+        <div class="modal">
+            <div class="modal-title">
+                <i class="fa-solid fa-lock"></i> تغيير كلمة المرور
+                <button class="modal-close" onclick="closePasswordModal()">✕</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">كلمة المرور الحالية</label>
+                <input class="form-input" type="password" id="currentPass" placeholder="أدخل كلمة المرور الحالية" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">كلمة المرور الجديدة</label>
+                <input class="form-input" type="password" id="newPass" placeholder="أدخل كلمة المرور الجديدة"
+                    oninput="checkPassStrength(this.value)" />
+                <div class="pass-strength">
+                    <div class="pass-strength-fill" id="strengthBar" style="width:0%"></div>
+                </div>
+                <div class="pass-hint" id="strengthHint"></div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">تأكيد كلمة المرور الجديدة</label>
+                <input class="form-input" type="password" id="confirmPass"
+                    placeholder="أعد إدخال كلمة المرور الجديدة" />
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closePasswordModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="savePassword()"><i class="fa-solid fa-bookmark"></i> حفظ كلمة
+                    المرور</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ملف الجافاسكريبت الخارجي -->
+    <script src="assets/userProfile.js"></script>
+</body>
+
+</html>
