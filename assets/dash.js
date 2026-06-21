@@ -36,73 +36,29 @@ async function loadCategories() {
     }
 }
 
-let servicesData = [
-    {
-        id: 1,
-        name: 'استخراج بطاقة الرقم القومي',
-        category: 'الأحوال المدنية',
-        fees: '25 جنيه',
-        type: 'اونلاين',
-        duration: '3 أيام عمل',
-        docs: ['بطاقة الرقم القومي القديمة', 'صورة شخصية'],
-        url: '',
-        steps: ['تسجيل الدخول على بوابة مصر الرقمية', 'اختيار خدمة استخراج البطاقة', 'رفع المستندات المطلوبة', 'سداد الرسوم إلكترونياً', 'استلام البطاقة بالبريد أو من مكتب السجل المدني'],
-        locationName: 'مديرية الأحوال المدنية',
-        locationAddress: 'شارع الجمهورية، أسيوط'
-    },
-    {
-        id: 2,
-        name: 'تجديد جواز السفر',
-        category: 'الجوازات',
-        fees: '250 جنيه',
-        type: 'اونلاين',
-        duration: '7 أيام عمل',
-        docs: ['جواز السفر القديم', 'بطاقة الرقم القومي', 'صور شخصية'],
-        url: '',
-        steps: ['تحديد موعد عبر موقع الجوازات', 'تجهيز المستندات المطلوبة', 'الحضور في الموعد المحدد', 'سداد الرسوم', 'استلام الجواز خلال المدة المحددة'],
-        locationName: 'مصلحة الجوازات والهجرة والجنسية',
-        locationAddress: 'شارع الستين، أسيوط'
-    },
-    {
-        id: 3,
-        name: 'التسجيل في المدارس الحكومية',
-        category: 'التعليم',
-        fees: 'مجاناً',
-        type: 'اونلاين',
-        duration: 'فوري',
-        docs: ['شهادة الميلاد', 'بطاقة ولي الأمر'],
-        url: '',
-        steps: ['الدخول على بوابة التعليم الإلكترونية', 'اختيار المرحلة الدراسية', 'تحديد المدرسة المناسبة', 'رفع المستندات', 'تأكيد التسجيل واستلام الرقم المرجعي'],
-        locationName: '',
-        locationAddress: ''
-    },
-    {
-        id: 4,
-        name: 'استخراج شهادة الميلاد',
-        category: 'الأحوال المدنية',
-        fees: '15 جنيه',
-        type: 'اوفلاين',
-        duration: 'فوري',
-        docs: ['إشعار الولادة من المستشفى', 'بطاقة الأب'],
-        url: '',
-        steps: ['التوجه لمكتب السجل المدني المختص', 'تقديم إشعار الولادة وبطاقة الأب', 'سداد الرسوم المقررة', 'استلام شهادة الميلاد فوراً'],
-        locationName: 'مكتب السجل المدني',
-        locationAddress: 'شارع طلعت حرب، أسيوط'
-    },
-    {
-        id: 5,
-        name: 'سداد فواتير الكهرباء',
-        category: 'المرافق',
-        fees: 'مجاناً',
-        type: 'اونلاين',
-        duration: 'فوري',
-        docs: ['رقم العداد', 'وسيلة دفع إلكترونية'],
-        url: '',
-        steps: ['الدخول على تطبيق أو موقع الشركة', 'إدخال رقم العداد', 'مراجعة الفاتورة', 'اختيار وسيلة الدفع', 'تأكيد العملية واستلام الإيصال'],
-        locationName: '',
-        locationAddress: ''
+let servicesData = [];
+
+async function loadServices() {
+    try {
+        const data = await apiRequest('/Services/admin/all', 'GET');
+        servicesData = data.map(s => ({
+            id: s.id,
+            name: s.title,
+            description: s.description || '',
+            categoryId: s.categoryId,
+            category: s.categoryName,
+            fees: s.fees,
+            type: s.isOnline ? 'اونلاين' : 'اوفلاين',
+            duration: s.duration || '',
+            url: s.url || '',
+            isApproved: s.isApproved,
+            isActive: s.isActive
+        }));
+        renderServicesTable();
+    } catch (err) {
+        showToast('error', `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`);
     }
-];
+}
 
 const suggestions = [
     { name: 'تجديد رخصة القيادة إلكترونياً', submitter: 'أحمد محمود سعيد', date: '2 مايو 2026', category: 'المرور', type: 'اونلاين', status: 'جديد', description: 'إتاحة تجديد رخصة القيادة بالكامل عبر الإنترنت دون الحاجة لزيارة مكتب المرور، مع دفع الرسوم إلكترونياً واستلام الرخصة بالبريد.', docs: ['بطاقة الرقم القومي سارية المفعول', 'رخصة القيادة القديمة', 'شهادة اللياقة الطبية', 'صورة شخصية حديثة', 'إيصال سداد الرسوم'] },
@@ -165,25 +121,24 @@ function refreshCatSelect() {
     const cur = sel.value;
     sel.innerHTML = '<option value="">اختر الفئة</option>' +
         categoriesData.map(c =>
-            `<option value="${c.name}" ${c.name === cur ? 'selected' : ''}>${c.name}</option>`
+            `<option value="${c.id}" ${String(c.id) === String(cur) ? 'selected' : ''}>${c.name}</option>`
         ).join('');
 }
 
 // ===== CATEGORIES CRUD =====
 function renderCategoriesTable() {
     document.getElementById('cat-tbody').innerHTML = categoriesData.map((c, i) => {
-        const count = servicesData.filter(s => s.category === c.name).length;
-        return `
-      <tr>
+        const count = servicesData.filter(s => s.categoryId === c.id).length; return `
+    <tr>
         <td class="td-num">${String(i + 1).padStart(2, '0')}</td>
         <td><strong>${c.name}</strong></td>
         <td>${count} خدمة</td>
         <td>
-          <div class="actions-cell">
+        <div class="actions-cell">
 <button class="icon-btn edit"   onclick="startEditCategory(${c.id})"><i class="fa-solid fa-pen"></i></button>            <button class="icon-btn delete" onclick="confirmDeleteCat(${c.id})"><i class="fa-solid fa-trash"></i></button>
-          </div>
+    </div>
         </td>
-      </tr>`;
+    </tr>`;
     }).join('');
 }
 
@@ -261,8 +216,7 @@ function renderServicesTable() {
         <td class="td-num">${String(i + 1).padStart(2, '0')}</td>
         <td><strong>${s.name}</strong></td>
         <td><span class="badge ${catBadge[s.category] || 'badge-navy'}">${s.category}</span></td>
-        <td><span class="${s.fees === 'مجاناً' ? 'fee-free' : 'fee-green'}">${s.fees}</span></td>
-        <td><span class="badge ${typeBadge[s.type] || 'badge-navy'}">${s.type}</span></td>
+<td><span class="${(!s.fees || s.fees == 0) ? 'fee-free' : 'fee-green'}">${(!s.fees || s.fees == 0) ? 'مجاناً' : s.fees + ' جنيه'}</span></td>        <td><span class="badge ${typeBadge[s.type] || 'badge-navy'}">${s.type}</span></td>
         <td>
           <div class="actions-cell">
             <button class="icon-btn edit"   onclick="editService(${s.id})"><i class="fa-solid fa-pen"></i></button>
@@ -275,21 +229,27 @@ function renderServicesTable() {
         `جميع الخدمات الحكومية المتاحة (${servicesData.length} خدمة)`;
 }
 
-function editService(id) {
-    const s = servicesData.find(x => x.id === id);
-    if (!s) return;
+async function editService(id) {
+    let s;
+    try {
+        s = await apiRequest(`/Services/${id}`, 'GET');
+    } catch (err) {
+        showToast('error', `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`);
+        return;
+    }
     editingServiceId = id;
     refreshCatSelect();
-    document.getElementById('svc-name').value = s.name;
-    document.getElementById('svc-cat').value = s.category;
-    document.getElementById('svc-type').value = s.type;
+    document.getElementById('svc-name').value = s.title;
+    document.getElementById('svc-description').value = s.description || '';
+    document.getElementById('svc-cat').value = s.categoryId;
+    document.getElementById('svc-type').value = s.isOnline ? 'اونلاين' : 'اوفلاين';
     document.getElementById('svc-fees').value = s.fees;
-    document.getElementById('svc-duration').value = s.duration;
-    document.getElementById('svc-url').value = s.url;
-    document.getElementById('svc-location-name').value = s.locationName || '';
-    document.getElementById('svc-location-address').value = s.locationAddress || '';
+    document.getElementById('svc-duration').value = s.duration || '';
+    document.getElementById('svc-url').value = s.url || '';
+    document.getElementById('svc-location-name').value = '';
+    document.getElementById('svc-location-address').value = '';
     updateLocationPreview();
-    setDocsInForm(s.docs || []);
+    setDocsInForm(s.requiredDocuments || []);
     setStepsInForm(s.steps || []);
     document.querySelector('#section-add-service .section-header h2').textContent = 'تعديل الخدمة';
     document.querySelector('#section-add-service .section-header p').textContent = 'قم بتعديل بيانات الخدمة ثم اضغط حفظ';
@@ -300,52 +260,77 @@ function editService(id) {
     showToast('edit', '<i class="fa-solid fa-pen"></i> جاري تعديل الخدمة...');
 }
 
-function addService() {
+async function addService() {
     const name = document.getElementById('svc-name').value.trim();
     if (!name) { showToast('error', '<i class="fa-solid fa-triangle-exclamation"></i> يرجى إدخال اسم الخدمة'); return; }
-    const newId = servicesData.length ? Math.max(...servicesData.map(x => x.id)) + 1 : 1;
-    servicesData.push({
-        id: newId, name,
-        category: document.getElementById('svc-cat').value || 'غير محدد',
-        type: document.getElementById('svc-type').value || 'غير محدد',
-        fees: document.getElementById('svc-fees').value || 'مجاناً',
+
+    const categoryId = parseInt(document.getElementById('svc-cat').value);
+    if (!categoryId) { showToast('error', '<i class="fa-solid fa-triangle-exclamation"></i> يرجى اختيار التصنيف'); return; }
+
+    const typeValue = document.getElementById('svc-type').value;
+    if (!typeValue) { showToast('error', '<i class="fa-solid fa-triangle-exclamation"></i> يرجى اختيار نوع الخدمة'); return; }
+
+    const dto = {
+        title: name,
+        description: document.getElementById('svc-description').value.trim(),
+        categoryId,
+        type: typeValue,
+        isOnline: typeValue === 'اونلاين',
+        fees: parseFloat(document.getElementById('svc-fees').value) || 0,
         duration: document.getElementById('svc-duration').value || '',
         url: document.getElementById('svc-url').value || '',
-        docs: getDocsFromForm(),
+        executionPlaceIds: [],
         steps: getStepsFromForm(),
-        locationName: document.getElementById('svc-location-name').value.trim(),
-        locationAddress: document.getElementById('svc-location-address').value.trim()
-    });
-    showToast('success', `<i class="fa-solid fa-circle-check"></i> تمت إضافة "${name}" بنجاح!`);
-    clearForm();
-    renderServicesTable();
-    showSection('services', document.querySelectorAll('.nav-item')[1]);
+        requiredDocuments: getDocsFromForm()
+    };
+
+    try {
+        await apiRequest('/Services/create', 'POST', dto);
+        showToast('success', `<i class="fa-solid fa-circle-check"></i> تمت إضافة "${name}" بنجاح!`);
+        clearForm();
+        await loadServices();
+        renderCategoriesTable();
+        showSection('services', document.querySelectorAll('.nav-item')[1]);
+    } catch (err) {
+        showToast('error', `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`);
+    }
 }
 
-function saveService() {
+async function saveService() {
     const name = document.getElementById('svc-name').value.trim();
     if (!name) { showToast('error', '<i class="fa-solid fa-triangle-exclamation"></i> يرجى إدخال اسم الخدمة'); return; }
-    const s = servicesData.find(x => x.id === editingServiceId);
-    if (s) {
-        s.name = name;
-        s.category = document.getElementById('svc-cat').value || s.category;
-        s.type = document.getElementById('svc-type').value || s.type;
-        s.fees = document.getElementById('svc-fees').value || s.fees;
-        s.duration = document.getElementById('svc-duration').value || s.duration;
-        s.url = document.getElementById('svc-url').value;
-        s.docs = getDocsFromForm();
-        s.steps = getStepsFromForm();
-        s.locationName = document.getElementById('svc-location-name').value.trim();
-        s.locationAddress = document.getElementById('svc-location-address').value.trim();
+
+    const categoryId = parseInt(document.getElementById('svc-cat').value);
+    const typeValue = document.getElementById('svc-type').value;
+
+    const dto = {
+        title: name,
+        description: document.getElementById('svc-description').value.trim(),
+        categoryId,
+        type: typeValue,
+        isOnline: typeValue === 'اونلاين',
+        fees: parseFloat(document.getElementById('svc-fees').value) || 0,
+        duration: document.getElementById('svc-duration').value || '',
+        url: document.getElementById('svc-url').value || '',
+        executionPlaceIds: [],
+        steps: getStepsFromForm(),
+        requiredDocuments: getDocsFromForm()
+    };
+
+    try {
+        await apiRequest(`/Services/${editingServiceId}`, 'PUT', dto);
+        showToast('success', `<i class="fa-solid fa-circle-check"></i> تم حفظ تعديلات "${name}" بنجاح!`);
+        clearForm();
+        await loadServices();
+        renderCategoriesTable();
+        showSection('services', document.querySelectorAll('.nav-item')[1]);
+    } catch (err) {
+        showToast('error', `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`);
     }
-    showToast('success', `<i class="fa-solid fa-circle-check"></i> تم حفظ تعديلات "${name}" بنجاح!`);
-    clearForm();
-    renderServicesTable();
-    showSection('services', document.querySelectorAll('.nav-item')[1]);
 }
 
 function clearForm() {
-    ['svc-name', 'svc-fees', 'svc-duration', 'svc-url', 'svc-location-name', 'svc-location-address'].forEach(id => {
+    ['svc-name', 'svc-description', 'svc-fees', 'svc-duration', 'svc-url', 'svc-location-name', 'svc-location-address'].forEach(id => {
         const el = document.getElementById(id); if (el) el.value = '';
     });
     const t = document.getElementById('svc-type'); if (t) t.selectedIndex = 0;
@@ -392,11 +377,16 @@ async function executeDelete() {
             showToast('error', `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`);
         }
     } else {
-        const idx = servicesData.findIndex(x => x.id === pendingDeleteId);
-        const name = servicesData[idx]?.name || '';
-        if (idx !== -1) servicesData.splice(idx, 1);
-        closeModal(); renderServicesTable();
-        showToast('error', `<i class="fa-solid fa-trash"></i> تم حذف "${name}" بنجاح`);
+        try {
+            await apiRequest(`/Services/${pendingDeleteId}`, 'DELETE');
+            closeModal();
+            await loadServices();
+            renderCategoriesTable();
+            showToast('error', '<i class="fa-solid fa-trash"></i> تم حذف الخدمة بنجاح');
+        } catch (err) {
+            closeModal();
+            showToast('error', `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`);
+        }
     }
 }
 
@@ -621,5 +611,8 @@ function showToast(type, html) {
 }
 
 // ===== INIT =====
-loadCategories();
-renderServicesTable(); 
+(async function init() {
+    await loadCategories();
+    await loadServices();
+    renderCategoriesTable();
+})();
