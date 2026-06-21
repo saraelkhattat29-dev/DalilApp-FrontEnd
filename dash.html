@@ -1,367 +1,384 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة تحكم دليل</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="assets/dash.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة تحكم دليل</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/dash.css">
 </head>
+
 <body>
 
-<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-logo">
-    <div class="logo-icon"><i class="fa-solid fa-landmark"></i></div>
-    <div class="logo-text"><h1>دليل</h1><span>لوحة الإدارة</span></div>
-  </div>
-  <nav class="nav">
-    <div class="nav-label">القائمة الرئيسية</div>
-    <div class="nav-item active" onclick="showSection('dashboard',this)">
-      <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span>لوحة التحكم
-    </div>
-    <div class="nav-item" onclick="showSection('services',this)">
-      <span class="nav-icon"><i class="fa-solid fa-list-check"></i></span>إدارة الخدمات
-    </div>
-    <div class="nav-item" onclick="goAddService()">
-      <span class="nav-icon"><i class="fa-solid fa-circle-plus"></i></span>إضافة خدمة
-    </div>
-    <div class="nav-item" onclick="showSection('categories',this)">
-      <span class="nav-icon"><i class="fa-solid fa-folder-open"></i></span>إدارة التصنيفات
-    </div>
-    <div class="nav-item" onclick="showSection('suggestions',this)">
-      <span class="nav-icon"><i class="fa-solid fa-lightbulb"></i></span>الاقتراحات
-      <span class="nav-badge">4</span>
-    </div>
-  </nav>
-  <div class="sidebar-footer">
-    <div class="admin-avatar">أ</div>
-    <div class="admin-info">المدير العام<span>admin@gov.eg</span></div>
-  </div>
-</aside>
-
-<div class="main">
-  <div class="topbar">
-    <button class="menu-toggle" onclick="toggleSidebar()">
-      <i class="fa-solid fa-bars"></i>
-    </button>
-    <div class="page-title" id="page-title">
-      لوحة التحكم
-      <span id="page-sub">نظرة عامة على المنظومة</span>
-    </div>
-    <div class="topbar-actions"></div>
-  </div>
-
-  <div class="content">
-
-    <!-- DASHBOARD -->
-    <div class="section active" id="section-dashboard">
-      <div class="cards-grid">
-        <div class="stat-card blue">
-          <div class="card-icon blue"><i class="fa-solid fa-landmark"></i></div>
-          <div class="card-num">128</div>
-          <div class="card-label">إجمالي الخدمات</div>
-          <div class="card-change up"><i class="fa-solid fa-arrow-trend-up"></i> 12 خدمة هذا الشهر</div>
-        </div>
-        <div class="stat-card gold">
-          <div class="card-icon gold"><i class="fa-solid fa-lightbulb"></i></div>
-          <div class="card-num">4</div>
-          <div class="card-label">اقتراحات جديدة</div>
-          <div class="card-change up"><i class="fa-solid fa-arrow-trend-up"></i> 2 اقتراحات اليوم</div>
-        </div>
-        <div class="stat-card green">
-          <div class="card-icon green"><i class="fa-solid fa-eye"></i></div>
-          <div class="card-num">14,320</div>
-          <div class="card-label">عدد الزوار</div>
-          <div class="card-change up"><i class="fa-solid fa-arrow-trend-up"></i> 8.4% هذا الأسبوع</div>
-        </div>
-      </div>
-      <div class="section-header">
-        <div><h2>آخر النشاطات</h2><p>أحدث العمليات على المنظومة</p></div>
-      </div>
-      <div class="activity-list">
-        <div class="activity-item">
-          <div class="activity-dot" style="background:var(--green)"></div>
-          <div class="activity-text">تمت إضافة خدمة <span>استخراج بطاقة الرقم القومي</span> بنجاح</div>
-          <div class="activity-time">منذ 5 دقائق</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-dot" style="background:var(--gold)"></div>
-          <div class="activity-text">اقتراح جديد من <span>أحمد محمود</span>: خدمة تجديد رخصة القيادة إلكترونياً</div>
-          <div class="activity-time">منذ 23 دقيقة</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-dot" style="background:var(--primary)"></div>
-          <div class="activity-text">تم تعديل خدمة <span>التسجيل في المدارس</span> - تحديث الرسوم</div>
-          <div class="activity-time">منذ ساعة</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-dot" style="background:var(--red)"></div>
-          <div class="activity-text">تم حذف خدمة <span>الخدمة القديمة للتحقق</span> من قبل المدير</div>
-          <div class="activity-time">منذ 3 ساعات</div>
-        </div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i class="fa-solid fa-landmark"></i></div>
+      <div class="logo-text">
+        <h1>دليل</h1><span>لوحة الإدارة</span>
       </div>
     </div>
+    <nav class="nav">
+      <div class="nav-label">القائمة الرئيسية</div>
+      <div class="nav-item active" onclick="showSection('dashboard',this)">
+        <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span>لوحة التحكم
+      </div>
+      <div class="nav-item" onclick="showSection('services',this)">
+        <span class="nav-icon"><i class="fa-solid fa-list-check"></i></span>إدارة الخدمات
+      </div>
+      <div class="nav-item" onclick="goAddService()">
+        <span class="nav-icon"><i class="fa-solid fa-circle-plus"></i></span>إضافة خدمة
+      </div>
+      <div class="nav-item" onclick="showSection('categories',this)">
+        <span class="nav-icon"><i class="fa-solid fa-folder-open"></i></span>إدارة التصنيفات
+      </div>
+      <div class="nav-item" onclick="showSection('suggestions',this)">
+        <span class="nav-icon"><i class="fa-solid fa-lightbulb"></i></span>الاقتراحات
+        <span class="nav-badge">4</span>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="admin-avatar">أ</div>
+      <div class="admin-info">المدير العام<span>admin@gov.eg</span></div>
+    </div>
+  </aside>
 
-    <!-- SERVICES -->
-    <div class="section" id="section-services">
-      <div class="section-header">
-        <div><h2>إدارة الخدمات</h2><p>جميع الخدمات الحكومية المتاحة</p></div>
-        <button class="btn btn-primary" onclick="goAddService()">
-          <i class="fa-solid fa-plus"></i> إضافة خدمة جديدة
-        </button>
+  <div class="main">
+    <div class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="page-title" id="page-title">
+        لوحة التحكم
+        <span id="page-sub">نظرة عامة على المنظومة</span>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th><th>اسم الخدمة</th><th>التصنيف</th>
-              <th>الرسوم</th><th>النوع</th><th>الإجراءات</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+      <div class="topbar-actions"></div>
     </div>
 
-    <!-- ADD / EDIT SERVICE -->
-    <div class="section" id="section-add-service">
-      <div class="section-header">
-        <div>
-          <h2>إضافة خدمة جديدة</h2>
-          <p>أدخل بيانات الخدمة الحكومية الجديدة</p>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="section active" id="section-dashboard">
+        <div class="cards-grid">
+          <div class="stat-card blue">
+            <div class="card-icon blue"><i class="fa-solid fa-landmark"></i></div>
+            <div class="card-num">128</div>
+            <div class="card-label">إجمالي الخدمات</div>
+            <div class="card-change up"><i class="fa-solid fa-arrow-trend-up"></i> 12 خدمة هذا الشهر</div>
+          </div>
+          <div class="stat-card gold">
+            <div class="card-icon gold"><i class="fa-solid fa-lightbulb"></i></div>
+            <div class="card-num">4</div>
+            <div class="card-label">اقتراحات جديدة</div>
+            <div class="card-change up"><i class="fa-solid fa-arrow-trend-up"></i> 2 اقتراحات اليوم</div>
+          </div>
+          <div class="stat-card green">
+            <div class="card-icon green"><i class="fa-solid fa-eye"></i></div>
+            <div class="card-num">14,320</div>
+            <div class="card-label">عدد الزوار</div>
+            <div class="card-change up"><i class="fa-solid fa-arrow-trend-up"></i> 8.4% هذا الأسبوع</div>
+          </div>
         </div>
-        <button class="back-btn" id="back-to-services"
-          onclick="showSection('services', document.querySelectorAll('.nav-item')[1])"
-          style="display:none;">
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
+        <div class="section-header">
+          <div>
+            <h2>آخر النشاطات</h2>
+            <p>أحدث العمليات على المنظومة</p>
+          </div>
+        </div>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--green)"></div>
+            <div class="activity-text">تمت إضافة خدمة <span>استخراج بطاقة الرقم القومي</span> بنجاح</div>
+            <div class="activity-time">منذ 5 دقائق</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--gold)"></div>
+            <div class="activity-text">اقتراح جديد من <span>أحمد محمود</span>: خدمة تجديد رخصة القيادة إلكترونياً</div>
+            <div class="activity-time">منذ 23 دقيقة</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--primary)"></div>
+            <div class="activity-text">تم تعديل خدمة <span>التسجيل في المدارس</span> - تحديث الرسوم</div>
+            <div class="activity-time">منذ ساعة</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background:var(--red)"></div>
+            <div class="activity-text">تم حذف خدمة <span>الخدمة القديمة للتحقق</span> من قبل المدير</div>
+            <div class="activity-time">منذ 3 ساعات</div>
+          </div>
+        </div>
       </div>
-      <div class="form-card">
-        <div class="form-grid" style="margin-bottom:18px">
 
-          <!-- الحقول الأساسية -->
-          <div class="form-group">
-            <label><i class="fa-solid fa-file-signature"></i> اسم الخدمة *</label>
-            <input type="text" placeholder="مثال: استخراج رخصة قيادة" id="svc-name">
+      <!-- SERVICES -->
+      <div class="section" id="section-services">
+        <div class="section-header">
+          <div>
+            <h2>إدارة الخدمات</h2>
+            <p>جميع الخدمات الحكومية المتاحة</p>
           </div>
-          <div class="form-group">
-            <label><i class="fa-solid fa-layer-group"></i> تصنيف الخدمة *</label>
-            <select id="svc-cat"></select>
-          </div>
-          <div class="form-group">
-            <label><i class="fa-solid fa-tags"></i> نوع الخدمة *</label>
-            <select id="svc-type">
-              <option value="">اختر النوع</option>
-              <option>اونلاين</option>
-              <option>اوفلاين</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label><i class="fa-solid fa-money-bill-wave"></i> الرسوم</label>
-            <input type="text" placeholder="مثال: 50 جنيه أو مجاناً" id="svc-fees">
-          </div>
-          <div class="form-group">
-            <label><i class="fa-solid fa-clock"></i> مدة الإنجاز</label>
-            <input type="text" placeholder="مثال: 3-5 أيام عمل" id="svc-duration">
-          </div>
-          <div class="form-group">
-            <label><i class="fa-solid fa-link"></i> رابط الخدمة الإلكترونية</label>
-            <input type="url" placeholder="https://..." id="svc-url">
-          </div>
-
-          <!-- مكان التنفيذ -->
-          <div class="form-group form-full">
-            <label><i class="fa-solid fa-location-dot"></i> مكان التنفيذ</label>
-            <div class="location-input-wrap">
-              <div class="form-grid" style="margin-bottom:8px">
-                <input
-                  type="text"
-                  id="svc-location-name"
-                  placeholder="مثال: مديرية الأحوال المدنية"
-                  oninput="updateLocationPreview()"
-                  style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%"
-                  onfocus="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 3px rgba(218,82,59,0.1)'"
-                  onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-                <input
-                  type="text"
-                  id="svc-location-address"
-                  placeholder="مثال: شارع الجمهورية، أسيوط"
-                  oninput="updateLocationPreview()"
-                  style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%"
-                  onfocus="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 3px rgba(218,82,59,0.1)'"
-                  onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-              </div>
-              <!-- معاينة زرار المابس -->
-              <div class="location-preview" id="location-preview">
-                <i class="fa-solid fa-location-dot"></i>
-                <span id="location-preview-text"></span>
-                <a href="#" id="location-preview-link" target="_blank" class="maps-btn-preview">
-                  <i class="fa-solid fa-map-location-dot"></i> معاينة على الخريطة
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- خطوات التنفيذ -->
-          <div class="form-group form-full">
-            <label><i class="fa-solid fa-list-ol"></i> خطوات التنفيذ</label>
-            <div class="steps-input-list" id="steps-input-list">
-              <div class="step-input-row">
-                <span class="step-num-badge">1</span>
-                <input type="text" placeholder="مثال: الدخول على الموقع الإلكتروني" class="step-input">
-                <button class="doc-add-btn" onclick="addStepField()"><i class="fa-solid fa-plus"></i></button>
-              </div>
-            </div>
-          </div>
-
-          <!-- الأوراق المطلوبة -->
-          <div class="form-group form-full">
-            <label><i class="fa-regular fa-file-lines"></i> الأوراق المطلوبة</label>
-            <div class="docs-input-list" id="docs-input-list">
-              <div class="doc-input-row">
-                <input type="text" placeholder="مثال: بطاقة الرقم القومي" class="doc-input">
-                <button class="doc-add-btn" onclick="addDocField()"><i class="fa-solid fa-plus"></i></button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-primary" id="btn-add-service" onclick="addService()">
-            <i class="fa-solid fa-circle-check"></i> إضافة الخدمة
-          </button>
-          <button class="btn btn-primary" id="btn-save-service" onclick="saveService()" style="display:none;">
-            <i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات
+          <button class="btn btn-primary" onclick="goAddService()">
+            <i class="fa-solid fa-plus"></i> إضافة خدمة جديدة
           </button>
         </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>اسم الخدمة</th>
+                <th>التصنيف</th>
+                <th>الرسوم</th>
+                <th>النوع</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
-    </div>
 
-    <!-- CATEGORIES -->
-    <div class="section" id="section-categories">
-      <div class="section-header">
-        <div><h2>إدارة التصنيفات</h2><p>إضافة وتعديل وحذف تصنيفات الخدمات</p></div>
-      </div>
-      <div class="cat-layout">
-        <div class="form-card cat-form-card">
-          <h3 class="cat-form-title" id="cat-form-title">
-            <i class="fa-solid fa-folder-plus"></i> إضافة تصنيف جديد
-          </h3>
-          <div class="form-group" style="margin-top:16px">
-            <label><i class="fa-solid fa-tag"></i> اسم التصنيف *</label>
-            <input type="text" id="cat-name" placeholder="مثال: الصحة">
+      <!-- ADD / EDIT SERVICE -->
+      <div class="section" id="section-add-service">
+        <div class="section-header">
+          <div>
+            <h2>إضافة خدمة جديدة</h2>
+            <p>أدخل بيانات الخدمة الحكومية الجديدة</p>
           </div>
-          <div class="form-actions" style="margin-top:18px">
-            <button class="btn btn-outline" onclick="cancelCatEdit()" id="cat-cancel-btn" style="display:none">
-              <i class="fa-solid fa-xmark"></i> إلغاء
-            </button>
-            <button class="btn btn-primary" onclick="saveCategory()" id="cat-save-btn">
-              <i class="fa-solid fa-circle-check"></i> إضافة
-            </button>
-          </div>
+          <button class="back-btn" id="back-to-services"
+            onclick="showSection('services', document.querySelectorAll('.nav-item')[1])" style="display:none;">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
         </div>
-        <div class="cat-list-wrap">
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th><th>اسم التصنيف</th><th>عدد الخدمات</th><th>الإجراءات</th>
-                </tr>
-              </thead>
-              <tbody id="cat-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+        <div class="form-card">
+          <div class="form-grid" style="margin-bottom:18px">
 
-    <!-- SUGGESTIONS -->
-    <div class="section" id="section-suggestions">
-      <div class="section-header">
-        <div><h2>اقتراحات الخدمات</h2><p>4 اقتراحات تنتظر المراجعة</p></div>
-      </div>
-      <div id="suggestions-list">
-        <div class="suggestion-item">
-          <div class="suggestion-info">
-            <div class="suggestion-name">تجديد رخصة القيادة إلكترونياً</div>
-            <div class="suggestion-meta">
-              <span><i class="fa-solid fa-user"></i> أحمد محمود سعيد</span>
-             
-              
+            <!-- الحقول الأساسية -->
+            <div class="form-group">
+              <label><i class="fa-solid fa-file-signature"></i> اسم الخدمة *</label>
+              <input type="text" placeholder="مثال: استخراج رخصة قيادة" id="svc-name">
             </div>
-          </div>
-          <div class="suggestion-actions">
-            <button class="btn btn-outline btn-sm" onclick="openModal(0)">
-              <i class="fa-solid fa-eye"></i> عرض التفاصيل
-            </button>
-          </div>
-        </div>
-        <div class="suggestion-item">
-          <div class="suggestion-info">
-            <div class="suggestion-name">حجز المواعيد الطبية بالمستشفيات الحكومية</div>
-            <div class="suggestion-meta">
-              <span><i class="fa-solid fa-user"></i> منى إبراهيم عبدالله</span>
-           
-             
+            <div class="form-group">
+              <label><i class="fa-solid fa-layer-group"></i> تصنيف الخدمة *</label>
+              <select id="svc-cat"></select>
             </div>
-          </div>
-          <div class="suggestion-actions">
-            <button class="btn btn-outline btn-sm" onclick="openModal(1)">
-              <i class="fa-solid fa-eye"></i> عرض التفاصيل
-            </button>
-          </div>
-        </div>
-        <div class="suggestion-item">
-          <div class="suggestion-info">
-            <div class="suggestion-name">استخراج صحيفة الحالة الجنائية أونلاين</div>
-            <div class="suggestion-meta">
-              <span><i class="fa-solid fa-user"></i> محمد علي حسن</span>
-            
-              
+            <div class="form-group">
+              <label><i class="fa-solid fa-tags"></i> نوع الخدمة *</label>
+              <select id="svc-type">
+                <option value="">اختر النوع</option>
+                <option>اونلاين</option>
+                <option>اوفلاين</option>
+              </select>
             </div>
-          </div>
-          <div class="suggestion-actions">
-            <button class="btn btn-outline btn-sm" onclick="openModal(2)">
-              <i class="fa-solid fa-eye"></i> عرض التفاصيل
-            </button>
-          </div>
-        </div>
-        <div class="suggestion-item">
-          <div class="suggestion-info">
-            <div class="suggestion-name">دفع الغرامات المرورية عبر التطبيق</div>
-            <div class="suggestion-meta">
-              <span><i class="fa-solid fa-user"></i> سارة خالد محمود</span>
-             
-              
+            <div class="form-group">
+              <label><i class="fa-solid fa-money-bill-wave"></i> الرسوم</label>
+              <input type="text" placeholder="مثال: 50 جنيه أو مجاناً" id="svc-fees">
             </div>
-          </div>
-          <div class="suggestion-actions">
-            <button class="btn btn-outline btn-sm" onclick="openModal(3)">
-              <i class="fa-solid fa-eye"></i> عرض التفاصيل
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+            <div class="form-group">
+              <label><i class="fa-solid fa-clock"></i> مدة الإنجاز</label>
+              <input type="text" placeholder="مثال: 3-5 أيام عمل" id="svc-duration">
+            </div>
+            <div class="form-group">
+              <label><i class="fa-solid fa-link"></i> رابط الخدمة الإلكترونية</label>
+              <input type="url" placeholder="https://..." id="svc-url">
+            </div>
 
+            <!-- مكان التنفيذ -->
+            <div class="form-group form-full">
+              <label><i class="fa-solid fa-location-dot"></i> مكان التنفيذ</label>
+              <div class="location-input-wrap">
+                <div class="form-grid" style="margin-bottom:8px">
+                  <input type="text" id="svc-location-name" placeholder="مثال: مديرية الأحوال المدنية"
+                    oninput="updateLocationPreview()"
+                    style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%"
+                    onfocus="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 3px rgba(218,82,59,0.1)'"
+                    onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+                  <input type="text" id="svc-location-address" placeholder="مثال: شارع الجمهورية، أسيوط"
+                    oninput="updateLocationPreview()"
+                    style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%"
+                    onfocus="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 3px rgba(218,82,59,0.1)'"
+                    onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+                </div>
+                <!-- معاينة زرار المابس -->
+                <div class="location-preview" id="location-preview">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <span id="location-preview-text"></span>
+                  <a href="#" id="location-preview-link" target="_blank" class="maps-btn-preview">
+                    <i class="fa-solid fa-map-location-dot"></i> معاينة على الخريطة
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- خطوات التنفيذ -->
+            <div class="form-group form-full">
+              <label><i class="fa-solid fa-list-ol"></i> خطوات التنفيذ</label>
+              <div class="steps-input-list" id="steps-input-list">
+                <div class="step-input-row">
+                  <span class="step-num-badge">1</span>
+                  <input type="text" placeholder="مثال: الدخول على الموقع الإلكتروني" class="step-input">
+                  <button class="doc-add-btn" onclick="addStepField()"><i class="fa-solid fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- الأوراق المطلوبة -->
+            <div class="form-group form-full">
+              <label><i class="fa-regular fa-file-lines"></i> الأوراق المطلوبة</label>
+              <div class="docs-input-list" id="docs-input-list">
+                <div class="doc-input-row">
+                  <input type="text" placeholder="مثال: بطاقة الرقم القومي" class="doc-input">
+                  <button class="doc-add-btn" onclick="addDocField()"><i class="fa-solid fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" id="btn-add-service" onclick="addService()">
+              <i class="fa-solid fa-circle-check"></i> إضافة الخدمة
+            </button>
+            <button class="btn btn-primary" id="btn-save-service" onclick="saveService()" style="display:none;">
+              <i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CATEGORIES -->
+      <div class="section" id="section-categories">
+        <div class="section-header">
+          <div>
+            <h2>إدارة التصنيفات</h2>
+            <p>إضافة وتعديل وحذف تصنيفات الخدمات</p>
+          </div>
+        </div>
+        <div class="cat-layout">
+          <div class="form-card cat-form-card">
+            <h3 class="cat-form-title" id="cat-form-title">
+              <i class="fa-solid fa-folder-plus"></i> إضافة تصنيف جديد
+            </h3>
+            <div class="form-group" style="margin-top:16px">
+              <label><i class="fa-solid fa-tag"></i> اسم التصنيف *</label>
+              <input type="text" id="cat-name" placeholder="مثال: الصحة">
+            </div>
+            <div class="form-actions" style="margin-top:18px">
+              <button class="btn btn-outline" onclick="cancelCatEdit()" id="cat-cancel-btn" style="display:none">
+                <i class="fa-solid fa-xmark"></i> إلغاء
+              </button>
+              <button class="btn btn-primary" onclick="saveCategory()" id="cat-save-btn">
+                <i class="fa-solid fa-circle-check"></i> إضافة
+              </button>
+            </div>
+          </div>
+          <div class="cat-list-wrap">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>اسم التصنيف</th>
+                    <th>عدد الخدمات</th>
+                    <th>الإجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="cat-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUGGESTIONS -->
+      <div class="section" id="section-suggestions">
+        <div class="section-header">
+          <div>
+            <h2>اقتراحات الخدمات</h2>
+            <p>4 اقتراحات تنتظر المراجعة</p>
+          </div>
+        </div>
+        <div id="suggestions-list">
+          <div class="suggestion-item">
+            <div class="suggestion-info">
+              <div class="suggestion-name">تجديد رخصة القيادة إلكترونياً</div>
+              <div class="suggestion-meta">
+                <span><i class="fa-solid fa-user"></i> أحمد محمود سعيد</span>
+
+
+              </div>
+            </div>
+            <div class="suggestion-actions">
+              <button class="btn btn-outline btn-sm" onclick="openModal(0)">
+                <i class="fa-solid fa-eye"></i> عرض التفاصيل
+              </button>
+            </div>
+          </div>
+          <div class="suggestion-item">
+            <div class="suggestion-info">
+              <div class="suggestion-name">حجز المواعيد الطبية بالمستشفيات الحكومية</div>
+              <div class="suggestion-meta">
+                <span><i class="fa-solid fa-user"></i> منى إبراهيم عبدالله</span>
+              </div>
+            </div>
+            <div class="suggestion-actions">
+              <button class="btn btn-outline btn-sm" onclick="openModal(1)">
+                <i class="fa-solid fa-eye"></i> عرض التفاصيل
+              </button>
+            </div>
+          </div>
+          <div class="suggestion-item">
+            <div class="suggestion-info">
+              <div class="suggestion-name">استخراج صحيفة الحالة الجنائية أونلاين</div>
+              <div class="suggestion-meta">
+                <span><i class="fa-solid fa-user"></i> محمد علي حسن</span>
+
+
+              </div>
+            </div>
+            <div class="suggestion-actions">
+              <button class="btn btn-outline btn-sm" onclick="openModal(2)">
+                <i class="fa-solid fa-eye"></i> عرض التفاصيل
+              </button>
+            </div>
+          </div>
+          <div class="suggestion-item">
+            <div class="suggestion-info">
+              <div class="suggestion-name">دفع الغرامات المرورية عبر التطبيق</div>
+              <div class="suggestion-meta">
+                <span><i class="fa-solid fa-user"></i> سارة خالد محمود</span>
+
+
+              </div>
+            </div>
+            <div class="suggestion-actions">
+              <button class="btn btn-outline btn-sm" onclick="openModal(3)">
+                <i class="fa-solid fa-eye"></i> عرض التفاصيل
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
-</div>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
-  <div class="modal" id="modal-box">
-    <div class="modal-header">
-      <h3 id="modal-title">تفاصيل الاقتراح</h3>
-      <div class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></div>
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" id="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-title">تفاصيل الاقتراح</h3>
+        <div class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></div>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
     </div>
-    <div class="modal-body" id="modal-body"></div>
-    <div class="modal-footer" id="modal-footer"></div>
   </div>
-</div>
 
-<script src="assets/dash.js"></script>
+  <script src="assets/dash.js"></script>
 </body>
+
 </html>
