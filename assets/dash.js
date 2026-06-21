@@ -1,12 +1,40 @@
+// ===== API CONFIG =====
+const API_BASE = 'https://localhost:7162/api';
+
+function getToken() {
+    return localStorage.getItem('token'); // غيّري الاسم لو التوكن متخزن بمسمى تاني
+}
+
+async function apiRequest(endpoint, method = 'GET', body = null) {
+    const headers = { 'Content-Type': 'application/json' };
+    const token = getToken();
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    const res = await fetch(`${API_BASE}${endpoint}`, {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : null
+    });
+
+    let data = null;
+    try { data = await res.json(); } catch (e) { }
+
+    if (!res.ok) {
+        throw new Error((data && data.message) || data || 'حدث خطأ في الاتصال بالسيرفر');
+    }
+    return data;
+}
 // ===== DATA =====
-let categoriesData = [
-    { id: 1, name: 'الأحوال المدنية' },
-    { id: 2, name: 'الجوازات' },
-    { id: 3, name: 'التعليم' },
-    { id: 4, name: 'المرور' },
-    { id: 5, name: 'خدمات أمنية' },
-    { id: 6, name: 'العقارات' }
-];
+let categoriesData = [];
+async function loadCategories() {
+    try {
+        categoriesData = await apiRequest('/Categories', 'GET');
+        renderCategoriesTable();
+        refreshCatSelect();
+    } catch (err) {
+        showToast('error', `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`);
+    }
+}
 
 let servicesData = [
     {
@@ -152,33 +180,30 @@ function renderCategoriesTable() {
         <td>${count} خدمة</td>
         <td>
           <div class="actions-cell">
-            <button class="icon-btn edit"   onclick="editCategory(${c.id})"><i class="fa-solid fa-pen"></i></button>
-            <button class="icon-btn delete" onclick="confirmDeleteCat(${c.id})"><i class="fa-solid fa-trash"></i></button>
+<button class="icon-btn edit"   onclick="startEditCategory(${c.id})"><i class="fa-solid fa-pen"></i></button>            <button class="icon-btn delete" onclick="confirmDeleteCat(${c.id})"><i class="fa-solid fa-trash"></i></button>
           </div>
         </td>
       </tr>`;
     }).join('');
 }
 
-function saveCategory() {
+async function saveCategory() {
     const name = document.getElementById('cat-name').value.trim();
     if (!name) { showToast('error', '<i class="fa-solid fa-triangle-exclamation"></i> يرجى إدخال اسم التصنيف'); return; }
 
-    if (editingCatId) {
-        const c = categoriesData.find(x => x.id === editingCatId);
-        if (c) { servicesData.forEach(s => { if (s.category === c.name) s.category = name; }); c.name = name; }
-        showToast('success', `<i class="fa-solid fa-circle-check"></i> تم تعديل التصنيف "${name}" بنجاح`);
-    } else {
-        if (categoriesData.find(c => c.name === name)) {
-            showToast('error', '<i class="fa-solid fa-triangle-exclamation"></i> هذا التصنيف موجود بالفعل'); return;
+    try {
+        if (editingCatId) {
+            await apiRequest(`/Categories/${editingCatId}`, 'PUT', { id: editingCatId, name });
+            showToast('success', `<i class="fa-solid fa-circle-check"></i> تم تعديل التصنيف "${name}" بنجاح`);
+        } else {
+            await apiRequest('/Categories', 'POST', { id: 0, name });
+            showToast('success', `<i class="fa-solid fa-circle-check"></i> تمت إضافة التصنيف "${name}" بنجاح`);
         }
-        const newId = categoriesData.length ? Math.max(...categoriesData.map(x => x.id)) + 1 : 1;
-        categoriesData.push({ id: newId, name });
-        showToast('success', `<i class="fa-solid fa-circle-check"></i> تمت إضافة التصنيف "${name}" بنجاح`);
+        cancelCatEdit();
+        await loadCategories();
+    } catch (err) {
+        showToast('error', `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`);
     }
-    cancelCatEdit();
-    renderCategoriesTable();
-    refreshCatSelect();
 }
 
 function cancelCatEdit() {
@@ -189,106 +214,17 @@ function cancelCatEdit() {
     document.getElementById('cat-cancel-btn').style.display = 'none';
 }
 
-function editCategory(id) {
+function startEditCategory(id) {
     const c = categoriesData.find(x => x.id === id);
     if (!c) return;
-    const currentCount = servicesData.filter(s => s.category === c.name).length;
-
-    document.getElementById('modal-title').innerHTML = '<i class="fa-solid fa-pen" style="margin-left:8px"></i> تعديل التصنيف';
-    document.getElementById('modal-body').innerHTML = `
-    <div class="modal-section">
-      <div class="modal-section-title"><i class="fa-solid fa-tag"></i> اسم التصنيف</div>
-      <input type="text" id="modal-cat-name" value="${c.name}"
-        style="width:100%;background:var(--surface2);border:1px solid var(--border);
-               border-radius:9px;padding:11px 14px;color:var(--text);
-               font-family:'Cairo',sans-serif;font-size:14px;outline:none;
-               transition:border-color .2s,box-shadow .2s;"
-        onfocus="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 3px rgba(218,82,59,0.1)'"
-        onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-    </div>
-    <div class="modal-section">
-      <div class="modal-section-title"><i class="fa-solid fa-list-check"></i> عدد الخدمات المرتبطة</div>
-      <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin:16px 0 10px;">
-        <button id="cat-count-minus" onclick="changeCatCount(-1)"
-          style="width:44px;height:44px;border-radius:10px;border:1.5px solid var(--border);
-                 background:var(--surface2);color:var(--text-muted);cursor:pointer;
-                 display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;"
-          onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'"
-          onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'">
-          <i class="fa-solid fa-minus"></i>
-        </button>
-        <div style="text-align:center;min-width:72px;">
-          <div id="cat-count-display"
-            style="font-size:38px;font-weight:900;color:var(--navy);line-height:1;transition:transform .15s;">
-            ${currentCount}
-          </div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">خدمة</div>
-        </div>
-        <button id="cat-count-plus" onclick="changeCatCount(+1)"
-          style="width:44px;height:44px;border-radius:10px;border:1.5px solid var(--border);
-                 background:var(--surface2);color:var(--text-muted);cursor:pointer;
-                 display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;"
-          onmouseover="this.style.borderColor='var(--green)';this.style.color='var(--green)'"
-          onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'">
-          <i class="fa-solid fa-plus"></i>
-        </button>
-      </div>
-      <div id="cat-count-note"
-        style="font-size:12px;color:var(--text-dim);text-align:center;padding:8px 12px;
-               background:var(--surface2);border-radius:8px;border:1px solid var(--border);">
-        <i class="fa-solid fa-circle-info" style="color:var(--primary);margin-left:5px;"></i>
-        العدد الحالي: <strong style="color:var(--primary);">${currentCount} خدمة</strong>
-      </div>
-    </div>`;
-
-    const display = document.getElementById('cat-count-display');
-    display.dataset.count = currentCount;
-    display.dataset.original = currentCount;
-    display.dataset.catId = id;
-
-    document.getElementById('modal-footer').innerHTML = `
-    <button class="btn btn-outline" onclick="closeModal()"><i class="fa-solid fa-xmark"></i> إلغاء</button>
-    <button class="btn btn-primary" onclick="saveCatFromModal(${id})"><i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات</button>`;
-
-    document.getElementById('modal-overlay').classList.add('open');
-    setTimeout(() => document.getElementById('modal-cat-name').focus(), 120);
+    editingCatId = id;
+    document.getElementById('cat-name').value = c.name;
+    document.getElementById('cat-form-title').innerHTML = '<i class="fa-solid fa-pen"></i> تعديل التصنيف';
+    document.getElementById('cat-save-btn').innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات';
+    document.getElementById('cat-cancel-btn').style.display = 'inline-flex';
+    document.getElementById('cat-name').focus();
 }
 
-function changeCatCount(delta) {
-    const display = document.getElementById('cat-count-display');
-    const note = document.getElementById('cat-count-note');
-    const original = parseInt(display.dataset.original) || 0;
-    let current = parseInt(display.dataset.count) || 0;
-    current = Math.max(0, current + delta);
-    display.dataset.count = current;
-    display.textContent = current;
-    const diff = current - original;
-    if (diff > 0) display.style.color = 'var(--green)';
-    else if (diff < 0) display.style.color = 'var(--red)';
-    else display.style.color = 'var(--navy)';
-    let msg = `العدد الأصلي: <strong style="color:var(--primary);">${original}</strong>`;
-    if (diff > 0) msg += ` &nbsp;·&nbsp; <span style="color:var(--green);font-weight:700;">+${diff} إضافة</span>`;
-    else if (diff < 0) msg += ` &nbsp;·&nbsp; <span style="color:var(--red);font-weight:700;">${diff} نقص</span>`;
-    note.innerHTML = `<i class="fa-solid fa-circle-info" style="color:var(--primary);margin-left:5px;"></i> ${msg}`;
-    display.style.transform = 'scale(1.3)';
-    setTimeout(() => { display.style.transform = 'scale(1)'; }, 140);
-}
-
-function saveCatFromModal(catId) {
-    const nameInput = document.getElementById('modal-cat-name');
-    const newName = nameInput ? nameInput.value.trim() : '';
-    if (!newName) { showToast('error', '<i class="fa-solid fa-triangle-exclamation"></i> يرجى إدخال اسم التصنيف'); return; }
-    const c = categoriesData.find(x => x.id === catId);
-    if (c && c.name !== newName) {
-        servicesData.forEach(s => { if (s.category === c.name) s.category = newName; });
-        c.name = newName;
-    }
-    closeModal();
-    renderCategoriesTable();
-    renderServicesTable();
-    refreshCatSelect();
-    showToast('success', '<i class="fa-solid fa-circle-check"></i> تم حفظ تعديلات التصنيف بنجاح');
-}
 
 function confirmDeleteCat(id) {
     const c = categoriesData.find(x => x.id === id);
@@ -299,10 +235,10 @@ function confirmDeleteCat(id) {
     document.getElementById('modal-title').innerHTML = '<i class="fa-solid fa-trash" style="margin-left:8px"></i> حذف التصنيف';
     document.getElementById('modal-body').innerHTML = `
     <div class="delete-modal-body">
-      <div class="delete-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-      <h4>هل أنت متأكد من الحذف؟</h4>
-      <p>سيتم حذف تصنيف <span class="delete-service-name">"${c.name}"</span> بشكل نهائي.<br>
-      ${usedCount > 0
+    <div class="delete-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <h4>هل أنت متأكد من الحذف؟</h4>
+    <p>سيتم حذف تصنيف <span class="delete-service-name">"${c.name}"</span> بشكل نهائي.<br>
+    ${usedCount > 0
             ? `<strong style="color:var(--red)">تحذير: ${usedCount} خدمة مرتبطة بهذا التصنيف!</strong>`
             : 'لا توجد خدمات مرتبطة بهذا التصنيف.'}</p>
     </div>`;
@@ -444,12 +380,17 @@ function confirmDelete(id) {
     document.getElementById('modal-overlay').classList.add('open');
 }
 
-function executeDelete() {
+async function executeDelete() {
     if (pendingDeleteType === 'cat') {
-        const idx = categoriesData.findIndex(x => x.id === pendingDeleteId);
-        if (idx !== -1) categoriesData.splice(idx, 1);
-        closeModal(); renderCategoriesTable(); refreshCatSelect();
-        showToast('error', '<i class="fa-solid fa-trash"></i> تم حذف التصنيف بنجاح');
+        try {
+            await apiRequest(`/Categories/${pendingDeleteId}`, 'DELETE');
+            closeModal();
+            await loadCategories();
+            showToast('error', '<i class="fa-solid fa-trash"></i> تم حذف التصنيف بنجاح');
+        } catch (err) {
+            closeModal();
+            showToast('error', `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`);
+        }
     } else {
         const idx = servicesData.findIndex(x => x.id === pendingDeleteId);
         const name = servicesData[idx]?.name || '';
@@ -680,6 +621,5 @@ function showToast(type, html) {
 }
 
 // ===== INIT =====
-refreshCatSelect();
-renderServicesTable();
-renderCategoriesTable();
+loadCategories();
+renderServicesTable(); 
