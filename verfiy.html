@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تأكيد الكود</title>
+    <link rel="stylesheet" href="assets/style.css" />
+    <link rel="stylesheet" href="assets/verfiy.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+
+            <div class="form-header">
+                <p>تم إرسال كود التفعيل إلى <span id="userEmail">بريدك الإلكتروني</span></p>
+                <h1>تأكيد الكود</h1>
+            </div>
+
+            <form class="form-box" id="verifyForm" novalidate>
+                <div class="otp-group" id="otpGroup">
+                    <input type="text" inputmode="numeric" maxlength="1" class="otp-input" data-index="0"
+                        autocomplete="one-time-code" />
+                    <input type="text" inputmode="numeric" maxlength="1" class="otp-input" data-index="1" />
+                    <input type="text" inputmode="numeric" maxlength="1" class="otp-input" data-index="2" />
+                    <input type="text" inputmode="numeric" maxlength="1" class="otp-input" data-index="3" />
+                    <input type="text" inputmode="numeric" maxlength="1" class="otp-input" data-index="4" />
+                    <input type="text" inputmode="numeric" maxlength="1" class="otp-input" data-index="5" />
+                </div>
+                <span id="codeError" class="error otp-error"></span>
+
+                <button type="button" class="form-btn form-btn--submit" id="verifyBtn">
+                    تأكيد
+                </button>
+            </form>
+
+            <div class="form-bottom">
+                <p class="resend-text">
+                    لم يصلك الكود؟
+                    <span id="resendTimer">إعادة الإرسال خلال <b id="timerCount">60</b> ثانية</span>
+                    <a href="#" id="resendLink" class="form-link" style="display:none;">إعادة إرسال الكود</a>
+                </p>
+                <p><a href="login.html" class="form-link">الرجوع لتسجيل الدخول</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/verfiy.js"></script>
+</body>
+
+</html>
