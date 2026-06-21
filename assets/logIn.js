@@ -51,7 +51,7 @@ document.getElementById("loginBtn").addEventListener("click", async function () 
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ Email:email, Password:password })
+            body: JSON.stringify({ Email: email, Password: password })
         });
         // إصلاح: اقرأ الـ body أولاً عشان تاخد رسالة الـ error
         let data = null;
@@ -145,7 +145,7 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async fu
 
         // احفظ الإيميل عشان صفحة التحقق تستخدمه
         sessionStorage.setItem("resetEmail", email);
-        window.location.href = "verify.html";
+        window.location.href = "verfiy.html";
 
     } catch (err) {
         console.error("Connection error:", err);
