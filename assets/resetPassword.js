@@ -14,10 +14,20 @@ function togglePassword(fieldId, btn) {
 }
 
 // =============================================
-// جلب الإيميل والـ token اللي جايين من صفحة التحقق
+// جلب الإيميل والـ OTP اللي جايين من صفحة التحقق
+// (الباك إند بيتأكد من الـ OTP تاني هنا، فلازم نبعته تاني)
 // =============================================
 const userEmail = sessionStorage.getItem("resetEmail");
-const resetToken = sessionStorage.getItem("resetToken");
+const resetOtp = sessionStorage.getItem("resetOtp");
+
+// =============================================
+// استخراج رسالة الخطأ سواء رجعت string عادي أو object
+// =============================================
+function extractErrorMessage(data, fallback) {
+    if (!data) return fallback;
+    if (typeof data === "string") return data;
+    return data.message || data.title || fallback;
+}
 
 // =============================================
 // إرسال كلمة المرور الجديدة
@@ -53,7 +63,7 @@ document.getElementById("resetBtn").addEventListener("click", async function () 
 
     if (!isValid) return;
 
-    if (!userEmail || !resetToken) {
+    if (!userEmail || !resetOtp) {
         confirmPasswordError.textContent = "انتهت صلاحية الجلسة، يرجى إعادة المحاولة من البداية";
         return;
     }
@@ -64,14 +74,15 @@ document.getElementById("resetBtn").addEventListener("click", async function () 
     btn.textContent = "جاري الحفظ...";
 
     try {
-        // إصلاح الـ endpoint ده حسب الـ API بتاعك لو الاسم مختلف
+        // POST /api/Auth/reset-password { Email, Otp, NewPassword, ConfirmPassword }
         const res = await fetch("https://localhost:7162/api/Auth/reset-password", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 Email: userEmail,
-                Token: resetToken,
-                NewPassword: newPassword
+                Otp: resetOtp,
+                NewPassword: newPassword,
+                ConfirmPassword: confirmPassword
             })
         });
 
@@ -79,17 +90,21 @@ document.getElementById("resetBtn").addEventListener("click", async function () 
         try {
             data = await res.json();
         } catch {
-            // مفيش body في الرد
+            // مفيش body في الرد (زي NotFound())
         }
 
         if (!res.ok) {
-            confirmPasswordError.textContent = data?.message || data?.title || "تعذر تغيير كلمة المرور، حاول مرة أخرى";
+            if (res.status === 404) {
+                confirmPasswordError.textContent = "المستخدم غير موجود";
+            } else {
+                confirmPasswordError.textContent = extractErrorMessage(data, "تعذر تغيير كلمة المرور، حاول مرة أخرى");
+            }
             return;
         }
 
         // نضّف بيانات الجلسة المؤقتة بعد النجاح
         sessionStorage.removeItem("resetEmail");
-        sessionStorage.removeItem("resetToken");
+        sessionStorage.removeItem("resetOtp");
 
         window.location.href = "login.html";
     } catch (err) {

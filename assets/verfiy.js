@@ -92,7 +92,7 @@ resendLink.addEventListener("click", async (e) => {
 
     resendLink.style.pointerEvents = "none";
     try {
-        // إصلاح الـ endpoint ده حسب الـ API بتاعك لو الاسم مختلف
+        // POST /api/Auth/forgot-password { Email }
         await fetch("https://localhost:7162/api/Auth/forgot-password", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -105,6 +105,16 @@ resendLink.addEventListener("click", async (e) => {
         startCountdown();
     }
 });
+
+// =============================================
+// استخراج رسالة الخطأ سواء رجعت string عادي
+// (زي BadRequest("Invalid OTP")) أو object فيه message
+// =============================================
+function extractErrorMessage(data, fallback) {
+    if (!data) return fallback;
+    if (typeof data === "string") return data;
+    return data.message || data.title || fallback;
+}
 
 // =============================================
 // إرسال الكود للتحقق
@@ -130,30 +140,33 @@ document.getElementById("verifyBtn").addEventListener("click", async function ()
     btn.textContent = "جاري التحقق...";
 
     try {
-        // إصلاح الـ endpoint ده حسب الـ API بتاعك لو الاسم مختلف
-        const res = await fetch("https://localhost:7162/api/Auth/verify-reset-code", {
+        // POST /api/Auth/verify-otp { Email, Otp } => Ok("OTP Verified")
+        const res = await fetch("https://localhost:7162/api/Auth/verify-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ Email: userEmail, Code: code })
+            body: JSON.stringify({ Email: userEmail, Otp: code })
         });
 
         let data = null;
         try {
             data = await res.json();
         } catch {
-            // مفيش body في الرد
+            // مفيش body في الرد (زي NotFound())
         }
 
         if (!res.ok) {
-            codeError.textContent = data?.message || data?.title || "الكود غير صحيح أو منتهي الصلاحية";
+            if (res.status === 404) {
+                codeError.textContent = "المستخدم غير موجود";
+            } else {
+                codeError.textContent = extractErrorMessage(data, "الكود غير صحيح أو منتهي الصلاحية");
+            }
             return;
         }
 
-        // احفظ الـ token اللي هيتستخدم في صفحة تغيير الباسورد
-        if (data?.resetToken) {
-            sessionStorage.setItem("resetToken", data.resetToken);
-        }
+        // الباك إند مش بيرجّع توكن، فبنحفظ الإيميل والكود
+        // عشان نستخدمهم تاني في خطوة تغيير الباسورد
         sessionStorage.setItem("resetEmail", userEmail);
+        sessionStorage.setItem("resetOtp", code);
 
         window.location.href = "resetPassword.html";
     } catch (err) {
