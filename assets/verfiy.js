@@ -1,179 +1,157 @@
 // =============================================
-// جلب الإيميل اللي اتبعت له الكود (من الصفحة اللي قبل)
+// Toggle Password Visibility
 // =============================================
-const userEmail = sessionStorage.getItem("resetEmail") || new URLSearchParams(window.location.search).get("email");
-
-if (userEmail) {
-    document.getElementById("userEmail").textContent = userEmail;
+function togglePassword(fieldId, btn) {
+    const input = document.getElementById(fieldId);
+    const isPassword = input.type === "password";
+    input.type = isPassword ? "text" : "password";
+    const eyeOpen = btn.querySelector(".eye-open");
+    const eyeClosed = btn.querySelector(".eye-closed");
+    if (eyeOpen && eyeClosed) {
+        eyeOpen.style.display = isPassword ? "none" : "block";
+        eyeClosed.style.display = isPassword ? "block" : "none";
+    }
 }
-
 // =============================================
-// التحكم في خانات الكود (OTP)
+// Login Form Validation & Submission
 // =============================================
-const otpInputs = document.querySelectorAll(".otp-input");
-
-otpInputs.forEach((input, index) => {
-    input.addEventListener("input", (e) => {
-        const value = e.target.value.replace(/[^0-9]/g, "");
-        e.target.value = value;
-
-        if (value) {
-            input.classList.add("filled");
-            if (index < otpInputs.length - 1) {
-                otpInputs[index + 1].focus();
-            }
-        } else {
-            input.classList.remove("filled");
-        }
-    });
-
-    input.addEventListener("keydown", (e) => {
-        if (e.key === "Backspace" && !input.value && index > 0) {
-            otpInputs[index - 1].focus();
-        }
-    });
-
-    // دعم لصق الكود كامل دفعة واحدة
-    input.addEventListener("paste", (e) => {
-        e.preventDefault();
-        const pasted = (e.clipboardData || window.clipboardData).getData("text").replace(/[^0-9]/g, "");
-        if (!pasted) return;
-
-        pasted.split("").forEach((char, i) => {
-            if (otpInputs[i]) {
-                otpInputs[i].value = char;
-                otpInputs[i].classList.add("filled");
-            }
+document.getElementById("loginBtn").addEventListener("click", async function () {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+    // Reset errors
+    emailError.textContent = "";
+    passwordError.textContent = "";
+    let isValid = true;
+    // ===== Validation: البريد الإلكتروني =====
+    // إصلاح: regex صحيح بدل includes("@")
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+        emailError.textContent = "يرجى إدخال البريد الإلكتروني";
+        isValid = false;
+    } else if (!emailPattern.test(email)) {
+        emailError.textContent = "يرجى إدخال بريد إلكتروني صحيح";
+        isValid = false;
+    }
+    // ===== Validation: كلمة المرور =====
+    if (!password) {
+        passwordError.textContent = "يرجى إدخال كلمة المرور";
+        isValid = false;
+    }
+    if (!isValid) return;
+    // ===== Loading State =====
+    const btn = document.getElementById("loginBtn");
+    btn.disabled = true;
+    btn.textContent = "جاري تسجيل الدخول...";
+    try {
+        // إصلاح: http بدل https على localhost
+        const res = await fetch("https://localhost:7162/api/Auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ Email: email, Password: password })
         });
-
-        const nextIndex = Math.min(pasted.length, otpInputs.length - 1);
-        otpInputs[nextIndex].focus();
-    });
+        // إصلاح: اقرأ الـ body أولاً عشان تاخد رسالة الـ error
+        let data = null;
+        try {
+            data = await res.json();
+        } catch {
+            // لو الـ response مش JSON
+        }
+        if (!res.ok) {
+            // إصلاح: استخدم رسالة الـ API لو موجودة
+            if (res.status === 401) {
+                passwordError.textContent = "البريد الإلكتروني أو كلمة المرور غير صحيحة";
+            } else {
+                const apiMessage = data?.message || data?.title || "فشل تسجيل الدخول، حاول مرة أخرى";
+                passwordError.textContent = apiMessage;
+            }
+            return;
+        }
+        // لو الـ backend بيرجع token احفظه
+        if (data?.token) {
+            localStorage.setItem("token", data.token);
+        }
+        console.log("تم تسجيل الدخول بنجاح:", data);
+        // وجّه المستخدم للصفحة الرئيسية بعد النجاح
+        window.location.href = "index.html";
+    } catch (err) {
+        // Network error أو CORS
+        console.error("Connection error:", err);
+        passwordError.textContent = "تعذر الاتصال بالخادم، تأكد من تشغيل الـ backend";
+    } finally {
+        // ارجّع الزرار لحالته الأصلية دايمًا
+        btn.disabled = false;
+        btn.textContent = "تسجيل الدخول";
+    }
 });
 
-if (otpInputs.length) {
-    otpInputs[0].focus();
-}
-
 // =============================================
-// عداد إعادة إرسال الكود
+// نسيت كلمة المرور — بنستخدم نفس حقل الإيميل في فورم
+// الـ login، نبعت عليه الكود، ونوديه لصفحة التحقق
 // =============================================
-const resendTimer = document.getElementById("resendTimer");
-const resendLink = document.getElementById("resendLink");
-const timerCount = document.getElementById("timerCount");
-
-let secondsLeft = 60;
-let countdownInterval = null;
-
-function startCountdown() {
-    secondsLeft = 60;
-    resendTimer.style.display = "inline";
-    resendLink.style.display = "none";
-    timerCount.textContent = secondsLeft;
-
-    clearInterval(countdownInterval);
-    countdownInterval = setInterval(() => {
-        secondsLeft--;
-        timerCount.textContent = secondsLeft;
-
-        if (secondsLeft <= 0) {
-            clearInterval(countdownInterval);
-            resendTimer.style.display = "none";
-            resendLink.style.display = "inline";
-        }
-    }, 1000);
-}
-
-startCountdown();
-
-resendLink.addEventListener("click", async (e) => {
+document.getElementById("forgotPasswordLink").addEventListener("click", async function (e) {
     e.preventDefault();
-    if (!userEmail) return;
 
-    resendLink.style.pointerEvents = "none";
+    const emailInput = document.getElementById("email");
+    const emailError = document.getElementById("emailError");
+    const email = emailInput.value.trim();
+
+    emailError.textContent = "";
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+        emailError.textContent = "يرجى إدخال البريد الإلكتروني أولاً عشان نبعتلك كود التفعيل";
+        emailInput.focus();
+        return;
+    }
+    if (!emailPattern.test(email)) {
+        emailError.textContent = "يرجى إدخال بريد إلكتروني صحيح";
+        emailInput.focus();
+        return;
+    }
+
+    const link = this;
+    const originalText = link.textContent;
+    link.textContent = "جاري الإرسال...";
+    link.style.pointerEvents = "none";
+
     try {
         // POST /api/Auth/forgot-password { Email }
-        await fetch("https://localhost:7162/api/Auth/forgot-password", {
+        const res = await fetch("https://localhost:7162/api/Auth/forgot-password", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ Email: userEmail })
-        });
-    } catch (err) {
-        console.error("Resend error:", err);
-    } finally {
-        resendLink.style.pointerEvents = "auto";
-        startCountdown();
-    }
-});
-
-// =============================================
-// استخراج رسالة الخطأ سواء رجعت string عادي
-// (زي BadRequest("Invalid OTP")) أو object فيه message
-// =============================================
-function extractErrorMessage(data, fallback) {
-    if (!data) return fallback;
-    if (typeof data === "string") return data;
-    return data.message || data.title || fallback;
-}
-
-// =============================================
-// إرسال الكود للتحقق
-// =============================================
-document.getElementById("verifyBtn").addEventListener("click", async function () {
-    const codeError = document.getElementById("codeError");
-    codeError.textContent = "";
-
-    const code = Array.from(otpInputs).map((input) => input.value).join("");
-
-    if (code.length < otpInputs.length) {
-        codeError.textContent = "يرجى إدخال الكود كاملاً";
-        return;
-    }
-
-    if (!userEmail) {
-        codeError.textContent = "تعذر تحديد البريد الإلكتروني، يرجى المحاولة من جديد";
-        return;
-    }
-
-    const btn = document.getElementById("verifyBtn");
-    btn.disabled = true;
-    btn.textContent = "جاري التحقق...";
-
-    try {
-        // POST /api/Auth/verify-otp { Email, Otp } => Ok("OTP Verified")
-        const res = await fetch("https://localhost:7162/api/Auth/verify-otp", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ Email: userEmail, Otp: code })
+            body: JSON.stringify({ Email: email })
         });
 
         let data = null;
         try {
             data = await res.json();
         } catch {
-            // مفيش body في الرد (زي NotFound())
+            // مفيش body في الرد
         }
 
         if (!res.ok) {
             if (res.status === 404) {
-                codeError.textContent = "المستخدم غير موجود";
+                emailError.textContent = "هذا البريد الإلكتروني غير مسجل";
             } else {
-                codeError.textContent = extractErrorMessage(data, "الكود غير صحيح أو منتهي الصلاحية");
+                const apiMessage = typeof data === "string" ? data : (data?.message || data?.title);
+                emailError.textContent = apiMessage || "تعذر إرسال الكود، حاول مرة أخرى";
             }
             return;
         }
 
-        // الباك إند مش بيرجّع توكن، فبنحفظ الإيميل والكود
-        // عشان نستخدمهم تاني في خطوة تغيير الباسورد
-        sessionStorage.setItem("resetEmail", userEmail);
-        sessionStorage.setItem("resetOtp", code);
+        // احفظ الإيميل عشان صفحة التحقق تستخدمه
+        sessionStorage.setItem("resetEmail", email);
+        window.location.href = "verify.html";
 
-        window.location.href = "resetPassword.html";
     } catch (err) {
         console.error("Connection error:", err);
-        codeError.textContent = "تعذر الاتصال بالخادم، تأكد من تشغيل الـ backend";
+        emailError.textContent = "تعذر الاتصال بالخادم، تأكد من تشغيل الـ backend";
     } finally {
-        btn.disabled = false;
-        btn.textContent = "تأكيد";
+        link.textContent = originalText;
+        link.style.pointerEvents = "auto";
     }
 });
