@@ -54,7 +54,7 @@
     /* ── تحميل التصنيفات ── */
     function loadCategories() {
         var select = document.getElementById("category");
-        fetch(API_BASE + "/Categories") // ⚠️ عدّلي المسار ده لما تأكدي اسمه عندك بالظبط
+        fetch(API_BASE + "/Categories")
             .then(function (res) {
                 if (!res.ok) throw new Error("فشل تحميل التصنيفات");
                 return res.json();
@@ -63,8 +63,8 @@
                 select.innerHTML = '<option value="">اختر التصنيف</option>';
                 categories.forEach(function (cat) {
                     var opt = document.createElement("option");
-                    opt.value = cat.id;          // ⚠️ عدّلي اسم الحقل لو مختلف
-                    opt.textContent = cat.name;  // ⚠️ عدّلي اسم الحقل لو مختلف
+                    opt.value = cat.id;
+                    opt.textContent = cat.name;
                     select.appendChild(opt);
                 });
             })
