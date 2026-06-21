@@ -180,13 +180,27 @@ body {
 }
 
 @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.5; transform: scale(0.7); }
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.7);
+    }
 }
 
 /* ===== ABOUT ===== */
@@ -448,7 +462,7 @@ footer::before {
 
 .footer-grid {
     display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
+    grid-template-columns: 1.6fr 1fr 1fr;
     gap: 48px;
     padding-bottom: 48px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -583,80 +597,11 @@ footer::before {
     color: #DA523B;
     font-size: 18px;
     line-height: 1;
-    transition: transform 0.2s;
 }
 
 .footer-col ul li a:hover {
     color: #FFFFFF;
     gap: 12px;
-}
-
-.footer-newsletter h4 {
-    color: #FFFFFF;
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    position: relative;
-    padding-bottom: 12px;
-}
-
-.footer-newsletter h4::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 36px;
-    height: 2px;
-    background: #DA523B;
-    border-radius: 2px;
-}
-
-.footer-newsletter p {
-    color: #6E788F;
-    font-size: 13.5px;
-    line-height: 1.8;
-    margin-bottom: 20px;
-}
-
-.email-form {
-    display: flex;
-    border-radius: 4px;
-    overflow: hidden;
-    border: 1px solid rgba(110, 120, 143, 0.3);
-}
-
-.email-form input {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.05);
-    border: none;
-    outline: none;
-    padding: 12px 16px;
-    color: #FFFFFF;
-    font-family: 'Cairo', sans-serif;
-    font-size: 14px;
-    direction: rtl;
-}
-
-.email-form input::placeholder {
-    color: #6E788F;
-}
-
-.email-form button {
-    background: #DA523B;
-    border: none;
-    color: #FFFFFF;
-    font-family: 'Cairo', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 12px 20px;
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
-    letter-spacing: 0.5px;
-}
-
-.email-form button:hover {
-    background: #c44430;
 }
 
 .footer-bottom {
@@ -692,106 +637,4 @@ footer::before {
 
 .footer-bottom-links a:hover {
     color: #FFFFFF;
-}
-
-/* ===== SCROLL TO TOP ===== */
-.scroll-top {
-    position: fixed;
-    bottom: 28px;
-    left: 28px;
-    width: 40px;
-    height: 40px;
-    background: #DA523B;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(218, 82, 59, 0.4);
-    transition: transform 0.2s, background 0.2s;
-    border: none;
-}
-
-.scroll-top:hover {
-    background: #c44430;
-    transform: translateY(-3px);
-}
-
-.scroll-top svg {
-    width: 18px;
-    height: 18px;
-    stroke: #fff;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 992px) {
-    .about-grid,
-    .stats-grid,
-    .features,
-    .services-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .footer-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .vision-card p {
-        width: 100%;
-    }
-}
-
-@media (max-width: 768px) {
-    .nav-links {
-        position: absolute;
-        top: 90px;
-        right: -100%;
-        width: 100%;
-        background: white;
-        flex-direction: column;
-        text-align: center;
-        padding: 30px 0;
-        transition: .4s;
-    }
-
-    .nav-links.active {
-        right: 0;
-    }
-
-    .menu-toggle {
-        display: block;
-    }
-
-    .login-btn {
-        display: none;
-    }
-
-    .about-hero {
-        margin: 100px 16px 2rem;
-        padding: 2rem 1.5rem 2.5rem;
-    }
-
-    .header-deco {
-        display: none;
-    }
-
-    .about-text h2 {
-        font-size: 2.2rem;
-    }
-
-    .vision-card {
-        padding: 40px 25px;
-    }
-
-    .vision-card h2 {
-        font-size: 2rem;
-    }
-
-    .footer-grid {
-        grid-template-columns: 1fr;
-    }
-
-    footer {
-        padding: 40px 24px 0;
-    }
 }
