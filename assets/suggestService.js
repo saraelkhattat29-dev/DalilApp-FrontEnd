@@ -9,7 +9,7 @@
     var REQUIRED = ["serviceName", "category", "serviceType"];
     var API_BASE = "https://localhost:7162/api";
     var token = localStorage.getItem("token");
-    /* ── validate single field ── */
+
     function validateField(field) {
         var wrap = field.closest(".field-wrap");
         if (!wrap) return true;
@@ -22,7 +22,6 @@
         return valid;
     }
 
-    /* ── validate all ── */
     function validateAll() {
         var ok = true;
         REQUIRED.forEach(function (id) {
@@ -32,7 +31,6 @@
         return ok;
     }
 
-    /* ── live validation ── */
     REQUIRED.forEach(function (id) {
         var f = document.getElementById(id);
         if (!f) return;
@@ -42,7 +40,6 @@
         });
     });
 
-    /* ── scroll to first error ── */
     function scrollToFirstError() {
         var el = form.querySelector(".field-wrap.has-error");
         if (!el) return;
@@ -51,7 +48,6 @@
         if (inp) inp.focus();
     }
 
-    /* ── تحميل التصنيفات ── */
     function loadCategories() {
         var select = document.getElementById("category");
         fetch(API_BASE + "/Categories")
@@ -73,7 +69,7 @@
                 select.innerHTML = '<option value="">تعذر تحميل التصنيفات</option>';
             });
     }
-    /* ── show / hide overlay ── */
+
     function showSuccess(data) {
         refNumber.textContent = "#" + (data && data.id ? data.id : "");
         overlay.removeAttribute("hidden");
@@ -92,18 +88,19 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    /* ── زرار "تقديم اقتراح جديد" ── */
+    /* زرار اقتراح جديد */
     var btnNew = document.querySelector(".btn-new");
-    if (btnNew) {
-        btnNew.addEventListener("click", hideSuccess);
-    }
+    if (btnNew) btnNew.addEventListener("click", hideSuccess);
 
-    /* ── إغلاق بالضغط على الخلفية ── */
+    /* زرار X */
+    var btnClose = document.getElementById("successClose");
+    if (btnClose) btnClose.addEventListener("click", hideSuccess);
+
+    /* إغلاق بالضغط على الخلفية */
     overlay.addEventListener("click", function (e) {
         if (e.target === overlay) hideSuccess();
     });
 
-    /* ── loading state ── */
     function setLoading(on) {
         submitBtn.disabled = on;
         var t = submitBtn.querySelector(".btn-text");
@@ -112,7 +109,6 @@
         if (l) l.style.display = on ? "flex" : "none";
     }
 
-    /* ── خريطة أسماء حقول الباك إند لـ id بتاع كل input ── */
     var FIELD_MAP = {
         Title: "serviceName",
         CategoryId: "category",
@@ -164,7 +160,6 @@
         };
     }
 
-    /* ── submit ── */
     form.addEventListener("submit", function (e) {
         e.preventDefault();
         if (!validateAll()) { scrollToFirstError(); return; }
@@ -218,5 +213,6 @@
                 showFormError("تعذر الاتصال بالخادم، تأكد من تشغيل الـ backend");
             });
     });
+
     loadCategories();
 })();
