@@ -33,6 +33,7 @@ body {
     background: #fff;
     box-shadow: 0 2px 15px rgba(0, 0, 0, .08);
     z-index: 1000;
+     
 }
 
 .nav {
@@ -183,3 +184,5 @@ body {
     color: var(--nav-secondary);
     font-weight: 700;
 }
+
+

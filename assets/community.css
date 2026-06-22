@@ -208,53 +208,7 @@ body {
     }
 }
 
-/* Navbar */
-.navbar {
-    width: 100%;
-    background: #fff;
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 999;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
 
-.nav-content {
-    height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.logo {
-    text-decoration: none;
-    color: #132244;
-    font-size: 2rem;
-    font-weight: 900;
-}
-
-.nav-links {
-    display: flex;
-    gap: 35px;
-    list-style: none;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: #666;
-    font-size: 1rem;
-    transition: .3s;
-}
-
-.nav-links a:hover {
-    color: #DA523B;
-}
-
-.nav-links a.active {
-    color: #DA523B;
-    font-weight: 700;
-    position: relative;
-}
 
 
 .login-btn {
@@ -352,6 +306,7 @@ body {
     font-size: 15px;
     background: #ffffff;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+     overflow: hidden;
 }
 
 .post-actions {
@@ -360,7 +315,7 @@ body {
     gap: 15px;
     margin-top: 20px;
     flex: 1;
-    padding: -1px 15px;
+    padding: 0px 15px;
     font-size: 15px;
     height: 45px;
     font-size: 16px;
@@ -460,6 +415,7 @@ body {
     margin: 25px 0;
     color: #24344f;
 }
+
 
 .buttons {
     display: flex;
