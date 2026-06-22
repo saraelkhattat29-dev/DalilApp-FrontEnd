@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>اقتراح خدمة جديدة</title>
     <link rel="stylesheet" href="assets/suggestService.css" />
+    <link rel="stylesheet" href="assets/nav.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
@@ -15,24 +18,29 @@
 
     <div class="bg-grid"></div>
 
-    <!-- Navbar -->
-    <header class="navbar">
-        <div class="container nav-content">
-            <a href="Index.html" class="logo">دليل</a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="Index.html">الرئيسية</a></li>
-                    <li><a href="#">الخدمات</a></li>
-                    <li><a href="community.html" class="active">المجتمع</a></li>
-                    <li><a href="#">تواصل معنا</a></li>
-                    <li><a href="aboutUs.html">عن دليل</a></li>
-                </ul>
-            </nav>
-            <a href="logIn.html" class="login-btn" id="auth-btn">تسجيل الدخول</a>
-            <div class="menu-toggle" id="menu-toggle">☰</div>
+   <!-- NAVBAR -->
+  <header class="header">
+    <nav class="nav container">
+      <a href="#" class="nav__logo"><span>د</span>ليل</a>
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__list">
+          <li><a href="index.html" class="nav__link ">الرئيسية</a></li>
+          <li><a href="community.html" class="nav__link">المجتمع</a></li>
+          <li><a href="aboutUs.html" class="nav__link">عن دليل</a></li>
+          <li><a href="contact.html" class="nav__link">تواصل معنا</a></li>
+        </ul>
+        <div class="nav__close" id="nav-close">
+          <i class="ri-close-line"></i>
         </div>
-    </header>
-
+      </div>
+      <div class="nav__actions">
+        <div id="auth-section" class="auth-section"></div>
+        <div class="nav__toggle" id="nav-toggle">
+          <i class="ri-menu-line"></i>
+        </div>
+      </div>
+    </nav>
+  </header>
     <main class="page-wrapper">
 
         <!-- Header -->
@@ -219,5 +227,6 @@
     </main>
 
     <script src="assets/suggestService.js"></script>
+     <script src="assets/nav.js"></script>
 </body>
 </html>
