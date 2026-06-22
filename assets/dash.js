@@ -173,13 +173,54 @@ function renderActivities(activities) {
     }).join('');
 }
 
-// ===== SUGGESTIONS (static for now) =====
-const suggestions = [
-    { name: 'تجديد رخصة القيادة إلكترونياً', submitter: 'أحمد محمود سعيد', date: '2 مايو 2026', category: 'المرور', type: 'اونلاين', status: 'جديد', description: 'إتاحة تجديد رخصة القيادة بالكامل عبر الإنترنت دون الحاجة لزيارة مكتب المرور، مع دفع الرسوم إلكترونياً واستلام الرخصة بالبريد.', docs: ['بطاقة الرقم القومي سارية المفعول', 'رخصة القيادة القديمة', 'شهادة اللياقة الطبية', 'صورة شخصية حديثة', 'إيصال سداد الرسوم'] },
-    { name: 'حجز المواعيد الطبية بالمستشفيات الحكومية', submitter: 'منى إبراهيم عبدالله', date: '1 مايو 2026', category: 'الصحة', type: 'اونلاين', status: 'جديد', description: 'نظام لحجز المواعيد الطبية في المستشفيات الحكومية إلكترونياً لتقليل الازدحام وتوفير وقت المواطنين.', docs: ['بطاقة الرقم القومي', 'بطاقة التأمين الصحي', 'ملف طبي سابق (إن وجد)'] },
-    { name: 'استخراج صحيفة الحالة الجنائية أونلاين', submitter: 'محمد علي حسن', date: '29 أبريل 2026', category: 'الأحوال المدنية', type: 'اونلاين', status: 'قيد المراجعة', description: 'استخراج صحيفة الحالة الجنائية عبر البوابة الإلكترونية بدلاً من الحضور الشخصي لمقر الشرطة.', docs: ['بطاقة الرقم القومي سارية المفعول', 'طلب رسمي موقع', 'إيصال سداد الرسوم'] },
-    { name: 'دفع الغرامات المرورية عبر التطبيق', submitter: 'سارة خالد محمود', date: '27 أبريل 2026', category: 'المرور', type: 'اونلاين', status: 'جديد', description: 'إمكانية سداد غرامات المخالفات المرورية عبر تطبيق الجوال أو الموقع الإلكتروني مباشرة.', docs: ['رقم لوحة السيارة', 'رقم المخالفة', 'وسيلة دفع إلكترونية'] }
-];
+// ===== SUGGESTIONS =====
+let suggestions = [];
+
+async function loadSuggestions() {
+    try {
+        suggestions = await apiRequest('/Services/suggestions', 'GET');
+        renderSuggestionsList();
+    } catch (err) {
+        console.warn('تعذّر تحميل الاقتراحات:', err.message);
+    }
+}
+
+function renderSuggestionsList() {
+    const list = document.getElementById('suggestions-list');
+    if (!list) return;
+
+    if (!suggestions || suggestions.length === 0) {
+        list.innerHTML = `
+            <div style="text-align:center;padding:40px;color:var(--text-muted);font-size:14px">
+                <i class="fa-solid fa-inbox" style="font-size:32px;color:var(--text-dim);display:block;margin-bottom:12px"></i>
+                لا توجد اقتراحات حالياً
+            </div>`;
+        return;
+    }
+
+    list.innerHTML = suggestions.map((s, i) => `
+        <div class="suggestion-item" id="suggestion-item-${s.id}">
+            <div class="suggestion-info">
+                <div class="suggestion-name">${s.title}</div>
+                <div class="suggestion-meta">
+                    <span><i class="fa-solid fa-user"></i> ${s.suggestedBy}</span>
+                    <span><i class="fa-solid fa-folder"></i> ${s.categoryName}</span>
+                    <span><i class="fa-solid fa-clock"></i> ${formatDate(s.createdAt)}</span>
+                </div>
+            </div>
+            <div class="suggestion-actions">
+                <button class="btn btn-outline btn-sm" onclick="openSuggestionModal(${s.id})">
+                    <i class="fa-solid fa-eye"></i> عرض التفاصيل
+                </button>
+            </div>
+        </div>`).join('');
+}
+
+function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' });
+}
 
 let editingCatId = null;
 let editingServiceId = null;
@@ -620,56 +661,75 @@ function updateLocationPreview() {
 }
 
 // ===== SUGGESTIONS MODAL =====
-function openModal(idx) {
-    const s = suggestions[idx];
-    const statusClass = s.status === 'جديد' ? 'badge-gold' : 'badge-navy';
-    const docsHtml = s.docs.map(d =>
-        `<div class="doc-item"><i class="fa-regular fa-file-lines"></i>${d}</div>`).join('');
+async function openSuggestionModal(id) {
+    try {
+        const s = await apiRequest(`/Services/suggestions/${id}`, 'GET');
 
-    document.getElementById('modal-title').textContent = 'تفاصيل الاقتراح';
-    document.getElementById('modal-body').innerHTML = `
-    <div class="modal-section">
-        <div class="modal-section-title"><i class="fa-solid fa-circle-info"></i> معلومات الخدمة المقترحة</div>
-        <div class="detail-grid">
-            <div class="detail-item full">
-                <div class="detail-label">اسم الخدمة</div>
-                <div class="detail-value" style="font-size:15px">${s.name}</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">التصنيف</div>
-                <div class="detail-value"><span class="badge badge-navy">${s.category}</span></div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">نوع الخدمة</div>
-                <div class="detail-value"><span class="badge badge-green">${s.type}</span></div>
-            </div>
-            <div class="detail-item full">
-                <div class="detail-label">الوصف</div>
-                <div class="detail-value" style="font-weight:400;color:var(--text-muted);line-height:1.7">${s.description}</div>
+        const docsHtml = (s.requiredDocuments || []).map(d =>
+            `<div class="doc-item"><i class="fa-regular fa-file-lines"></i>${d}</div>`).join('');
+
+        document.getElementById('modal-title').textContent = 'تفاصيل الاقتراح';
+        document.getElementById('modal-body').innerHTML = `
+        <div class="modal-section">
+            <div class="modal-section-title"><i class="fa-solid fa-circle-info"></i> معلومات الخدمة المقترحة</div>
+            <div class="detail-grid">
+                <div class="detail-item full">
+                    <div class="detail-label">اسم الخدمة</div>
+                    <div class="detail-value" style="font-size:15px">${s.title}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">التصنيف</div>
+                    <div class="detail-value"><span class="badge badge-navy">${s.categoryName}</span></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">نوع الخدمة</div>
+                    <div class="detail-value"><span class="badge badge-green">${s.type ?? '--'}</span></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">الحالة</div>
+                    <div class="detail-value">
+                        <span class="badge ${s.status === 'Pending' ? 'badge-gold' : s.status === 'Approved' ? 'badge-green' : 'badge-red'}">
+                            ${s.status === 'Pending' ? 'جديد' : s.status === 'Approved' ? 'موافق عليه' : 'مرفوض'}
+                        </span>
+                    </div>
+                </div>
+                <div class="detail-item full">
+                    <div class="detail-label">الوصف</div>
+                    <div class="detail-value" style="font-weight:400;color:var(--text-muted);line-height:1.7">${s.description ?? '--'}</div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="modal-section">
-        <div class="modal-section-title"><i class="fa-solid fa-user"></i> بيانات مقدّم الاقتراح</div>
-        <div class="detail-grid">
-            <div class="detail-item">
-                <div class="detail-label">الاسم</div>
-                <div class="detail-value">${s.submitter}</div>
+        <div class="modal-section">
+            <div class="modal-section-title"><i class="fa-solid fa-user"></i> بيانات مقدّم الاقتراح</div>
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <div class="detail-label">الاسم</div>
+                    <div class="detail-value">${s.suggestedBy ?? '--'}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">تاريخ التقديم</div>
+                    <div class="detail-value">${formatDate(s.createdAt)}</div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="modal-section">
-        <div class="modal-section-title"><i class="fa-regular fa-file-lines"></i> الأوراق المطلوبة</div>
-        <div class="docs-list">${docsHtml}</div>
-    </div>`;
-    document.getElementById('modal-footer').innerHTML = `
-    <button class="btn btn-danger" onclick="rejectSuggestion(${idx})">
-        <i class="fa-solid fa-xmark"></i> رفض
-    </button>
-    <button class="btn btn-success" onclick="editSuggestion(${idx})">
-        <i class="fa-solid fa-pen"></i> تعديل والموافقة
-    </button>`;
-    document.getElementById('modal-overlay').classList.add('open');
+        ${docsHtml ? `
+        <div class="modal-section">
+            <div class="modal-section-title"><i class="fa-regular fa-file-lines"></i> الأوراق المطلوبة</div>
+            <div class="docs-list">${docsHtml}</div>
+        </div>` : ''}`;
+
+        document.getElementById('modal-footer').innerHTML = `
+        <button class="btn btn-danger" onclick="rejectSuggestion(${s.id})">
+            <i class="fa-solid fa-xmark"></i> رفض
+        </button>
+        <button class="btn btn-success" onclick="editSuggestion(${s.id})">
+            <i class="fa-solid fa-pen"></i> تعديل والموافقة
+        </button>`;
+
+        document.getElementById('modal-overlay').classList.add('open');
+    } catch (err) {
+        showToast('error', `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`);
+    }
 }
 
 function closeModal(e) {
@@ -685,31 +745,39 @@ function approveSuggestion(idx) {
     closeModal(); removeSuggestionItem(idx);
     showToast('success', `<i class="fa-solid fa-circle-check"></i> تمت الموافقة على "${name}"`);
 }
-function rejectSuggestion(idx) {
-    const name = suggestions[idx].name;
-    closeModal(); removeSuggestionItem(idx);
-    showToast('error', `<i class="fa-solid fa-circle-xmark"></i> تم رفض "${name}"`);
+async function rejectSuggestion(id) {
+    try {
+        await apiRequest(`/Services/suggestions/${id}/reject`, 'PATCH');
+        closeModal();
+        document.getElementById(`suggestion-item-${id}`)?.remove();
+        await loadDashboardStats();
+        showToast('error', '<i class="fa-solid fa-circle-xmark"></i> تم رفض الاقتراح');
+    } catch (err) {
+        showToast('error', `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`);
+    }
 }
-function editSuggestion(idx) {
+
+function editSuggestion(id) {
     closeModal();
-    const s = suggestions[idx];
+    const s = suggestions.find(x => x.id === id);
+    if (!s) return;
     clearForm();
-    document.getElementById('svc-name').value = s.name;
+    document.getElementById('svc-name').value = s.title;
     refreshCatSelect();
-    document.getElementById('svc-cat').value = s.category;
-    document.getElementById('svc-type').value = s.type;
-    setDocsInForm(s.docs || []);
+    document.getElementById('svc-type').value = s.type ?? '';
+    setDocsInForm(s.requiredDocuments || []);
     setStepsInForm([]);
     showSection('add-service', document.querySelectorAll('.nav-item')[2]);
     showToast('edit', '<i class="fa-solid fa-pen"></i> تم نقل بيانات الاقتراح لنموذج الإضافة');
 }
-function removeSuggestionItem(idx) {
-    const items = document.querySelectorAll('.suggestion-item');
-    if (items[idx]) {
-        items[idx].style.transition = 'opacity .3s, transform .3s';
-        items[idx].style.opacity = '0';
-        items[idx].style.transform = 'translateX(30px)';
-        setTimeout(() => items[idx].remove(), 300);
+
+function removeSuggestionItem(id) {
+    const el = document.getElementById(`suggestion-item-${id}`);
+    if (el) {
+        el.style.transition = 'opacity .3s, transform .3s';
+        el.style.opacity = '0';
+        el.style.transform = 'translateX(30px)';
+        setTimeout(() => el.remove(), 300);
     }
 }
 
@@ -733,7 +801,7 @@ function showToast(type, html) {
     await loadCategories();
     await loadServices();
     renderCategoriesTable();
-    // تحميل بيانات لوحة التحكم من الباك إند
     await loadDashboardStats();
     await loadDashboardActivities();
+    await loadSuggestions(); // ← أضيفي السطر ده
 })();
