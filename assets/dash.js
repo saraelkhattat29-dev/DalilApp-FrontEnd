@@ -133,10 +133,13 @@ async function loadDashboardActivities() {
 
 // خريطة الألوان حسب النوع
 const ACTIVITY_COLORS = {
-    'add': 'var(--green)',
-    'edit': 'var(--primary)',
+    'service_added': 'var(--green)',
+    'service_updated': 'var(--primary)',
     'delete': 'var(--red)',
-    'suggestion': 'var(--gold)',
+    'service_deleted': 'var(--red)',
+    'suggestion_added': 'var(--gold)',
+    'suggestion_rejected': 'var(--red)',
+    'suggestion_approved': 'var(--green)',
 };
 
 function getActivityColor(activityType, status) {
