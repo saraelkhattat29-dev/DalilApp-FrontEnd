@@ -168,8 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadCategories() {
   try {
-    const res = await fetch('https://localhost:7000/api/Categories');
-    // ↑ غير البورت ده لبورت الباك إند بتاعك
+    // استخدم HTTP مش HTTPS
+    const res = await fetch('http://localhost:5000/api/Categories');    // ↑ غير البورت ده لبورت الباك إند بتاعك
 
     if (!res.ok) throw new Error('فشل التحميل');
     const categories = await res.json();
