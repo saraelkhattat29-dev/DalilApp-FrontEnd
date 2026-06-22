@@ -39,7 +39,7 @@
       </div>
       <div class="nav-item" onclick="showSection('suggestions',this)">
         <span class="nav-icon"><i class="fa-solid fa-lightbulb"></i></span>الاقتراحات
-        <span class="nav-badge">4</span>
+        <span class="nav-badge" id="nav-suggestions-badge">--</span>
       </div>
     </nav>
     <div class="sidebar-footer">
@@ -65,24 +65,37 @@
       <!-- DASHBOARD -->
       <div class="section active" id="section-dashboard">
         <div class="cards-grid">
+
+          <!-- بطاقة إجمالي الخدمات -->
           <div class="stat-card blue">
             <div class="card-icon blue"><i class="fa-solid fa-landmark"></i></div>
-            <div class="card-num">128</div>
+            <div class="card-num" id="stat-total-services">--</div>
             <div class="card-label">إجمالي الخدمات</div>
             <div class="card-change up"><i class="fa-solid fa-arrow-trend-up"></i> 12 خدمة هذا الشهر</div>
           </div>
+
+          <!-- بطاقة الاقتراحات -->
           <div class="stat-card gold">
             <div class="card-icon gold"><i class="fa-solid fa-lightbulb"></i></div>
-            <div class="card-num">4</div>
+            <div class="card-num" id="stat-total-suggestions">--</div>
             <div class="card-label">اقتراحات جديدة</div>
-            <div class="card-change up"><i class="fa-solid fa-arrow-trend-up"></i> 2 اقتراحات اليوم</div>
+            <div class="card-change up">
+              <i class="fa-solid fa-arrow-trend-up"></i>
+              <span id="stat-new-suggestions-today">...</span>
+            </div>
           </div>
+
+          <!-- بطاقة عدد الزوار -->
           <div class="stat-card green">
             <div class="card-icon green"><i class="fa-solid fa-eye"></i></div>
-            <div class="card-num">14,320</div>
+            <div class="card-num" id="stat-total-visitors">--</div>
             <div class="card-label">عدد الزوار</div>
-            <div class="card-change up"><i class="fa-solid fa-arrow-trend-up"></i> 8.4% هذا الأسبوع</div>
+            <div class="card-change up">
+              <i class="fa-solid fa-arrow-trend-up"></i>
+              <span id="stat-visitors-growth">...</span>
+            </div>
           </div>
+
         </div>
         <div class="section-header">
           <div>
@@ -91,26 +104,7 @@
           </div>
         </div>
         <div class="activity-list">
-          <div class="activity-item">
-            <div class="activity-dot" style="background:var(--green)"></div>
-            <div class="activity-text">تمت إضافة خدمة <span>استخراج بطاقة الرقم القومي</span> بنجاح</div>
-            <div class="activity-time">منذ 5 دقائق</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot" style="background:var(--gold)"></div>
-            <div class="activity-text">اقتراح جديد من <span>أحمد محمود</span>: خدمة تجديد رخصة القيادة إلكترونياً</div>
-            <div class="activity-time">منذ 23 دقيقة</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot" style="background:var(--primary)"></div>
-            <div class="activity-text">تم تعديل خدمة <span>التسجيل في المدارس</span> - تحديث الرسوم</div>
-            <div class="activity-time">منذ ساعة</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot" style="background:var(--red)"></div>
-            <div class="activity-text">تم حذف خدمة <span>الخدمة القديمة للتحقق</span> من قبل المدير</div>
-            <div class="activity-time">منذ 3 ساعات</div>
-          </div>
+          <!-- يتم تحميلها ديناميكياً من الباك إند -->
         </div>
       </div>
 
@@ -190,10 +184,7 @@
               <label><i class="fa-solid fa-align-right"></i> وصف الخدمة *</label>
               <textarea id="svc-description" placeholder="اكتبي وصف مختصر وواضح للخدمة"></textarea>
             </div>
-            <div class="form-group form-full">
-              <label><i class="fa-solid fa-align-right"></i> وصف الخدمة *</label>
-              <textarea id="svc-description" placeholder="اكتبي وصف مختصر وواضح للخدمة"></textarea>
-            </div>
+
             <!-- مكان التنفيذ -->
             <div class="form-group form-full">
               <label><i class="fa-solid fa-location-dot"></i> مكان التنفيذ</label>
@@ -210,7 +201,6 @@
                     onfocus="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 3px rgba(218,82,59,0.1)'"
                     onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
                 </div>
-                <!-- معاينة زرار المابس -->
                 <div class="location-preview" id="location-preview">
                   <i class="fa-solid fa-location-dot"></i>
                   <span id="location-preview-text"></span>
@@ -305,68 +295,11 @@
         <div class="section-header">
           <div>
             <h2>اقتراحات الخدمات</h2>
-            <p>4 اقتراحات تنتظر المراجعة</p>
+            <p id="suggestions-subtitle">-- اقتراحات تنتظر المراجعة</p>
           </div>
         </div>
         <div id="suggestions-list">
-          <div class="suggestion-item">
-            <div class="suggestion-info">
-              <div class="suggestion-name">تجديد رخصة القيادة إلكترونياً</div>
-              <div class="suggestion-meta">
-                <span><i class="fa-solid fa-user"></i> أحمد محمود سعيد</span>
-
-
-              </div>
-            </div>
-            <div class="suggestion-actions">
-              <button class="btn btn-outline btn-sm" onclick="openModal(0)">
-                <i class="fa-solid fa-eye"></i> عرض التفاصيل
-              </button>
-            </div>
-          </div>
-          <div class="suggestion-item">
-            <div class="suggestion-info">
-              <div class="suggestion-name">حجز المواعيد الطبية بالمستشفيات الحكومية</div>
-              <div class="suggestion-meta">
-                <span><i class="fa-solid fa-user"></i> منى إبراهيم عبدالله</span>
-              </div>
-            </div>
-            <div class="suggestion-actions">
-              <button class="btn btn-outline btn-sm" onclick="openModal(1)">
-                <i class="fa-solid fa-eye"></i> عرض التفاصيل
-              </button>
-            </div>
-          </div>
-          <div class="suggestion-item">
-            <div class="suggestion-info">
-              <div class="suggestion-name">استخراج صحيفة الحالة الجنائية أونلاين</div>
-              <div class="suggestion-meta">
-                <span><i class="fa-solid fa-user"></i> محمد علي حسن</span>
-
-
-              </div>
-            </div>
-            <div class="suggestion-actions">
-              <button class="btn btn-outline btn-sm" onclick="openModal(2)">
-                <i class="fa-solid fa-eye"></i> عرض التفاصيل
-              </button>
-            </div>
-          </div>
-          <div class="suggestion-item">
-            <div class="suggestion-info">
-              <div class="suggestion-name">دفع الغرامات المرورية عبر التطبيق</div>
-              <div class="suggestion-meta">
-                <span><i class="fa-solid fa-user"></i> سارة خالد محمود</span>
-
-
-              </div>
-            </div>
-            <div class="suggestion-actions">
-              <button class="btn btn-outline btn-sm" onclick="openModal(3)">
-                <i class="fa-solid fa-eye"></i> عرض التفاصيل
-              </button>
-            </div>
-          </div>
+          <!-- يتم تحميلها ديناميكياً من الباك إند -->
         </div>
       </div>
 
