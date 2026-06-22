@@ -12,6 +12,7 @@ function togglePassword(fieldId, btn) {
         eyeClosed.style.display = isPassword ? "block" : "none";
     }
 }
+
 // =============================================
 // Login Form Validation & Submission
 // =============================================
@@ -25,7 +26,6 @@ document.getElementById("loginBtn").addEventListener("click", async function () 
     passwordError.textContent = "";
     let isValid = true;
     // ===== Validation: البريد الإلكتروني =====
-    // إصلاح: regex صحيح بدل includes("@")
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email) {
         emailError.textContent = "يرجى إدخال البريد الإلكتروني";
@@ -45,7 +45,6 @@ document.getElementById("loginBtn").addEventListener("click", async function () 
     btn.disabled = true;
     btn.textContent = "جاري تسجيل الدخول...";
     try {
-        // إصلاح: http بدل https على localhost
         const res = await fetch("https://localhost:7162/api/Auth/login", {
             method: "POST",
             headers: {
@@ -53,7 +52,6 @@ document.getElementById("loginBtn").addEventListener("click", async function () 
             },
             body: JSON.stringify({ Email: email, Password: password })
         });
-        // إصلاح: اقرأ الـ body أولاً عشان تاخد رسالة الـ error
         let data = null;
         try {
             data = await res.json();
@@ -61,7 +59,6 @@ document.getElementById("loginBtn").addEventListener("click", async function () 
             // لو الـ response مش JSON
         }
         if (!res.ok) {
-            // إصلاح: استخدم رسالة الـ API لو موجودة
             if (res.status === 401) {
                 passwordError.textContent = "البريد الإلكتروني أو كلمة المرور غير صحيحة";
             } else {
@@ -70,13 +67,25 @@ document.getElementById("loginBtn").addEventListener("click", async function () 
             }
             return;
         }
+
         // لو الـ backend بيرجع token احفظه
         if (data?.token) {
             localStorage.setItem("token", data.token);
         }
+        if (data?.role) {
+            localStorage.setItem("role", data.role);
+        }
         console.log("تم تسجيل الدخول بنجاح:", data);
-        // وجّه المستخدم للصفحة الرئيسية بعد النجاح
-        window.location.href = "index.html";
+
+        // ===== توجيه حسب الـ role =====
+        const role = (data?.role || "").toLowerCase();
+
+        if (role === "admin") {
+            window.location.href = "dash.html";
+        } else {
+            window.location.href = "index.html";
+        }
+
     } catch (err) {
         // Network error أو CORS
         console.error("Connection error:", err);
@@ -119,7 +128,6 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async fu
     link.style.pointerEvents = "none";
 
     try {
-        // POST /api/Auth/forgot-password { Email }
         const res = await fetch("https://localhost:7162/api/Auth/forgot-password", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -143,7 +151,6 @@ document.getElementById("forgotPasswordLink").addEventListener("click", async fu
             return;
         }
 
-        // احفظ الإيميل عشان صفحة التحقق تستخدمه
         sessionStorage.setItem("resetEmail", email);
         window.location.href = "verfiy.html";
 
