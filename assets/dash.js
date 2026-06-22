@@ -164,7 +164,7 @@ function renderActivities(activities) {
         const color = getActivityColor(a.activityType, a.status);
         // BoldPart هو الجزء اللي المفروض يكون bold داخل الـ description
         const descHtml = a.boldPart
-            ? a.description.replace(a.boldPart, `<span>${a.boldPart}</span>`)
+            ? a.description.replace(a.boldPart, `<strong>${a.boldPart}</strong>`)
             : a.description;
 
         return `
