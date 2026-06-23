@@ -371,9 +371,9 @@ function renderPosts(posts) {
             <div class="post-body">${escapeHtml(post.content)}</div>
             <div class="post-meta">
     <span>
-        <i class="fa-solid fa-heart"></i>
-        ${post.likes} إعجاب
-    </span>
+    <i class="fa-regular fa-heart"></i>
+    ${post.likes} إعجاب
+</span>
                 <span><svg class="ico" viewBox="0 0 24 24" fill="none">
                         <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.4 8.5 8.5 0 0 1-4-1L3 20l1.1-5.5A8.4 8.4 0 0 1 21 11.5Z" />
                     </svg> ${post.commentsCount} تعليق</span>
