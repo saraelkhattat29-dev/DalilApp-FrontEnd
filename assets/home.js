@@ -202,11 +202,18 @@ function renderCategories(categories) {
     card.href = `services.html?categoryId=${cat.id}`;
     card.className = `dept-card ${isFeatured}`;
     card.innerHTML = `
-      <div class="dept-icon">${icon}</div>
-      <h3>${cat.name}</h3>
-      <p>اضغط لاستعراض خدمات ${cat.name}</p>
-      <div class="dept-arrow">←</div>
-    `;
+  <div class="dept-icon">${icon}</div>
+
+  <h3>${cat.name}</h3>
+
+  <p>${cat.services?.join('، ') || ''}</p>
+
+  <span class="dept-count">
+      ${cat.servicesCount} خدمة
+  </span>
+
+  <div class="dept-arrow">←</div>
+`;
     grid.appendChild(card);
   });
 
