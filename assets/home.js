@@ -159,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ----- Load Categories من الـ API ----- */
   loadCategories();
+  loadCommunityPreview();
 
 });
 
@@ -222,4 +223,46 @@ function renderCategories(categories) {
 
   // شغّل الـ scroll reveal على الكاردات الجديدة
   reapplyScrollReveal();
+}
+async function loadCommunityPreview() {
+  try {
+    const res = await fetch('https://localhost:7162/api/posts');
+    if (!res.ok) return;
+    const posts = await res.json();
+    if (!posts || posts.length === 0) return;
+
+    const shuffled = posts.sort(() => Math.random() - 0.5);
+    const picked = shuffled.slice(0, 2);
+
+    const cards = document.querySelectorAll('.community-card');
+
+    picked.forEach((post, i) => {
+      const card = cards[i];
+      if (!card) return;
+
+      const initials = post.userName
+        ? post.userName.trim().split(' ').slice(0, 2).map(w => w[0]).join('.')
+        : '؟';
+
+      const date = new Date(post.createdAt);
+      const now = new Date();
+      const diffMs = now - date;
+      const diffHours = Math.floor(diffMs / 3600000);
+      const diffDays = Math.floor(diffMs / 86400000);
+      let timeStr = diffDays > 0 ? `منذ ${diffDays} يوم` : `منذ ${diffHours} ساعة`;
+
+      card.querySelector('.card-avatar').textContent = initials;
+      card.querySelector('.card-meta strong').textContent = post.userName || 'مستخدم';
+      card.querySelector('.card-meta span').textContent = '';
+      card.querySelector('.card-question').textContent = post.content;
+      card.querySelector('.card-replies').innerHTML =
+        `<span>${post.commentsCount} رد</span><span>•</span><span>${timeStr}</span>`;
+
+      const tag = card.querySelector('.card-tag');
+      if (tag) tag.style.display = 'none';
+    });
+
+  } catch (err) {
+    console.error('Community preview error:', err);
+  }
 }
