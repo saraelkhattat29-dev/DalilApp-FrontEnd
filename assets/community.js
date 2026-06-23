@@ -116,17 +116,61 @@ function renderPosts() {
         return `
         <div class="post" data-post-id="${post.id}">
             <div class="post-header">
-                <div class="avatar" style="background:${color}; color:white;">
-                    ${first}
-                </div>
-                <div class="info">
-                    <h3>${post.userName}</h3>
-                    <span>${timeAgo(post.createdAt)}</span>
-                </div>
-            </div>
-            <div class="post-content">
-                ${post.content}
-            </div>
+    <div class="avatar" style="background:${color}; color:white;">
+        ${first}
+    </div>
+
+    <div class="info">
+        <h3>${post.userName}</h3>
+        <span>${timeAgo(post.createdAt)}</span>
+    </div>
+
+    ${currentUserId === post.userId ? `
+    <div class="post-menu-wrapper">
+        <button class="post-menu-btn"
+            onclick="togglePostMenu(${post.id})">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+
+        <div class="post-dropdown"
+            id="post-menu-${post.id}"
+            style="display:none;">
+
+            <button onclick="startPostEdit(${post.id})">
+                <i class="fa-regular fa-pen-to-square"></i>
+                تعديل
+            </button>
+
+            <button onclick="deletePost(${post.id})">
+                <i class="fa-regular fa-trash-can"></i>
+                حذف
+            </button>
+
+        </div>
+    </div>
+    ` : ''}
+</div>
+            <div class="post-content"
+    id="post-content-${post.id}">
+    ${post.content}
+</div>
+
+<div class="edit-post-area"
+    id="edit-post-area-${post.id}"
+    style="display:none;">
+
+    <input type="text"
+        id="edit-post-input-${post.id}"
+        value="${post.content}" />
+
+    <button onclick="savePostEdit(${post.id})">
+        حفظ
+    </button>
+
+    <button onclick="cancelPostEdit(${post.id})">
+        إلغاء
+    </button>
+</div>
             <div class="buttons">
                 <button class="btn like ${isLiked ? 'liked' : ''}" onclick="toggleLike(${post.id}, this)">
                     <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i>
@@ -149,6 +193,7 @@ function renderPosts() {
                 </div>` : ''}
             </div>
         </div>`;
+
     }).join("");
 
     postsContainer.innerHTML = html;
@@ -441,7 +486,91 @@ document.addEventListener("click", function (e) {
         document.querySelectorAll('.comment-dropdown').forEach(d => d.style.display = "none");
     }
 });
+function togglePostMenu(postId) {
+    const menu = document.getElementById(`post-menu-${postId}`);
+    const isOpen = menu.style.display === "block";
 
+    document.querySelectorAll(".post-dropdown")
+        .forEach(d => d.style.display = "none");
+
+    if (!isOpen)
+        menu.style.display = "block";
+}
+
+function startPostEdit(postId) {
+    document.getElementById(`post-content-${postId}`).style.display = "none";
+    document.getElementById(`edit-post-area-${postId}`).style.display = "flex";
+}
+
+function cancelPostEdit(postId) {
+    document.getElementById(`post-content-${postId}`).style.display = "block";
+    document.getElementById(`edit-post-area-${postId}`).style.display = "none";
+}
+
+async function savePostEdit(postId) {
+
+    const content = document
+        .getElementById(`edit-post-input-${postId}`)
+        .value.trim();
+
+    if (!content) return;
+
+    const token = localStorage.getItem("token");
+
+    try {
+
+        const response = await fetch(
+            `https://localhost:7162/api/posts/${postId}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    content: content
+                })
+            }
+        );
+
+        if (!response.ok)
+            throw new Error();
+
+        await loadPosts();
+
+    } catch {
+        alert("فشل تعديل البوست");
+    }
+}
+
+async function deletePost(postId) {
+
+    if (!confirm("هتحذف البوست ده؟"))
+        return;
+
+    const token = localStorage.getItem("token");
+
+    try {
+
+        const response = await fetch(
+            `https://localhost:7162/api/posts/${postId}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        if (!response.ok)
+            throw new Error();
+
+        await loadPosts();
+
+    } catch {
+        alert("فشل حذف البوست");
+    }
+}
 /* =========================
         INIT
 ========================= */
