@@ -760,18 +760,42 @@ async function rejectSuggestion(id) {
     }
 }
 
-function editSuggestion(id) {
-    closeModal();
-    const s = suggestions.find(x => x.id === id);
-    if (!s) return;
-    clearForm();
-    document.getElementById('svc-name').value = s.title;
-    refreshCatSelect();
-    document.getElementById('svc-type').value = s.type ?? '';
-    setDocsInForm(s.requiredDocuments || []);
-    setStepsInForm([]);
-    showSection('add-service', document.querySelectorAll('.nav-item')[2]);
-    showToast('edit', '<i class="fa-solid fa-pen"></i> تم نقل بيانات الاقتراح لنموذج الإضافة');
+async function editSuggestion(id) {
+    try {
+
+        const s = await apiRequest(`/Services/suggestions/${id}`, 'GET');
+
+        closeModal();
+        clearForm();
+
+        refreshCatSelect();
+
+        document.getElementById('svc-name').value = s.title || '';
+        document.getElementById('svc-description').value = s.description || '';
+        document.getElementById('svc-cat').value = s.categoryId || '';
+
+        document.getElementById('svc-type').value =
+            s.isOnline ? 'اونلاين' : 'اوفلاين';
+
+        document.getElementById('svc-fees').value = s.fees || '';
+        document.getElementById('svc-duration').value = s.duration || '';
+        document.getElementById('svc-url').value = s.url || '';
+
+        setDocsInForm(s.requiredDocuments || []);
+
+        showSection('add-service', document.querySelectorAll('.nav-item')[2]);
+
+        showToast(
+            'edit',
+            '<i class="fa-solid fa-pen"></i> تم نقل بيانات الاقتراح بالكامل'
+        );
+
+    } catch (err) {
+        showToast(
+            'error',
+            `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`
+        );
+    }
 }
 
 function removeSuggestionItem(id) {
