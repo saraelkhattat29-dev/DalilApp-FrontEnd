@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap');
+
 :root {
     --navy: #1a2e4a;
     --navy-light: #243d60;
@@ -306,7 +307,7 @@ body {
     font-size: 15px;
     background: #ffffff;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-     overflow: hidden;
+    overflow: hidden;
 }
 
 .post-actions {
@@ -356,6 +357,67 @@ body {
     border: 1px solid #ddd;
     margin-bottom: 25px;
     animation: fadeUp 0.3s ease;
+}
+
+.post-menu-wrapper {
+    position: relative;
+    margin-right: auto;
+    /* يدفعه لأقصى شمال */
+    margin-left: 0;
+}
+
+.post-menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #aaa;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.post-menu-btn:hover {
+    background: #f0f0f0;
+    color: #132244;
+}
+
+.post-dropdown {
+    position: absolute;
+    left: 0;
+    top: 110%;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    min-width: 130px;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.post-dropdown button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: Cairo, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    transition: 0.2s;
+    text-align: right;
+}
+
+.post-dropdown button:hover {
+    background: #f7f7f7;
+}
+
+.post-dropdown button:last-child {
+    color: #DA523B;
 }
 
 @keyframes fadeUp {
