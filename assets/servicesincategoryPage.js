@@ -36,15 +36,13 @@
        ============================================ */
     var state = { filter: "all", query: "" };
     async function loadCategory() {
-        const response = await fetch(
-            `${API_BASE}/Categories/${categoryId}`
-        );
 
-        category = await response.json();
+    const response = await fetch(
+        `${API_BASE}/Categories/${categoryId}`
+    );
 
-        document.getElementById("catTitle").textContent =
-            category.name;
-    }
+    category = await response.json();
+}
     async function loadServices() {
 
         const response = await fetch(
