@@ -64,19 +64,120 @@ document.addEventListener('DOMContentLoaded', () => {
   const mainSearch = document.getElementById('mainSearch');
   const mainSearchBtn = document.getElementById('mainSearchBtn');
 
-  function doSearch() {
-    const val = mainSearch.value.trim();
-    if (!val) {
-      loadCategories();
-      return;
+  // Dropdown container
+  const dropdown = document.createElement('div');
+  dropdown.id = 'search-dropdown';
+  dropdown.style.cssText = `
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-top: none;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+  z-index: 999;
+  max-height: 320px;
+  overflow-y: auto;
+  display: none;
+`;
+
+  const searchBar = document.querySelector('.search-section-bar');
+  searchBar.style.position = 'relative';
+  searchBar.appendChild(dropdown);
+
+  // إخفاء الـ dropdown لما اليوزر يضغط برا
+  document.addEventListener('click', function (e) {
+    if (!searchBar.contains(e.target)) {
+      dropdown.style.display = 'none';
     }
-    searchServices(val);
+  });
+
+  let searchTimeout = null;
+
+  if (mainSearch) {
+    mainSearch.addEventListener('input', function () {
+      const val = this.value.trim();
+      clearTimeout(searchTimeout);
+
+      if (!val) {
+        dropdown.style.display = 'none';
+        return;
+      }
+
+      // debounce 300ms عشان مايبعتش request بكل حرف
+      searchTimeout = setTimeout(() => {
+        fetchSearchDropdown(val);
+      }, 300);
+    });
   }
 
-  if (mainSearchBtn) mainSearchBtn.addEventListener('click', doSearch);
-  if (mainSearch) mainSearch.addEventListener('keyup', function (e) {
-    if (e.key === 'Enter') doSearch();
-  });
+  // زرار البحث - يوجه لصفحة نتايج لو عايزة، أو تسيبيه فاضي
+  if (mainSearchBtn) {
+    mainSearchBtn.addEventListener('click', function () {
+      const val = mainSearch.value.trim();
+      if (val) fetchSearchDropdown(val);
+    });
+  }
+
+  async function fetchSearchDropdown(query) {
+    try {
+      const res = await fetch(
+        `https://localhost:7162/api/Services?search=${encodeURIComponent(query)}&pageSize=8`
+      );
+      if (!res.ok) return;
+      const result = await res.json();
+      renderDropdown(result.data, query);
+    } catch (err) {
+      console.error('Search error:', err);
+    }
+  }
+
+  function renderDropdown(services, query) {
+    dropdown.innerHTML = '';
+
+    if (!services || services.length === 0) {
+      dropdown.innerHTML = `
+      <div style="padding:16px;text-align:center;color:var(--muted);font-size:0.88rem;">
+        <i>لا توجد نتائج لـ "${query}"</i>
+      </div>`;
+      dropdown.style.display = 'block';
+      return;
+    }
+
+    services.forEach(service => {
+      const item = document.createElement('a');
+      item.href = `serviceDetail.html?id=${service.id}`;
+      item.style.cssText = `
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      color: var(--text);
+      font-size: 0.9rem;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.15s;
+      text-decoration: none;
+    `;
+      item.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" 
+          stroke="var(--primary)" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <div>
+        <div style="font-weight:700;color:var(--navy)">${service.title}</div>
+        <div style="font-size:0.78rem;color:var(--muted)">${service.categoryName}</div>
+      </div>
+    `;
+      item.addEventListener('mouseover', () => item.style.background = '#f7f8fa');
+      item.addEventListener('mouseout', () => item.style.background = '');
+      dropdown.appendChild(item);
+    });
+
+    dropdown.style.display = 'block';
+  }
 
   /* ----- Scroll reveal observer (معرّف هنا عشان reapplyScrollReveal تقدر تستخدمه) ----- */
   const observer = new IntersectionObserver((entries) => {
