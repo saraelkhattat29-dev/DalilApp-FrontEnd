@@ -95,7 +95,7 @@ document.getElementById("signupBtn").addEventListener("click", async function ()
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ fullName:name, Email:email, Password:password, ConfirmPassword:confirmPassword })
+            body: JSON.stringify({ fullName: name, Email: email, Password: password, ConfirmPassword: confirmPassword })
         });
 
         // إصلاح: اقرأ الـ response body الأول
@@ -125,8 +125,10 @@ document.getElementById("signupBtn").addEventListener("click", async function ()
         }
 
         // نجح التسجيل
-        alert("تم إنشاء الحساب بنجاح 🎉");
-        window.location.href = "login.html";
+        showToast("تم إنشاء الحساب بنجاح");
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 2000);
 
     } catch (err) {
         // Network error أو CORS
@@ -139,3 +141,25 @@ document.getElementById("signupBtn").addEventListener("click", async function ()
         btn.textContent = "إنشاء حساب";
     }
 });
+function showToast(message) {
+    const old = document.getElementById("signup-toast");
+    if (old) old.remove();
+
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.id = "signup-toast";
+
+    toast.innerHTML = `
+        <i class="fa-solid fa-circle-check"></i>
+        ${message}
+    `;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add("show"), 10);
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 300);
+    }, 2000);
+}

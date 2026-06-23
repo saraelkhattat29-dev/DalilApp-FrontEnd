@@ -47,7 +47,7 @@ function renderAuthSection() {
 function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    renderAuthSection();
+    window.location.href = "login.html";
 }
 
 document.addEventListener("DOMContentLoaded", () => {

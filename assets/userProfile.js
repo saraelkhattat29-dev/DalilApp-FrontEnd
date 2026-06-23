@@ -64,7 +64,6 @@ function switchTab(btn, id) {
 function openModal() {
     if (currentProfile) {
         document.getElementById('editFullName').value = currentProfile.fullName;
-        document.getElementById('editEmail').value = currentProfile.email;
     }
     document.getElementById('editModal').classList.add('open');
 }
@@ -79,17 +78,10 @@ function handleOverlayClick(e) {
 
 async function saveProfile() {
     const fullName = document.getElementById('editFullName').value.trim();
-    const email = document.getElementById('editEmail').value.trim();
 
     // ===== Validation =====
     if (!fullName) {
         showToast('⚠️ يرجى إدخال الاسم الكامل');
-        return;
-    }
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailPattern.test(email)) {
-        showToast('⚠️ يرجى إدخال بريد إلكتروني صحيح');
         return;
     }
 
@@ -112,7 +104,7 @@ async function saveProfile() {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ FullName: fullName, Email: email })
+            body: JSON.stringify({ FullName: fullName })
         });
 
         if (res.status === 401) {
@@ -370,9 +362,10 @@ function renderPosts(posts) {
             </div>
             <div class="post-body">${escapeHtml(post.content)}</div>
             <div class="post-meta">
-                <span><svg class="ico" viewBox="0 0 24 24" fill="none">
-                        <path d="M7 11v10H4a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1h3Zm0 0 4-8a2 2 0 0 1 2 2v5h6a2 2 0 0 1 2 2.2l-1.2 7A2 2 0 0 1 18 21H9a2 2 0 0 1-2-2v-8Z" />
-                    </svg> ${post.likes} إعجاب</span>
+    <span>
+    <i class="fa-regular fa-heart"></i>
+    ${post.likes} إعجاب
+</span>
                 <span><svg class="ico" viewBox="0 0 24 24" fill="none">
                         <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.4 8.5 8.5 0 0 1-4-1L3 20l1.1-5.5A8.4 8.4 0 0 1 21 11.5Z" />
                     </svg> ${post.commentsCount} تعليق</span>
@@ -725,7 +718,7 @@ window.addEventListener('DOMContentLoaded', () => {
     loadMyPosts();
     loadMySuggestions();
     loadActivities();
-    loadNotifications();     
+    loadNotifications();
     bindCoreButtons();
     setTimeout(animateCounters, 400);
     setTimeout(animateProgress, 400);
