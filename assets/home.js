@@ -169,19 +169,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadCategories() {
   try {
-    // استخدم HTTP مش HTTPS
-    const res = await fetch('http://localhost:5000/api/Categories');    // ↑ غير البورت ده لبورت الباك إند بتاعك
 
-    if (!res.ok) throw new Error('فشل التحميل');
+    console.log("Start Loading");
+
+    const res = await fetch('https://localhost:7162/api/Categories');
+
+    console.log("Status =", res.status);
+
     const categories = await res.json();
+
+    console.log("Data =", categories);
+
     renderCategories(categories);
 
   } catch (err) {
-    console.error('خطأ في تحميل الكاتيجوريز:', err);
-    document.getElementById('deptGrid').innerHTML =
-      '<p style="color:red; text-align:center; padding:2rem">حدث خطأ في تحميل الأقسام، تأكد من تشغيل الـ API</p>';
+    console.error("ERROR:", err);
   }
 }
+
 
 function renderCategories(categories) {
   const grid = document.getElementById('deptGrid');
