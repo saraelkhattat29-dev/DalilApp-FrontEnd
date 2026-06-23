@@ -1,9 +1,11 @@
-async function linkFooterCategories() {
+async function linkFooterServices() {
     try {
-        const res = await fetch('https://localhost:7162/api/Services');
+        const res = await fetch('https://localhost:7162/api/Services?pageSize=100');
         if (!res.ok) return;
         const result = await res.json();
         const services = result.data || result;
+
+        console.log('Footer services:', services); // عشان نشوف الـ structure
 
         const serviceNames = [
             'ترخيص مستشفى خاص',
@@ -15,6 +17,7 @@ async function linkFooterCategories() {
         ];
 
         const footerLinks = document.querySelectorAll('.footer-col:first-of-type ul li a');
+
         footerLinks.forEach((link, i) => {
             const match = services.find(s => s.title === serviceNames[i]);
             if (match) {
@@ -28,5 +31,5 @@ async function linkFooterCategories() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    linkFooterCategories();
+    linkFooterServices();
 });
