@@ -136,7 +136,10 @@ function renderPosts() {
             id="post-menu-${post.id}"
             style="display:none;">
 
-            <button onclick="startPostEdit(${post.id}); togglePostMenu(${post.id})">
+        <button onclick="startPostEdit(${post.id}); togglePostMenu(${post.id})">
+    <i class="fa-regular fa-pen-to-square"></i>
+    تعديل
+</button>
 
             <button onclick="deletePost(${post.id})">
                 <i class="fa-regular fa-trash-can"></i>
