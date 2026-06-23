@@ -312,9 +312,11 @@ body {
     transform: translateY(-8px);
 }
 
-.service-icon {
-    font-size: 3rem;
-    margin-bottom: 20px;
+.service-box i {
+  font-size: 2.5rem;
+  color: #132244;
+  margin-bottom: 20px;
+  display: block;
 }
 
 .service-box h3 {
@@ -325,6 +327,19 @@ body {
 .service-box p {
     color: #666;
     line-height: 1.8;
+}
+
+.info-icon {
+    width: 64px;
+    height: 64px;
+    background: none;        /* شيل الدايرة */
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2rem;         /* كبّر الأيقونة شوية */
+    color: #132244;          /* أزرق داكن */
 }
 
 /* ===== TIMELINE ===== */
