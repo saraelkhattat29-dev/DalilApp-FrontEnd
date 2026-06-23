@@ -244,9 +244,8 @@ async function loadCommunityPreview() {
         ? post.userName.trim().split(' ').slice(0, 2).map(w => w[0]).join('.')
         : '؟';
 
-      const date = new Date(post.createdAt);
-      const now = new Date();
-      const diffMs = now - date;
+      const date = new Date(post.createdAt + 'Z');
+      const now = new Date(new Date().toISOString()); const diffMs = now - date;
       const diffHours = Math.floor(diffMs / 3600000);
       const diffDays = Math.floor(diffMs / 86400000);
       let timeStr = diffDays > 0 ? `منذ ${diffDays} يوم` : `منذ ${diffHours} ساعة`;
