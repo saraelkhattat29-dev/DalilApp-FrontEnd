@@ -448,6 +448,45 @@ body {
     align-items: center;
     gap: 15px;
 }
+.edit-post-area {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.edit-post-area input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1.5px solid #ddd;
+    font-family: Cairo, sans-serif;
+    font-size: 15px;
+}
+
+.edit-post-area button:first-of-type {
+    background: #DA523B;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: Cairo, sans-serif;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.edit-post-area button:last-of-type {
+    background: #eee;
+    color: #333;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: Cairo, sans-serif;
+    font-weight: 700;
+    white-space: nowrap;
+}
 
 .avatar {
     width: 50px;
