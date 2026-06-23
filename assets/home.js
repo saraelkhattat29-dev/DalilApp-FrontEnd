@@ -65,12 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const mainSearchBtn = document.getElementById('mainSearchBtn');
 
   function doSearch() {
-    const val = mainSearch.value.trim().toLowerCase();
-    const deptCards = document.querySelectorAll('.dept-card:not(.dept-card--suggest)');
-    deptCards.forEach(card => {
-      const text = card.innerText.toLowerCase();
-      card.style.display = val === '' || text.includes(val) ? 'block' : 'none';
-    });
+    const val = mainSearch.value.trim();
+    if (!val) {
+      loadCategories();
+      return;
+    }
+    searchServices(val);
   }
 
   if (mainSearchBtn) mainSearchBtn.addEventListener('click', doSearch);
@@ -264,4 +264,44 @@ async function loadCommunityPreview() {
   } catch (err) {
     console.error('Community preview error:', err);
   }
+}
+async function searchServices(query) {
+  try {
+    const res = await fetch(`https://localhost:7162/api/Services?search=${encodeURIComponent(query)}&pageSize=20`);
+    if (!res.ok) return;
+    const result = await res.json();
+    renderSearchResults(result.data);
+  } catch (err) {
+    console.error('Search error:', err);
+  }
+}
+
+function renderSearchResults(services) {
+  const grid = document.getElementById('deptGrid');
+  const suggestCard = grid.querySelector('.dept-card--suggest');
+
+  grid.innerHTML = '';
+
+  if (!services || services.length === 0) {
+    grid.innerHTML = '<p style="text-align:center;color:var(--muted);padding:2rem;">لا توجد نتائج</p>';
+    if (suggestCard) grid.appendChild(suggestCard);
+    return;
+  }
+
+  services.forEach((service) => {
+    const card = document.createElement('a');
+    card.href = `services.html?categoryId=${service.categoryId}`;
+    card.className = 'dept-card';
+    card.innerHTML = `
+      <div class="dept-icon">${defaultIcon}</div>
+      <h3>${service.title}</h3>
+      <p>${service.description || ''}</p>
+      <span class="dept-count">${service.categoryName}</span>
+      <div class="dept-arrow">←</div>
+    `;
+    grid.appendChild(card);
+  });
+
+  if (suggestCard) grid.appendChild(suggestCard);
+  reapplyScrollReveal();
 }
