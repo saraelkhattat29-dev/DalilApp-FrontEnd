@@ -64,8 +64,8 @@ ul {
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 50px;
+   border: none;
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
   background: #fff;
   padding: 0 5px 0 4px;
@@ -74,7 +74,8 @@ ul {
 }
 
 .search-bar:focus-within {
-  border-color: #DA523B;
+    border-color: #b0b7c3 !important;
+  box-shadow: none;
 }
 
 .search-bar input {
