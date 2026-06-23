@@ -64,7 +64,6 @@ function switchTab(btn, id) {
 function openModal() {
     if (currentProfile) {
         document.getElementById('editFullName').value = currentProfile.fullName;
-        document.getElementById('editEmail').value = currentProfile.email;
     }
     document.getElementById('editModal').classList.add('open');
 }
@@ -79,17 +78,10 @@ function handleOverlayClick(e) {
 
 async function saveProfile() {
     const fullName = document.getElementById('editFullName').value.trim();
-    const email = document.getElementById('editEmail').value.trim();
 
     // ===== Validation =====
     if (!fullName) {
         showToast('⚠️ يرجى إدخال الاسم الكامل');
-        return;
-    }
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailPattern.test(email)) {
-        showToast('⚠️ يرجى إدخال بريد إلكتروني صحيح');
         return;
     }
 
@@ -112,7 +104,7 @@ async function saveProfile() {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ FullName: fullName, Email: email })
+            body: JSON.stringify({ FullName: fullName })
         });
 
         if (res.status === 401) {
