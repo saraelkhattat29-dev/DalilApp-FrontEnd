@@ -303,7 +303,7 @@ function renderCategories(categories) {
     const isFeatured = index === 0 ? 'dept-card--featured' : '';
 
     const card = document.createElement('a');
-    card.href = `services.html?categoryId=${cat.id}`;
+    card.href = `servicesincategoryPage.html?categoryId=${cat.id}`;
     card.className = `dept-card ${isFeatured}`;
     card.innerHTML = `
   <div class="dept-icon">${icon}</div>
