@@ -91,6 +91,7 @@ async function loadPosts() {
         const response = await fetch("https://localhost:7162/api/posts");
         if (!response.ok) throw new Error("Failed to load posts");
         posts = await response.json();
+        console.log(posts);
         posts.reverse();
         renderPosts();
     } catch (error) {
@@ -158,7 +159,7 @@ function renderPosts() {
 ========================= */
 async function toggleLike(postId, btn) {
     if (!isLoggedIn()) {
-        showLoginToast("عشان تعمل بوست");
+        showLoginToast("عشان تعمل لايك");
         return;
     }
 
