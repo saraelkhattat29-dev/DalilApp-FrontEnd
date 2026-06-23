@@ -160,9 +160,10 @@ body {
 }
 
 .input-field:focus {
-    border-color: #DA523B;
+    outline: none;
+    border-color: #f07a55;
     background: #fff;
-    box-shadow: 0 0 0 4px rgba(218, 82, 59, 0.12);
+    box-shadow: 0 0 0 3px rgba(240, 122, 85, 0.12);
 }
 
 /* إصلاح: الـ placeholder لازم يكون space واحد عشان :not(:placeholder-shown) يشتغل */
