@@ -158,8 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ----- Load Categories من الـ API ----- */
+  /* ----- Load Categories من الـ API ----- */
   loadCategories();
   loadCommunityPreview();
+  loadHeroStats();
 
 });
 
@@ -304,4 +306,28 @@ function renderSearchResults(services) {
 
   if (suggestCard) grid.appendChild(suggestCard);
   reapplyScrollReveal();
+}
+async function loadHeroStats() {
+  try {
+    const res = await fetch('https://localhost:7162/api/Dashboard/stats');
+    if (!res.ok) return;
+    const stats = await res.json();
+
+    const serviceEl = document.querySelector('.stat-num:first-child');
+    const statsEls = document.querySelectorAll('.stat-num');
+
+    // عدد الخدمات — أول stat
+    if (statsEls[0] && stats.totalServices != null) {
+      statsEls[0].textContent = '+' + stats.totalServices;
+      animateCounter(statsEls[0]);
+    }
+
+    if (statsEls[2] && stats.totalVisitors != null) {
+      statsEls[2].textContent = '+' + stats.totalVisitors;
+      animateCounter(statsEls[2]);
+    }
+
+  } catch (err) {
+    console.error('Hero stats error:', err);
+  }
 }
