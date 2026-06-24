@@ -25,7 +25,20 @@
         edit: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
         alert: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
     };
+     
 
+    var categoryIcons = {
+    "الأحوال المدنية": icons.card,
+    "الخدمات القانونية": icons.doc,
+    "الإسكان": icons.license,
+    "التموين والدعم": icons.card,
+    "المرافق": icons.transfer,
+    "الصحة": icons.alert,
+    "المرور": icons.car,
+    "العمل": icons.card,
+    "الخدمات الأمنية": icons.alert,
+    "التعليم": icons.doc
+};
     var defaultIcon = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>';
 
     /* Arrow icon for button */
@@ -51,13 +64,14 @@
 
         const result = await response.json();
 
-        services = result.data.map(service => ({
-            id: service.id,
-            name: service.title,
-            description: service.description,
-            type: service.isOnline ? "أونلاين" : "حضوري",
-            url: `servicePage.html?id=${service.id}`
-        }));
+       services = result.data.map(service => ({
+    id: service.id,
+    name: service.title,
+    description: service.description,
+    type: service.isOnline ? "أونلاين" : "حضوري",
+    categoryName: service.categoryName,
+    url: `servicePage.html?id=${service.id}`
+}));
 
         renderCards();
     }
@@ -78,10 +92,44 @@
             return "٠١٢٣٤٥٦٧٨٩"[d];
         });
     }
+function getCategoryIcon() {
 
-    function getIcon(key) {
-        return icons[key] || defaultIcon;
+    switch (category.name) {
+
+        case "الأحوال المدنية":
+            return icons.card;
+
+        case "المرور":
+            return icons.car;
+
+        case "التعليم":
+            return icons.doc;
+
+        case "الصحة":
+            return icons.alert;
+
+        case "الإسكان":
+            return icons.license;
+
+        case "التموين والدعم":
+            return icons.card;
+
+        case "الخدمات القانونية":
+            return icons.doc;
+
+        case "العمل":
+            return icons.card;
+
+        case "الخدمات الأمنية":
+            return icons.alert;
+
+        case "المرافق":
+            return icons.transfer;
+
+        default:
+            return defaultIcon;
     }
+}
 
     /* ============================================
        RENDER HEADER
@@ -140,6 +188,7 @@
         }
 
         list.forEach(function (s) {
+            
             var card = document.createElement("div");
             card.className = "service-card";
 
@@ -150,7 +199,9 @@
             card.innerHTML =
                 /* Header row: icon RIGHT, title LEFT */
                 '<div class="card-header-row">' +
-                '<div class="card-icon-box">' + getIcon(s.icon) + '</div>' +
+                '<div class="card-icon-box">' +
+(categoryIcons[s.categoryName] || defaultIcon) +
+'</div>' +
                 '<div class="card-title-group">' +
                 '<div class="card-name">' + escHtml(s.name) + '</div>' +
                 '<span class="' + badgeClass + '">' + escHtml(badgeLabel) + '</span>' +
@@ -259,4 +310,5 @@
         init();
     }
 
+    
 })();

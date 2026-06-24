@@ -58,6 +58,7 @@ body {
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow-lg);
+      margin-top: 60px;
 }
 
 .page-header::before {
@@ -287,15 +288,21 @@ body {
 
 /* Icon box */
 .card-icon-box {
-    width: 48px; height: 48px;
-    border-radius: var(--radius-md);
-    background: var(--bg);
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--navy);
-    flex-shrink: 0;
-    transition: background var(--transition), color var(--transition);
+
+    background: #f3f5f7;
+    border-radius: 16px;
+}
+
+.card-icon-box svg {
+    width: 28px;
+    height: 28px;
 }
 
 
