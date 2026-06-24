@@ -118,7 +118,20 @@ ul {
   transform: translateY(-1px);
 }
 
-
+#search-dropdown{
+    position:absolute;
+    top:100%;
+    right:0;
+    left:0;
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-top:none;
+    border-radius:0 0 16px 16px;
+    max-height:300px;
+    overflow-y:auto;
+    z-index:999;
+    display:none;
+}
 .has-dropdown:hover .dropdown {
   display: block;
   animation: fadeDown 0.2s ease;
