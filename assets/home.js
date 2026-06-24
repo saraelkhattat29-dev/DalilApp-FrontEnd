@@ -121,17 +121,12 @@ document.addEventListener('DOMContentLoaded', () => {
   dropdown.id = 'search-dropdown';
   dropdown.style.cssText = `
   position: absolute;
-  top: 100%;
+  top: 70px;
   right: 0;
   left: 0;
-  background: #fff;
-  border: 1.5px solid #e5e7eb;
-  border-top: none;
-  border-radius: 0 0 16px 16px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-  z-index: 999;
-  max-height: 320px;
-  overflow-y: auto;
+  background: white;
+  border: 2px solid red;
+  z-index: 99999;
   display: none;
 `;
 
@@ -187,6 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderDropdown(services, query) {
+
+    console.log("Services:", services);
+
     dropdown.innerHTML = '';
 
     if (!services || services.length === 0) {
