@@ -320,57 +320,6 @@
                 </tr>
               </thead>
               <tbody id="posts-tbody">
-                <tr>
-                  <td class="td-num">1</td>
-                  <td>
-                    <div class="comm-user">
-                      <div class="comm-avatar">م</div>
-                      <span>محمد أحمد</span>
-                    </div>
-                  </td>
-                  <td class="comm-content-cell">كيف أستخرج رخصة قيادة للمرة الأولى؟ محتاج مساعدة</td>
-                  <td style="white-space:nowrap;font-size:12px;color:var(--text-muted)">2025/06/20</td>
-                  <td>
-                    <div class="actions-cell">
-                      <button class="icon-btn" title="عرض المنشور والتعليقات" onclick="viewPost(1)"><i class="fa-solid fa-eye"></i></button>
-                      <button class="icon-btn delete" title="حذف المنشور" onclick="confirmDeleteCommunity('post', 1, 'منشور محمد أحمد')"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="td-num">2</td>
-                  <td>
-                    <div class="comm-user">
-                      <div class="comm-avatar">س</div>
-                      <span>سارة خالد</span>
-                    </div>
-                  </td>
-                  <td class="comm-content-cell">الخدمة الإلكترونية لتجديد جواز السفر رائعة وسريعة جداً 👏</td>
-                  <td style="white-space:nowrap;font-size:12px;color:var(--text-muted)">2025/06/21</td>
-                  <td>
-                    <div class="actions-cell">
-                      <button class="icon-btn" title="عرض المنشور والتعليقات" onclick="viewPost(2)"><i class="fa-solid fa-eye"></i></button>
-                      <button class="icon-btn delete" title="حذف المنشور" onclick="confirmDeleteCommunity('post', 2, 'منشور سارة خالد')"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="td-num">3</td>
-                  <td>
-                    <div class="comm-user">
-                      <div class="comm-avatar">ع</div>
-                      <span>علي حسن</span>
-                    </div>
-                  </td>
-                  <td class="comm-content-cell">هل يمكن تجديد بطاقة الرقم القومي اونلاين؟</td>
-                  <td style="white-space:nowrap;font-size:12px;color:var(--text-muted)">2025/06/22</td>
-                  <td>
-                    <div class="actions-cell">
-                      <button class="icon-btn" title="عرض المنشور والتعليقات" onclick="viewPost(3)"><i class="fa-solid fa-eye"></i></button>
-                      <button class="icon-btn delete" title="حذف المنشور" onclick="confirmDeleteCommunity('post', 3, 'منشور علي حسن')"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>
@@ -395,75 +344,82 @@
 
   <script src="assets/dash.js"></script>
   <script>
-    /* ========== بيانات المنشورات والتعليقات ========== */
-    const postsData = {
-      1: {
-        id: 1,
-        user: 'محمد أحمد',
-        avatar: 'م',
-        content: 'كيف أستخرج رخصة قيادة للمرة الأولى؟ محتاج مساعدة',
-        date: '2025/06/20',
-        comments: [
-          { id: 1, user: 'نور إبراهيم', avatar: 'ن', text: 'شكراً على المعلومة، استفدت كتير!', date: '2025/06/20' },
-          { id: 2, user: 'هدى السيد',   avatar: 'ه', text: 'هل في رسوم لاستخراج شهادة الميلاد؟', date: '2025/06/22' },
-        ]
-      },
-      2: {
-        id: 2,
-        user: 'سارة خالد',
-        avatar: 'س',
-        content: 'الخدمة الإلكترونية لتجديد جواز السفر رائعة وسريعة جداً 👏',
-        date: '2025/06/21',
-        comments: [
-          { id: 1, user: 'كريم مصطفى', avatar: 'ك', text: 'محتوى غير لائق ويجب حذفه فوراً', date: '2025/06/21' },
-        ]
-      },
-      3: {
-        id: 3,
-        user: 'علي حسن',
-        avatar: 'ع',
-        content: 'هل يمكن تجديد بطاقة الرقم القومي اونلاين؟',
-        date: '2025/06/22',
-        comments: []
-      }
-    };
 
-    /* ========== عرض المنشور مع تعليقاته ========== */
-    function viewPost(id) {
-      const p = postsData[id];
-      if (!p) return;
+    const API_BASE = "https://localhost:7162/api";
 
-      document.getElementById('modal-title').textContent = 'تفاصيل المنشور والتعليقات';
+    let postsData = [];
+    async function loadPosts() {
 
-      /* ---- بناء قسم التعليقات ---- */
-      let commentsHTML = '';
-      if (p.comments.length === 0) {
-        commentsHTML = '<p style="font-size:13px;color:var(--text-muted);padding:10px 0">لا توجد تعليقات على هذا المنشور.</p>';
-      } else {
-        commentsHTML = '<div class="comments-thread">';
-        p.comments.forEach(c => {
-          commentsHTML += `
-            <div class="comment-item" id="comment-item-${p.id}-${c.id}">
-              <div class="comment-header">
+      const response = await fetch(`${API_BASE}/posts`);
+
+      postsData = await response.json();
+
+      renderPostsTable();
+    }
+    function renderPostsTable() {
+
+      const tbody =
+        document.getElementById("posts-tbody");
+
+      tbody.innerHTML = postsData.map((post, index) => `
+
+        <tr>
+
+            <td>${index + 1}</td>
+
+            <td>
                 <div class="comm-user">
-                  <div class="comm-avatar" style="width:28px;height:28px;font-size:11px">${c.avatar}</div>
-                  <span style="font-size:13px;font-weight:700;color:var(--navy)">${c.user}</span>
-                </div>
-                <span style="font-size:11px;color:var(--text-muted)">${c.date}</span>
-              </div>
-              <p class="comment-text">${c.text}</p>
-              <div class="comment-actions">
-                <button class="icon-btn delete btn-sm" title="حذف التعليق"
-                  onclick="deleteCommentInline(${p.id}, ${c.id}, '${c.user}')">
-                  <i class="fa-solid fa-trash"></i> حذف
-                </button>
-              </div>
-            </div>`;
-        });
-        commentsHTML += '</div>';
-      }
+                    <div class="comm-avatar">
+                        ${post.userName?.charAt(0)}
+                    </div>
 
-      document.getElementById('modal-body').innerHTML = `
+                    <span>${post.userName}</span>
+                </div>
+            </td>
+
+            <td class="comm-content-cell">
+                ${post.content}
+            </td>
+
+            <td>
+                ${new Date(post.createdAt)
+          .toLocaleDateString("ar-EG")}
+            </td>
+
+            <td>
+
+                <div class="actions-cell">
+                  <button
+    class="icon-btn"
+    onclick="viewPost(${post.id})">
+
+    <i class="fa-solid fa-eye"></i>
+
+</button>
+
+                    <button
+                        class="icon-btn delete"
+                        onclick="confirmDeletePost(${post.id})">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </button>
+
+                </div>
+
+            </td>
+
+        </tr>
+
+    `).join('');
+    }
+    let commentsHTML = `
+    <p style="font-size:13px;color:var(--text-muted)">
+        عدد التعليقات: ${p.commentsCount}
+    </p>
+`;
+
+    document.getElementById('modal-body').innerHTML = `
         <!-- بيانات المنشور -->
         <div class="modal-section">
           <div class="modal-section-title"><i class="fa-solid fa-user"></i> بيانات المستخدم</div>
@@ -472,18 +428,17 @@
               <div class="detail-label">الاسم</div>
               <div class="detail-value">
                 <div class="comm-user">
-                  <div class="comm-avatar">${p.avatar}</div>
-                  <span>${p.user}</span>
-                </div>
-              </div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-label">تاريخ النشر</div>
-              <div class="detail-value">${p.date}</div>
+                  <div class="comm-user">
+    <div class="comm-avatar">
+        ${p.userName?.charAt(0)}
+    </div>
+
+    <span>${p.userName}</span>
+</div>
             </div>
             <div class="detail-item">
               <div class="detail-label">عدد التعليقات</div>
-              <div class="detail-value" id="modal-comment-count-${p.id}">${p.comments.length} تعليق</div>
+              <div class="detail-value" id="modal-comment-count-${p.id}">${p.commentsCount} تعليق تعليق</div>
             </div>
           </div>
         </div>
@@ -505,7 +460,7 @@
         </div>
       `;
 
-      document.getElementById('modal-footer').innerHTML = `
+    document.getElementById('modal-footer').innerHTML = `
         <button class="btn btn-danger" onclick="confirmDeleteCommunity('post', ${p.id}, 'منشور ${p.user}')">
           <i class="fa-solid fa-trash"></i> حذف المنشور
         </button>
@@ -514,8 +469,8 @@
         </button>
       `;
 
-      document.getElementById('modal-overlay').classList.add('open');
-    }
+    document.getElementById('modal-overlay').classList.add('open');
+
 
     /* ========== حذف تعليق من داخل المودال ========== */
     function deleteCommentInline(postId, commentId, userName) {
@@ -586,9 +541,12 @@
     }
 
     /* ========== عداد badge المجتمع ========== */
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', async function () {
+
+      await loadPosts();
+
       const badge = document.getElementById('nav-community-badge');
-      if (badge) badge.textContent = '2';
+      if (badge) badge.textContent = postsData.length;
     });
 
     /* ========== showToast fallback ========== */

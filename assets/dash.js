@@ -806,6 +806,37 @@ function removeSuggestionItem(id) {
         el.style.transform = 'translateX(30px)';
         setTimeout(() => el.remove(), 300);
     }
+    
+}
+async function confirmDeletePost(id) {
+
+    if (!confirm("هل تريد حذف المنشور؟"))
+        return;
+
+    const token =
+        localStorage.getItem("token");
+
+    const response = await fetch(
+
+        `${API_BASE}/posts/${id}`,
+
+        {
+            method: "DELETE",
+
+            headers: {
+                Authorization:
+                    `Bearer ${token}`
+            }
+        }
+    );
+
+    if (!response.ok) {
+
+        alert("فشل حذف المنشور");
+        return;
+    }
+
+    loadPosts();
 }
 
 // ===== TOAST =====
