@@ -98,6 +98,7 @@ svg {
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow-lg);
+      margin-top: 60px;
 }
 
 .page-header::before {
