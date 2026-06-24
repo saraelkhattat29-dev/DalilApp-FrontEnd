@@ -344,222 +344,238 @@
 
   <script src="assets/dash.js"></script>
   <script>
-
     const API_BASE = "https://localhost:7162/api";
 
+    // ===== POSTS =====
     let postsData = [];
+
     async function loadPosts() {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_BASE}/posts`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {}
+        });
+        if (!res.ok) throw new Error("فشل تحميل المنشورات");
+        postsData = await res.json();
+        renderPostsTable();
 
-      const response = await fetch(`${API_BASE}/posts`);
-
-      postsData = await response.json();
-
-      renderPostsTable();
+        const badge = document.getElementById("nav-community-badge");
+        if (badge) badge.textContent = postsData.length;
+      } catch (err) {
+        console.warn("loadPosts:", err.message);
+      }
     }
+
     function renderPostsTable() {
-
-      const tbody =
-        document.getElementById("posts-tbody");
-
+      const tbody = document.getElementById("posts-tbody");
+      if (!tbody) return;
       tbody.innerHTML = postsData.map((post, index) => `
-
-        <tr>
-
-            <td>${index + 1}</td>
-
-            <td>
-                <div class="comm-user">
-                    <div class="comm-avatar">
-                        ${post.userName?.charAt(0)}
-                    </div>
-
-                    <span>${post.userName}</span>
-                </div>
-            </td>
-
-            <td class="comm-content-cell">
-                ${post.content}
-            </td>
-
-            <td>
-                ${new Date(post.createdAt)
-          .toLocaleDateString("ar-EG")}
-            </td>
-
-            <td>
-
-                <div class="actions-cell">
-                  <button
-    class="icon-btn"
-    onclick="viewPost(${post.id})">
-
-    <i class="fa-solid fa-eye"></i>
-
-</button>
-
-                    <button
-                        class="icon-btn delete"
-                        onclick="confirmDeletePost(${post.id})">
-
-                        <i class="fa-solid fa-trash"></i>
-
-                    </button>
-
-                </div>
-
-            </td>
-
-        </tr>
-
-    `).join('');
+      <tr>
+        <td>${index + 1}</td>
+        <td>
+          <div class="comm-user">
+            <div class="comm-avatar">${(post.userName || "؟").charAt(0)}</div>
+            <span>${post.userName || "--"}</span>
+          </div>
+        </td>
+        <td class="comm-content-cell">${post.content || ""}</td>
+        <td>${new Date(post.createdAt).toLocaleDateString("ar-EG")}</td>
+        <td>
+          <div class="actions-cell">
+            <button class="icon-btn" onclick="viewPost(${post.id})">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+            <button class="icon-btn delete" onclick="confirmDeletePost(${post.id}, '${(post.userName || "").replace(/'/g, "\\'")}')">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join("");
     }
-    let commentsHTML = `
-    <p style="font-size:13px;color:var(--text-muted)">
-        عدد التعليقات: ${p.commentsCount}
-    </p>
-`;
 
-    document.getElementById('modal-body').innerHTML = `
-        <!-- بيانات المنشور -->
-        <div class="modal-section">
-          <div class="modal-section-title"><i class="fa-solid fa-user"></i> بيانات المستخدم</div>
-          <div class="detail-grid">
-            <div class="detail-item">
-              <div class="detail-label">الاسم</div>
-              <div class="detail-value">
+    // ===== VIEW POST + COMMENTS =====
+    async function viewPost(postId) {
+      const p = postsData.find(x => x.id === postId);
+      if (!p) return;
+
+      // نجيب التعليقات من الـ API
+      let comments = [];
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_BASE}/Comments/posts/${postId}/comments`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {}
+        });
+        if (res.ok) comments = await res.json();
+      } catch (err) {
+        console.warn("loadComments:", err.message);
+      }
+
+      const commentsHTML = comments.length === 0
+        ? `<p style="font-size:13px;color:var(--text-muted);padding:10px 0">لا توجد تعليقات على هذا المنشور.</p>`
+        : `<div class="comments-thread">
+          ${comments.map(c => `
+            <div class="comment-item" id="comment-item-${postId}-${c.commentID}">
+              <div class="comment-header">
                 <div class="comm-user">
-                  <div class="comm-user">
-    <div class="comm-avatar">
-        ${p.userName?.charAt(0)}
-    </div>
-
-    <span>${p.userName}</span>
-</div>
+                  <div class="comm-avatar">${(c.userName || "؟").charAt(0)}</div>
+                  <span style="font-size:13px;font-weight:700">${c.userName || "--"}</span>
+                </div>
+                <span style="font-size:11px;color:var(--text-dim)">
+                  ${new Date(c.createdAt).toLocaleDateString("ar-EG")}
+                </span>
+              </div>
+              <div class="comment-text">${c.content}</div>
+              <div class="comment-actions">
+                <button class="icon-btn delete" onclick="confirmDeleteComment(${postId}, ${c.commentID}, '${(c.userName || "").replace(/'/g, "\\'")}')">
+                  <i class="fa-solid fa-trash"></i> حذف
+                </button>
+              </div>
             </div>
-            <div class="detail-item">
-              <div class="detail-label">عدد التعليقات</div>
-              <div class="detail-value" id="modal-comment-count-${p.id}">${p.commentsCount} تعليق تعليق</div>
+          `).join("")}
+        </div>`;
+
+      document.getElementById("modal-title").textContent = "تفاصيل المنشور";
+      document.getElementById("modal-body").innerHTML = `
+      <div class="modal-section">
+        <div class="modal-section-title"><i class="fa-solid fa-user"></i> بيانات المستخدم</div>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <div class="detail-label">الاسم</div>
+            <div class="detail-value">
+              <div class="comm-user">
+                <div class="comm-avatar">${(p.userName || "؟").charAt(0)}</div>
+                <span>${p.userName || "--"}</span>
+              </div>
             </div>
           </div>
-        </div>
-
-        <!-- محتوى المنشور -->
-        <div class="modal-section">
-          <div class="modal-section-title"><i class="fa-solid fa-newspaper"></i> محتوى المنشور</div>
-          <p style="font-size:14px;line-height:1.9;color:var(--text);background:rgba(19,34,68,0.04);padding:14px 16px;border-radius:10px;border:1px solid var(--border)">
-            ${p.content}
-          </p>
-        </div>
-
-        <!-- التعليقات -->
-        <div class="modal-section" id="modal-comments-section-${p.id}">
-          <div class="modal-section-title"><i class="fa-solid fa-comments"></i> التعليقات</div>
-          <div id="modal-comments-list-${p.id}">
-            ${commentsHTML}
+          <div class="detail-item">
+            <div class="detail-label">عدد التعليقات</div>
+            <div class="detail-value" id="modal-comment-count-${p.id}">${comments.length} تعليق</div>
           </div>
         </div>
-      `;
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title"><i class="fa-solid fa-newspaper"></i> محتوى المنشور</div>
+        <p style="font-size:14px;line-height:1.9;color:var(--text);background:rgba(19,34,68,0.04);padding:14px 16px;border-radius:10px;border:1px solid var(--border)">
+          ${p.content}
+        </p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title"><i class="fa-solid fa-comments"></i> التعليقات</div>
+        <div id="modal-comments-list-${p.id}">${commentsHTML}</div>
+      </div>
+    `;
 
-    document.getElementById('modal-footer').innerHTML = `
-        <button class="btn btn-danger" onclick="confirmDeleteCommunity('post', ${p.id}, 'منشور ${p.user}')">
-          <i class="fa-solid fa-trash"></i> حذف المنشور
-        </button>
-        <button class="btn btn-outline" onclick="closeModal()">
-          <i class="fa-solid fa-xmark"></i> إغلاق
-        </button>
-      `;
+      document.getElementById("modal-footer").innerHTML = `
+      <button class="btn btn-danger" onclick="confirmDeletePost(${p.id}, '${(p.userName || "").replace(/'/g, "\\'")}', true)">
+        <i class="fa-solid fa-trash"></i> حذف المنشور
+      </button>
+      <button class="btn btn-outline" onclick="closeModal()">
+        <i class="fa-solid fa-xmark"></i> إغلاق
+      </button>
+    `;
 
-    document.getElementById('modal-overlay').classList.add('open');
+      document.getElementById("modal-overlay").classList.add("open");
+    }
 
+    // ===== DELETE POST =====
+    function confirmDeletePost(id, userName, fromModal = false) {
+      document.getElementById("modal-title").innerHTML =
+        '<i class="fa-solid fa-trash" style="margin-left:8px"></i> حذف المنشور';
+      document.getElementById("modal-body").innerHTML = `
+      <div class="delete-modal-body">
+        <div class="delete-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h4>هل أنت متأكد من الحذف؟</h4>
+        <p>سيتم حذف منشور <span class="delete-service-name">"${userName}"</span> بشكل نهائي<br>
+        ولا يمكن التراجع عن هذا الإجراء.</p>
+      </div>
+    `;
+      document.getElementById("modal-footer").innerHTML = `
+      <button class="btn btn-outline" onclick="${fromModal ? `viewPost(${id})` : 'closeModal()'}">
+        <i class="fa-solid fa-xmark"></i> إلغاء
+      </button>
+      <button class="btn btn-danger" onclick="executeDeletePost(${id})">
+        <i class="fa-solid fa-trash"></i> نعم، احذف
+      </button>
+    `;
+      document.getElementById("modal-overlay").classList.add("open");
+    }
 
-    /* ========== حذف تعليق من داخل المودال ========== */
-    function deleteCommentInline(postId, commentId, userName) {
-      if (!confirm(`هل تريد حذف تعليق "${userName}"؟`)) return;
+    async function executeDeletePost(id) {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_BASE}/posts/${id}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error("فشل حذف المنشور");
+        closeModal();
+        await loadPosts();
+        showToast("error", '<i class="fa-solid fa-trash"></i> تم حذف المنشور بنجاح');
+      } catch (err) {
+        showToast("error", `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`);
+      }
+    }
 
-      /* حذف من البيانات */
-      const post = postsData[postId];
-      post.comments = post.comments.filter(c => c.id !== commentId);
+    // ===== DELETE COMMENT =====
+    function confirmDeleteComment(postId, commentId, userName) {
+      document.getElementById("modal-title").innerHTML =
+        '<i class="fa-solid fa-trash" style="margin-left:8px"></i> حذف التعليق';
+      document.getElementById("modal-body").innerHTML = `
+      <div class="delete-modal-body">
+        <div class="delete-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h4>هل أنت متأكد من الحذف؟</h4>
+        <p>سيتم حذف تعليق <span class="delete-service-name">"${userName}"</span> بشكل نهائي.</p>
+      </div>
+    `;
+      document.getElementById("modal-footer").innerHTML = `
+      <button class="btn btn-outline" onclick="viewPost(${postId})">
+        <i class="fa-solid fa-xmark"></i> إلغاء
+      </button>
+      <button class="btn btn-danger" onclick="executeDeleteComment(${postId}, ${commentId})">
+        <i class="fa-solid fa-trash"></i> نعم، احذف
+      </button>
+    `;
+      document.getElementById("modal-overlay").classList.add("open");
+    }
 
-      /* حذف من الـ DOM داخل المودال */
-      const el = document.getElementById(`comment-item-${postId}-${commentId}`);
-      if (el) el.remove();
+    async function executeDeleteComment(postId, commentId) {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_BASE}/Comments/${commentId}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error("فشل حذف التعليق");
 
-      /* تحديث عداد التعليقات */
-      const countEl = document.getElementById(`modal-comment-count-${postId}`);
-      if (countEl) countEl.textContent = post.comments.length + ' تعليق';
+        // حذف من الـ DOM مباشرة من غير ما نعمل reload
+        const el = document.getElementById(`comment-item-${postId}-${commentId}`);
+        if (el) el.remove();
 
-      /* لو ما في تعليقات خلي رسالة فارغة */
-      if (post.comments.length === 0) {
+        // تحديث عداد التعليقات في المودال
+        const countEl = document.getElementById(`modal-comment-count-${postId}`);
+        if (countEl) {
+          const current = parseInt(countEl.textContent) || 1;
+          countEl.textContent = (current - 1) + " تعليق";
+        }
+
+        // لو ما في تعليقات خليه فاضي
         const listEl = document.getElementById(`modal-comments-list-${postId}`);
-        if (listEl) listEl.innerHTML = '<p style="font-size:13px;color:var(--text-muted);padding:10px 0">لا توجد تعليقات على هذا المنشور.</p>';
+        if (listEl && listEl.querySelectorAll(".comment-item").length === 0) {
+          listEl.innerHTML = '<p style="font-size:13px;color:var(--text-muted);padding:10px 0">لا توجد تعليقات على هذا المنشور.</p>';
+        }
+
+        showToast("error", '<i class="fa-solid fa-trash"></i> تم حذف التعليق بنجاح');
+      } catch (err) {
+        showToast("error", `<i class="fa-solid fa-triangle-exclamation"></i> ${err.message}`);
       }
-
-      showToast('تم حذف التعليق بنجاح', 'success');
     }
 
-    /* ========== تأكيد حذف منشور ========== */
-    function confirmDeleteCommunity(type, id, label) {
-      const typeLabel = type === 'post' ? 'المنشور' : 'التعليق';
-      document.getElementById('modal-title').textContent = 'تأكيد الحذف';
-      document.getElementById('modal-body').innerHTML = `
-        <div class="delete-modal-body">
-          <div class="delete-icon"><i class="fa-solid fa-trash-can"></i></div>
-          <h4>حذف ${typeLabel}؟</h4>
-          <p>هل أنت متأكد من حذف <span class="delete-service-name">${label}</span>؟<br>لا يمكن التراجع عن هذا الإجراء.</p>
-        </div>
-      `;
-      document.getElementById('modal-footer').innerHTML = `
-        <button class="btn btn-danger" onclick="deleteCommunityItem('${type}', ${id})">
-          <i class="fa-solid fa-trash"></i> نعم، احذف
-        </button>
-        <button class="btn btn-outline" onclick="closeModal()">
-          <i class="fa-solid fa-xmark"></i> إلغاء
-        </button>
-      `;
-      document.getElementById('modal-overlay').classList.add('open');
-    }
-
-    /* ========== تنفيذ الحذف ========== */
-    function deleteCommunityItem(type, id) {
-      const typeLabel = type === 'post' ? 'المنشور' : 'التعليق';
-      if (type === 'post') {
-        /* حذف الصف من الجدول */
-        const tbody = document.getElementById('posts-tbody');
-        const rows = Array.from(tbody.rows);
-        if (rows[id - 1]) rows[id - 1].remove();
-        /* حذف من البيانات */
-        delete postsData[id];
-      }
-      closeModal();
-      showToast(`تم حذف ${typeLabel} بنجاح`, 'success');
-    }
-
-    /* ========== إغلاق المودال ========== */
-    function closeModal(e) {
-      if (e && e.target !== document.getElementById('modal-overlay')) return;
-      document.getElementById('modal-overlay').classList.remove('open');
-    }
-
-    /* ========== عداد badge المجتمع ========== */
-    document.addEventListener('DOMContentLoaded', async function () {
-
-      await loadPosts();
-
-      const badge = document.getElementById('nav-community-badge');
-      if (badge) badge.textContent = postsData.length;
+    // ===== INIT =====
+    document.addEventListener("DOMContentLoaded", () => {
+      loadPosts();
     });
-
-    /* ========== showToast fallback ========== */
-    if (typeof showToast === 'undefined') {
-      window.showToast = function (msg, type) {
-        const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', edit: 'fa-pen' };
-        const t = document.createElement('div');
-        t.className = `toast ${type}`;
-        t.innerHTML = `<i class="fa-solid ${icons[type] || 'fa-circle-check'}"></i> ${msg}`;
-        document.body.appendChild(t);
-        setTimeout(() => t.remove(), 3000);
-      };
-    }
   </script>
 </body>
 
