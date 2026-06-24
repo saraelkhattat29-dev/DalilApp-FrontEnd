@@ -9,7 +9,7 @@ function isLoggedIn() {
 }
 
 function getCurrentUserId() {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (!token) return null;
     try {
         const payload = JSON.parse(atob(token.split('.')[1]));
@@ -23,7 +23,7 @@ function updateAuthBtn() {
     const btn = document.getElementById("auth-btn");
     if (!btn) return;
 
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (!token) {
         btn.outerHTML = `<a href="logIn.html" class="login-btn" id="auth-btn">تسجيل الدخول</a>`;
         return;
@@ -52,7 +52,7 @@ function logout() {
 function updatePostAvatar() {
     const avatar = document.getElementById("post-avatar");
     if (!avatar) return;
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (!token) { avatar.textContent = "?"; return; }
     try {
         const payload = JSON.parse(atob(token.split('.')[1]));
@@ -208,7 +208,7 @@ async function toggleLike(postId, btn) {
         return;
     }
 
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const icon = btn.querySelector("i");
     const countSpan = btn.querySelector("span");
 
@@ -329,7 +329,7 @@ async function saveEdit(commentId, postId) {
     const newContent = document.getElementById(`edit-input-${commentId}`).value.trim();
     if (!newContent) return;
 
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     try {
         const response = await fetch(`https://localhost:7162/api/comments/${commentId}`, {
@@ -366,7 +366,7 @@ async function addComment(postId) {
 
     btn.disabled = true;
 
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     try {
         const response = await fetch("https://localhost:7162/api/comments", {
@@ -400,7 +400,7 @@ async function addComment(postId) {
 async function deleteComment(commentId, postId) {
     if (!confirm("هتحذف التعليق ده؟")) return;
 
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     try {
         const response = await fetch(`https://localhost:7162/api/comments/${commentId}`, {
@@ -429,7 +429,7 @@ async function addPost() {
     const text = document.getElementById("postText").value.trim();
     if (!text) return;
 
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     try {
         const response = await fetch("https://localhost:7162/api/posts", {
@@ -515,7 +515,7 @@ async function savePostEdit(postId) {
 
     if (!content) return;
 
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     try {
 
@@ -548,7 +548,7 @@ async function deletePost(postId) {
     if (!confirm("هتحذف البوست ده؟"))
         return;
 
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     try {
 
