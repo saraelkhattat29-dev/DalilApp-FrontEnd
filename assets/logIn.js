@@ -14,6 +14,15 @@ function togglePassword(fieldId, btn) {
 }
 
 // =============================================
+// ملي الإيميل تلقائي لو في إيميل محفوظ
+// =============================================
+const rememberedEmail = localStorage.getItem("rememberedEmail");
+if (rememberedEmail) {
+    document.getElementById("email").value = rememberedEmail;
+    document.getElementById("remember-me-checkbox").checked = true;
+}
+
+// =============================================
 // Login Form Validation & Submission
 // =============================================
 document.getElementById("loginBtn").addEventListener("click", async function () {
@@ -69,11 +78,31 @@ document.getElementById("loginBtn").addEventListener("click", async function () 
         }
 
         // لو الـ backend بيرجع token احفظه
+        // بعد
+        const rememberMe = document.getElementById("remember-me-checkbox").checked;
+
         if (data?.token) {
-            localStorage.setItem("token", data.token);
+            if (rememberMe) {
+                localStorage.setItem("token", data.token);
+            } else {
+                sessionStorage.setItem("token", data.token);
+                localStorage.removeItem("token"); // امسحي اللي كان محفوظ قبل كده
+            }
         }
         if (data?.role) {
-            localStorage.setItem("role", data.role);
+            if (rememberMe) {
+                localStorage.setItem("role", data.role);
+            } else {
+                sessionStorage.setItem("role", data.role);
+                localStorage.removeItem("role");
+            }
+        }
+
+        // لو تذكرني → احفظي الإيميل، لو لأ → امسحيه
+        if (rememberMe) {
+            localStorage.setItem("rememberedEmail", email);
+        } else {
+            localStorage.removeItem("rememberedEmail");
         }
         console.log("تم تسجيل الدخول بنجاح:", data);
 

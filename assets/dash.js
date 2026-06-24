@@ -814,7 +814,7 @@ async function confirmDeletePost(id) {
         return;
 
     const token =
-        localStorage.getItem("token");
+        localStorage.getItem("token") || sessionStorage.getItem("token");
 
     const response = await fetch(
 
