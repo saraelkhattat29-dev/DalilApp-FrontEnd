@@ -135,12 +135,14 @@
        RENDER HEADER
        ============================================ */
     function renderHeader() {
-        setText("catTitle", category.name);
-        setText(
-            "catDesc",
-            `جميع خدمات ${category.name} المتاحة`
-        );
-    }
+    setText("catTitle", category.name);
+    setText(
+        "catDesc",
+        `جميع خدمات ${category.name} المتاحة`
+    );
+    document.title = "خدمات " + category.name;   // ← السطر الجديد
+}
+
 
     /* ============================================
        FILTER LOGIC
