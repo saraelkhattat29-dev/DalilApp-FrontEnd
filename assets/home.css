@@ -413,7 +413,7 @@ ul {
   flex-direction: row-reverse;
   border: 2px solid #e5e7eb;
   border-radius: 50px;
-  overflow: hidden;
+  overflow: visible;
   background: #fff;
   padding: 4px 4px 4px 6px;
   transition: border-color 0.2s;

@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ----- Navbar scroll effect ----- */
-  const navbar = document.getElementById('navbar');
+  const navbar = document.getElementById('header');
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 30);
   });
