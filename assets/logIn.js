@@ -82,20 +82,10 @@ document.getElementById("loginBtn").addEventListener("click", async function () 
         const rememberMe = document.getElementById("remember-me-checkbox").checked;
 
         if (data?.token) {
-            if (rememberMe) {
-                localStorage.setItem("token", data.token);
-            } else {
-                sessionStorage.setItem("token", data.token);
-                localStorage.removeItem("token"); // امسحي اللي كان محفوظ قبل كده
-            }
+            localStorage.setItem("token", data.token);
         }
         if (data?.role) {
-            if (rememberMe) {
-                localStorage.setItem("role", data.role);
-            } else {
-                sessionStorage.setItem("role", data.role);
-                localStorage.removeItem("role");
-            }
+            localStorage.setItem("role", data.role);
         }
 
         // لو تذكرني → احفظي الإيميل، لو لأ → امسحيه
