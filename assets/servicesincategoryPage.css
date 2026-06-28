@@ -270,6 +270,7 @@ body {
     cursor: default;
     transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
     position: relative;
+    cursor: pointer;
 }
 
 .service-card:hover {
