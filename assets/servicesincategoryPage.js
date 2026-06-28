@@ -72,7 +72,6 @@
             categoryName: service.categoryName,
             url: `servicePage.html?id=${service.id}`
         }));
-
         renderCards();
     }
 
@@ -135,14 +134,12 @@
        RENDER HEADER
        ============================================ */
     function renderHeader() {
-    setText("catTitle", category.name);
-    setText(
-        "catDesc",
-        `جميع خدمات ${category.name} المتاحة`
-    );
-    document.title = "خدمات " + category.name;   // ← السطر الجديد
-}
-
+        setText("catTitle", category.name);
+        setText(
+            "catDesc",
+            `جميع خدمات ${category.name} المتاحة`
+        );
+    }
 
     /* ============================================
        FILTER LOGIC
