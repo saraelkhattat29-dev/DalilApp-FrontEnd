@@ -119,16 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Dropdown container
   const dropdown = document.createElement('div');
   dropdown.id = 'search-dropdown';
-  dropdown.style.cssText = `
-  position: absolute;
-  top: 70px;
-  right: 0;
-  left: 0;
-  background: white;
-  border: 2px solid red;
-  z-index: 99999;
-  display: none;
-`;
 
   const searchBar = document.querySelector('.search-section-bar');
   searchBar.style.position = 'relative';
@@ -196,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     services.forEach(service => {
       const item = document.createElement('a');
-      item.href = `serviceDetail.html?id=${service.id}`;
+      item.href = `servicePage.html?id=${service.id}`;
       item.className = 'search-drop-item';
       item.innerHTML = `
       <div class="search-drop-icon">
