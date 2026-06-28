@@ -188,9 +188,9 @@
 
         list.forEach(function (s) {
 
-            var card = document.createElement("div");
+            var card = document.createElement("a");
             card.className = "service-card";
-
+            card.href = s.url || '#';
             var isOnline = s.type === "أونلاين";
             var badgeClass = isOnline ? "card-type-badge online" : "card-type-badge inperson";
             var badgeLabel = isOnline ? "أونلاين" : "حضوري";
@@ -211,7 +211,7 @@
                 '<div class="card-desc">' + escHtml(s.description) + '</div>' +
 
                 /* Arrow on hover */
-                '<a href="' + escHtml(s.url || '#') + '" class="card-arrow" aria-label="عرض التفاصيل">←</a>';
+                '<div class="card-arrow">←</div>';
 
             grid.appendChild(card);
         });
