@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ----- Navbar scroll effect ----- */
-  const navbar = document.getElementById('navbar');
+  const navbar = document.getElementById('header');
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 30);
   });
@@ -182,15 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderDropdown(services, query) {
-
-    console.log("Services:", services);
-
     dropdown.innerHTML = '';
 
     if (!services || services.length === 0) {
       dropdown.innerHTML = `
-      <div style="padding:16px;text-align:center;color:var(--muted);font-size:0.88rem;">
-        <i>لا توجد نتائج لـ "${query}"</i>
+      <div style="padding:20px;text-align:center;">
+        <div style="font-size:1.8rem;margin-bottom:8px;">🔍</div>
+        <div style="color:#6E788F;font-size:0.88rem;">لا توجد نتائج لـ "<strong style="color:#132244">${query}</strong>"</div>
       </div>`;
       dropdown.style.display = 'block';
       return;
@@ -199,30 +197,22 @@ document.addEventListener('DOMContentLoaded', () => {
     services.forEach(service => {
       const item = document.createElement('a');
       item.href = `serviceDetail.html?id=${service.id}`;
-      item.style.cssText = `
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 18px;
-      color: var(--text);
-      font-size: 0.9rem;
-      border-bottom: 1px solid #f0f0f0;
-      transition: background 0.15s;
-      text-decoration: none;
-    `;
+      item.className = 'search-drop-item';
       item.innerHTML = `
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" 
-          stroke="var(--primary)" stroke-width="2">
-        <circle cx="11" cy="11" r="8"/>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-      <div>
-        <div style="font-weight:700;color:var(--navy)">${service.title}</div>
-        <div style="font-size:0.78rem;color:var(--muted)">${service.categoryName}</div>
+      <div class="search-drop-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#DA523B" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
       </div>
+      <div class="search-drop-info">
+        <div class="search-drop-title">${service.title}</div>
+        <div class="search-drop-cat">${service.categoryName}</div>
+      </div>
+      <svg class="search-drop-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
     `;
-      item.addEventListener('mouseover', () => item.style.background = '#f7f8fa');
-      item.addEventListener('mouseout', () => item.style.background = '');
       dropdown.appendChild(item);
     });
 

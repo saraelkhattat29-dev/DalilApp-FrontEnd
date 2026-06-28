@@ -125,9 +125,7 @@ async function saveProfile() {
 
         // ===== تحديث الواجهة محلياً بدون إعادة تحميل =====
         currentProfile.fullName = fullName;
-        currentProfile.email = email;
         document.getElementById('heroName').textContent = fullName;
-        document.getElementById('profileEmail').textContent = email;
         document.getElementById('avatarRing').textContent = fullName.charAt(0).toUpperCase();
 
         closeModal();

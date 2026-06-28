@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <!-- ملف الستايل الخارجي -->
+    <link rel="stylesheet" href="assets/nav.css">
     <link rel="stylesheet" href="assets/home.css">
     <link rel="stylesheet" href="assets/userProfile.css">
 
@@ -19,21 +20,25 @@
 <body>
 
     <!-- NAVBAR -->
-    <header class="navbar">
-        <div class="nav-content">
-            <a href="Index.html" class="nav-logo">دليل</a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="Index.html">الرئيسية</a></li>
-                    <li><a href="#">الخدمات</a></li>
-                    <li><a href="community.html">المجتمع</a></li>
-                    <li><a href="#">تواصل معنا</a></li>
-                    <li><a href="aboutUs.html">عن دليل</a></li>
+    <header class="header">
+        <nav class="nav container">
+            <a href="Index.html" class="nav__logo"><span>دليل</span></a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li><a href="Index.html" class="nav__link">الرئيسية</a></li>
+                    <li><a href="community.html" class="nav__link">المجتمع</a></li>
+                    <li><a href="#" class="nav__link">تواصل معنا</a></li>
+                    <li><a href="aboutUs.html" class="nav__link">عن دليل</a></li>
                 </ul>
-            </nav>
-            <a href="logIn.html" class="login-btn">تسجيل الدخول</a>
-            <div class="menu-toggle" id="menu-toggle">☰</div>
-        </div>
+                <i class="fa-solid fa-xmark nav__close" id="nav-close"></i>
+            </div>
+
+            <div class="nav__actions">
+                <div class="auth-section" id="auth-section"></div>
+                <i class="fa-solid fa-bars nav__toggle" id="nav-toggle"></i>
+            </div>
+        </nav>
     </header>
 
     <!-- PAGE -->

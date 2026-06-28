@@ -413,7 +413,7 @@ ul {
   flex-direction: row-reverse;
   border: 2px solid #e5e7eb;
   border-radius: 50px;
-  overflow: hidden;
+  overflow: visible;
   background: #fff;
   padding: 4px 4px 4px 6px;
   transition: border-color 0.2s;
@@ -1192,4 +1192,87 @@ footer::before {
     width: 100%;
     justify-content: center;
   }
+}
+
+/* ===== SEARCH DROPDOWN ===== */
+#search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(19, 34, 68, 0.12);
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: 9999;
+  display: none;
+  padding: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #e5e7eb transparent;
+}
+
+#search-dropdown::-webkit-scrollbar {
+  width: 4px;
+}
+
+#search-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#search-dropdown::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 4px;
+}
+
+.search-drop-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background 0.15s;
+  cursor: pointer;
+}
+
+.search-drop-item:hover {
+  background: #f7f8fa;
+}
+
+.search-drop-item:hover .search-drop-arrow {
+  stroke: #DA523B;
+}
+
+.search-drop-icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(218, 82, 59, 0.08);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.search-drop-info {
+  flex: 1;
+}
+
+.search-drop-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #132244;
+  margin-bottom: 2px;
+}
+
+.search-drop-cat {
+  font-size: 0.75rem;
+  color: #6E788F;
+}
+
+.search-drop-arrow {
+  flex-shrink: 0;
+  transition: stroke 0.15s;
 }
