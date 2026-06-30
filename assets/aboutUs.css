@@ -239,6 +239,9 @@ body {
     text-align: center;
     transition: .3s;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 0.6s ease;
 }
 
 .service-box:hover {
@@ -246,10 +249,10 @@ body {
 }
 
 .service-box i {
-  font-size: 2.5rem;
-  color: #132244;
-  margin-bottom: 20px;
-  display: block;
+    font-size: 2.5rem;
+    color: #132244;
+    margin-bottom: 20px;
+    display: block;
 }
 
 .service-box h3 {
@@ -265,14 +268,17 @@ body {
 .info-icon {
     width: 64px;
     height: 64px;
-    background: none;        /* شيل الدايرة */
+    background: none;
+    /* شيل الدايرة */
     border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px;
-    font-size: 2rem;         /* كبّر الأيقونة شوية */
-    color: #132244;          /* أزرق داكن */
+    font-size: 2rem;
+    /* كبّر الأيقونة شوية */
+    color: #132244;
+    /* أزرق داكن */
 }
 
 /* ===== TIMELINE ===== */
@@ -295,6 +301,9 @@ body {
     background: #f6f7fb;
     padding: 30px;
     border-radius: 25px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 0.6s ease;
 }
 
 .timeline-number {
@@ -338,6 +347,9 @@ body {
     border-radius: 25px;
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.08);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 0.6s ease;
 }
 
 .stat-box h2 {
@@ -363,6 +375,9 @@ body {
     padding: 70px;
     text-align: center;
     box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 0.6s ease;
 }
 
 .vision-card span {
@@ -585,4 +600,148 @@ footer::before {
 
 .footer-bottom-links a:hover {
     color: #FFFFFF;
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Tablets */
+@media (max-width: 992px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .about-image {
+        order: -1;
+        /* الصورة فوق على التابلت لو حابب */
+    }
+
+    .features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+    }
+
+    .footer-brand {
+        grid-column: 1 / -1;
+    }
+
+    .vision-card p {
+        width: 85%;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .about-hero {
+        margin: 90px auto 1.5rem;
+        padding: 2rem 1.5rem 2.5rem;
+        width: 90%;
+        border-radius: 18px;
+    }
+
+    .header-deco {
+        display: none;
+        /* بيتقطع وبياخد مساحة على الموبايل */
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+
+    .page-subtitle {
+        font-size: 13px;
+    }
+
+    .about-section,
+    .services-section,
+    .timeline-section,
+    .vision-section,
+    .stats-section {
+        padding: 60px 0;
+    }
+
+    .about-text h2,
+    .section-title h2,
+    .vision-card h2 {
+        font-size: 1.8rem;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .timeline-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+        padding: 24px;
+    }
+
+    .vision-card {
+        padding: 35px 20px;
+    }
+
+    .vision-card p {
+        width: 100%;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .footer-brand {
+        grid-column: auto;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+    .container {
+        width: 92%;
+    }
+
+    .page-title {
+        font-size: 1.3rem;
+    }
+
+    .about-text h2,
+    .section-title h2,
+    .vision-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .service-box,
+    .feature-card {
+        padding: 20px;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: 0.6s ease;
+    }
 }
